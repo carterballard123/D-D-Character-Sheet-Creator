@@ -1,4 +1,4 @@
-package com.D.DCharacterCreator.pdfImport;
+package com.dndcharactercreator.pdfimport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
