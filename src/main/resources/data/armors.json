@@ -1,0 +1,137 @@
+[
+	// Light Armor
+	{
+	    "name": "Padded Armor",
+	    "type": "Light Armor",
+	    "baseAc": 11,
+	    "maxDexBonus": 255,
+	    "minStrength": 0,
+	    "stealthDisadvantage": true,
+	    "weightLbs": 8,
+	    "costGp": 5,
+	    "notes": ""
+	  },
+	{
+	  	"name": "Leather Armor",
+	  	"type": "Light Armor",
+	  	"baseAc": 11,
+	  	"maxDexBonus": 255,
+	  	"minStrength": 0,
+	  	"stealthDisadvantage": true,
+	  	"weightLbs": 8,
+	  	"costGp": 5,
+	  	"notes": ""
+	  },
+	{
+	  	"name": "Studded Leather Armor",
+	  	"type": "Light Armor",
+	  	"baseAc": 11,
+	  	"maxDexBonus": 255,
+	  	"minStrength": 0,
+	  	"stealthDisadvantage": true,
+	  	"weightLbs": 8,
+	  	"costGp": 5,
+	  	"notes": ""
+	  },
+	  // Medium Armor
+	{
+	  	"name": "Hide Armor",
+	  	"type": "Light Armor",
+	  	"baseAc": 11,
+	  	"maxDexBonus": 255,
+	  	"minStrength": 0,
+	  	"stealthDisadvantage": true,
+	  	"weightLbs": 8,
+	  	"costGp": 5,
+	  	"notes": ""
+	  },
+	{
+		"name": "Chain Shirt",
+		"type": "Light Armor",
+		"baseAc": 11,
+		"maxDexBonus": 255,
+		"minStrength": 0,
+		"stealthDisadvantage": true,
+		"weightLbs": 8,
+		"costGp": 5,
+		"notes": ""
+	  },
+	{
+		"name": "Scale Mail",
+		"type": "Light Armor",
+		"baseAc": 11,
+		"maxDexBonus": 255,
+		"minStrength": 0,
+		"stealthDisadvantage": true,
+		"weightLbs": 8,
+		"costGp": 5,
+		"notes": ""
+	  },
+	{
+		"name": "Breastplate",
+		"type": "Light Armor",
+		"baseAc": 11,
+		"maxDexBonus": 255,
+		"minStrength": 0,
+		"stealthDisadvantage": true,
+		"weightLbs": 8,
+		"costGp": 5,
+		"notes": ""
+	  },
+	{
+		"name": "Half Plate Armor",
+		"type": "Light Armor",
+		"baseAc": 11,
+		"maxDexBonus": 255,
+		"minStrength": 0,
+		"stealthDisadvantage": true,
+		"weightLbs": 8,
+		"costGp": 5,
+		"notes": ""
+	  },
+	  // Heavy Armor
+	{
+	    "name": "Ring Mail",
+	    "type": "Light Armor",
+	    "baseAc": 11,
+	    "maxDexBonus": 255,
+	    "minStrength": 0,
+	    "stealthDisadvantage": true,
+	    "weightLbs": 8,
+	    "costGp": 5,
+	    "notes": ""
+	  },
+	{
+		"name": "Chain Mail",
+		"type": "Light Armor",
+		"baseAc": 11,
+		"maxDexBonus": 255,
+		"minStrength": 0,
+		"stealthDisadvantage": true,
+		"weightLbs": 8,
+		"costGp": 5,
+		"notes": ""
+	  },
+    {
+	    "name": "Splint Armor",
+	    "type": "Light Armor",
+	    "baseAc": 11,
+	    "maxDexBonus": 255,
+	    "minStrength": 0,
+	    "stealthDisadvantage": true,
+	    "weightLbs": 8,
+	    "costGp": 5,
+	    "notes": ""
+	  },
+	{
+		"name": "Plate Armor",
+		"type": "Light Armor",
+		"baseAc": 11,
+		"maxDexBonus": 255,
+		"minStrength": 0,
+		"stealthDisadvantage": true,
+		"weightLbs": 8,
+		"costGp": 5,
+		"notes": ""
+	  }
+]
