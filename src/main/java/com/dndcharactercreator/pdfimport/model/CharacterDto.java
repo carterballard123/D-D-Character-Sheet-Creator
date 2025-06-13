@@ -27,7 +27,7 @@ public class CharacterDto {
 	private Integer characterExperiencePoints;
 	@Size(max = 3, message = "You can choose a maximum of 3 weapons")
 	private List<String> characterWeapons;
-	private String characterArmor;
+	private String characterArmorName;
 	
 	@NotNull
 	@Min(1) @Max(30)
@@ -58,7 +58,7 @@ public class CharacterDto {
 	public String getCharacterAlignment() { return characterAlignment; }
 	public Integer getCharacterExperiencePoints() { return characterExperiencePoints; }
 	public List<String> getCharacterWeapons() { return characterWeapons; }
-	public String getCharacterArmor() { return characterArmor; }
+	public String getCharacterArmor() { return characterArmorName; }
 	public Integer getCharacterStrength() { return characterStrength; }
 	public Integer getCharacterDexterity() { return characterDexterity; }
 	public Integer getCharacterConstitution() { return characterConstitution; }
@@ -76,7 +76,7 @@ public class CharacterDto {
 	public void setCharacterAlignment(String characterAlignment) { this.characterAlignment = characterAlignment; }
 	public void setCharacterExperiencePoints(Integer characterExperiencePoints) { this.characterExperiencePoints = characterExperiencePoints; }
 	public void setCharacterWeapons(List<String> characterWeapons) { this.characterWeapons = characterWeapons; }
-	public void setCharacterArmor(String characterArmor) { this.characterArmor = characterArmor; }
+	public void setCharacterArmor(String characterArmor) { this.characterArmorName = characterArmor; }
 	public void setCharacterStrength(Integer characterStrength) { this.characterStrength = characterStrength; }
 	public void setCharacterDexterity(Integer characterDexterity) { this.characterDexterity = characterDexterity; }
 	public void setCharacterConstitution(Integer characterConstitution) { this.characterConstitution = characterConstitution; }

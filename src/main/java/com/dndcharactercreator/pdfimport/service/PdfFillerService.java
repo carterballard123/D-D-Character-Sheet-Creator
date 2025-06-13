@@ -5,7 +5,6 @@ import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.apache.pdfbox.pdmodel.interactive.form.PDNonTerminalField;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +13,15 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class PdfFillerService {
+	private final ArmorRepository armorRepo;
+	// injects armor repo
+	public PdfFillerService(ArmorRepository armorRepo) {
+		this.armorRepo = armorRepo;
+	}
+	
     private static final Logger log = LoggerFactory.getLogger(PdfFillerService.class);
 
     /**
@@ -42,17 +45,11 @@ public class PdfFillerService {
             // Force PDFBox to regenerate appearance streams, avoiding stale visuals
             form.setNeedAppearances(true);
 
-            // ─── DEBUG: Dump all field names (uncomment to see every name) ───
-           log.info("Listing all PDF fields:");
-           for (PDField top : form.getFields()) {
-               dumpAllFields(top, "");
-           }
-
             // 3) Fill each section
             fillTopTexts(form, dto);
             fillAbilityScores(form, dto);
             fillProficiencyMod(form, dto);
-            // ... you can chain more helpers here (armor, weapons, etc.) ...
+            computeAndFillHP(form, dto);
 
             // 4) Serialize and return
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -80,20 +77,6 @@ public class PdfFillerService {
         }
     }
 
-    /**
-     * Recursively logs every field’s fully qualified name.
-     * Useful for debugging nested or grouped fields.
-     */
-    @SuppressWarnings("unused")
-    private void dumpAllFields(PDField field, String indent) {
-        log.info("{}- {}", indent, field.getFullyQualifiedName());
-        if (field instanceof PDNonTerminalField) {
-            for (PDField child : ((PDNonTerminalField) field).getChildren()) {
-                dumpAllFields(child, indent + "  ");
-            }
-        }
-    }
-
     // ─── Section 1: Basic character info ───
 
     /**
@@ -107,15 +90,14 @@ public class PdfFillerService {
         setField(form, "Background", dto.getCharacterBackground());
         setField(form, "PlayerName", dto.getPlayerName());
 
-        // NOTE: If your PDF field for Race has a trailing space ("Race "),
-        //       update below to exactly match: setField(form, "Race ", dto.getCharacterRace());
+        // “Race ” has a trailing space, as printed by dumpAllFields:
         setField(form, "Race ", dto.getCharacterRace());
 
         setField(form, "Alignment", dto.getCharacterAlignment());
         setField(form, "XP",
                  dto.getCharacterExperiencePoints() == null
-                  ? ""
-                  : dto.getCharacterExperiencePoints().toString());
+                   ? ""
+                   : dto.getCharacterExperiencePoints().toString());
     }
 
     // ─── Section 2: Abilities, modifiers, saves, and skills ───
@@ -157,7 +139,6 @@ public class PdfFillerService {
         setField(form, "ST Charisma",     String.valueOf(computeModifier(cha)));
 
         // 2.4) Skills (no proficiency bonus applied yet)
-        // Note: Many of these PDF fields have trailing spaces—fix them by copying from dumpAllFields if needed.
         setField(form, "Acrobatics",      String.valueOf(computeModifier(dex)));
         setField(form, "Animal",          String.valueOf(computeModifier(wis)));
         setField(form, "Arcana",          String.valueOf(computeModifier(intel)));
@@ -194,11 +175,86 @@ public class PdfFillerService {
     }
 
     /**
-     * Computes 5e proficiency bonus from level: 
+     * Computes 5e proficiency bonus from level:
      * Levels 1–4→+2, 5–8→+3, 9–12→+4, 13–16→+5, 17–20→+6.
      */
     private int computeProficiency(int level) {
         int clamped = Math.max(1, level);
         return 2 + (clamped - 1) / 4;
+    }
+    
+    private void computeAndFillHP(PDAcroForm form, CharacterDto dto) throws Exception {
+        int level = dto.getCharacterLevel();
+        int conMod = computeModifier(dto.getCharacterConstitution());
+        String cls = dto.getCharacterClass().trim();
+
+        // Hit die max and average by class
+        int hitDieMax;
+        int avgDie;
+        switch (cls.toLowerCase()) {
+            case "barbarian":
+                hitDieMax = 12; avgDie = 7; break;
+            case "fighter":
+            case "paladin":
+            case "ranger":
+                hitDieMax = 10; avgDie = 6; break;
+            case "rogue":
+            case "cleric":
+            case "bard":
+            case "monk":
+            case "druid":
+            case "warlock":
+                hitDieMax = 8; avgDie = 5; break;
+            case "wizard":
+            case "sorcerer":
+                hitDieMax = 6; avgDie = 4; break;
+            default:
+                // If class unrecognized, assume d8/avg 5
+                hitDieMax = 8; avgDie = 5;
+                break;
+        }
+        
+
+        // Level‐1 HP
+        int hpMax = hitDieMax + conMod;
+
+        // Add for levels 2..level
+        for (int lvl = 2; lvl <= level; lvl++) {
+            hpMax += avgDie + conMod;
+        }
+
+        // For simplicity, set Current HP = Max HP initially
+        setField(form, "HPMax", String.valueOf(hpMax));
+        setField(form, "HPCurrent", String.valueOf(hpMax));
+    }
+    
+    private void computeAndFillAC(PDAcroForm form, CharacterDto dto) throws Exception {
+    	int dexMod = computeModifier(dto.getCharacterDexterity());
+    	int conMod = computeModifier(dto.getCharacterConstitution());
+    	int wisMod = computeModifier(dto.getCharacterWisdom());
+    	
+    	ArmorData charArmor = armorRepo.findByName(dto.getCharacterArmor());
+    	
+    	if(charArmor != null) {
+    		int armorAC;
+    		switch(charArmor.getArmorType()) {
+    		case "Heavy Armor": 
+    			armorAC = charArmor.baseArmorClass; break;
+    		case "Medium Armor":
+    			armorAC = charArmor.baseArmorClass + Math.min(dexMod, charArmor.getMaxDexBonus()); break;
+    		case "Light Armor":
+    			armorAC = charArmor.baseArmorClass + dexMod; break;
+    		case "Unarmored":
+    			switch(dto.getCharacterClass()) {
+    			case "Barbarian":
+    				armorAC = charArmor.baseArmorClass + conMod + dexMod; break;
+    			case "Monk":
+    				
+    			}
+
+    		
+    		}
+    	}
+    	
     }
 }
