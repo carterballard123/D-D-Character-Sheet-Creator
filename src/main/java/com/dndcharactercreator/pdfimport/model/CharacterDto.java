@@ -16,6 +16,7 @@ public class CharacterDto {
 	@Min(1) @Max(20)
 	private Integer characterLevel;
 	private String characterClass;
+	private String characterSubClass;
 	@NotNull
 	private String characterBackground;
 	private String playerName;
@@ -52,6 +53,7 @@ public class CharacterDto {
 	public String getCharacterName() { return characterName; }
 	public Integer getCharacterLevel() { return characterLevel; }
 	public String getCharacterClass() { return characterClass; }
+	public String getCharacterSubClass() { return characterSubClass; }
 	public String getCharacterBackground() { return characterBackground; }
 	public String getPlayerName() { return playerName; }
 	public String getCharacterRace() { return characterRace; }
@@ -70,6 +72,7 @@ public class CharacterDto {
 	public void setCharacterName(String characterName) { this.characterName = characterName; }
 	public void setCharacterLevel(Integer characterLevel) { this.characterLevel = characterLevel; }
 	public void setCharacterClass(String characterClass) { this.characterClass = characterClass; }
+	public void setCharacterSubClass(String characterSubClass) { this.characterSubClass = characterSubClass; }
 	public void setCharacterBackground(String characterBackground) { this.characterBackground = characterBackground; }
 	public void setPlayerName(String playerName) { this.playerName = playerName; }
 	public void setCharacterRace(String characterRace) { this.characterRace = characterRace; }

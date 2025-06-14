@@ -50,6 +50,7 @@ public class PdfFillerService {
             fillAbilityScores(form, dto);
             fillProficiencyMod(form, dto);
             computeAndFillHP(form, dto);
+            computeAndFillAC(form, dto);
 
             // 4) Serialize and return
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -229,32 +230,69 @@ public class PdfFillerService {
     }
     
     private void computeAndFillAC(PDAcroForm form, CharacterDto dto) throws Exception {
-    	int dexMod = computeModifier(dto.getCharacterDexterity());
-    	int conMod = computeModifier(dto.getCharacterConstitution());
-    	int wisMod = computeModifier(dto.getCharacterWisdom());
-    	
-    	ArmorData charArmor = armorRepo.findByName(dto.getCharacterArmor());
-    	
-    	if(charArmor != null) {
-    		int armorAC;
-    		switch(charArmor.getArmorType()) {
-    		case "Heavy Armor": 
-    			armorAC = charArmor.baseArmorClass; break;
-    		case "Medium Armor":
-    			armorAC = charArmor.baseArmorClass + Math.min(dexMod, charArmor.getMaxDexBonus()); break;
-    		case "Light Armor":
-    			armorAC = charArmor.baseArmorClass + dexMod; break;
-    		case "Unarmored":
-    			switch(dto.getCharacterClass()) {
-    			case "Barbarian":
-    				armorAC = charArmor.baseArmorClass + conMod + dexMod; break;
-    			case "Monk":
-    				
-    			}
+        int dexMod = computeModifier(dto.getCharacterDexterity());
+        int conMod = computeModifier(dto.getCharacterConstitution());
+        int wisMod = computeModifier(dto.getCharacterWisdom());
+        int chaMod = computeModifier(dto.getCharacterCharisma());
+        String cls = dto.getCharacterClass().trim();
+        String sub = dto.getCharacterSubClass() != null
+                       ? dto.getCharacterSubClass().trim()
+                       : "";
+        String armorName = dto.getCharacterArmor();
 
-    		
-    		}
-    	}
-    	
+        // 1) Determine if we’re doing unarmored defense
+        boolean unarmored = armorName == null
+                           || armorName.equalsIgnoreCase("Unarmored");
+
+        int acValue;
+        if (unarmored) {
+            // 2) Class‐based unarmored defense
+            if (cls.equalsIgnoreCase("Barbarian")) {
+                acValue = 10 + dexMod + conMod;
+            }
+            else if (cls.equalsIgnoreCase("Monk")) {
+                acValue = 10 + dexMod + wisMod;
+            }
+            // 3) Subclass overrides:
+            else if (cls.equalsIgnoreCase("Sorcerer") && sub.equalsIgnoreCase("Draconic Sorcery")) {
+                acValue = 10 + dexMod + chaMod;
+            }
+            else if (cls.equalsIgnoreCase("Bard") && sub.equalsIgnoreCase("College of Dance")) {
+                acValue = 10 + dexMod + chaMod;
+            }
+            else {
+                // default unarmored
+                acValue = 10 + dexMod;
+            }
+        }
+        else {
+            // 4) Normal armor lookup
+            ArmorData armor = armorRepo.findByName(armorName);
+            if (armor == null) {
+                // name typo or not found
+                acValue = 10 + dexMod;
+            } else {
+                String type = armor.getArmorType().toLowerCase();
+                int base = armor.getBaseAC();
+                switch (type) {
+                    case "heavy armor":
+                        acValue = base;
+                        break;
+                    case "medium armor":
+                        acValue = base + Math.min(dexMod, armor.getMaxDexBonus());
+                        break;
+                    case "light armor":
+                        acValue = base + dexMod;
+                        break;
+                    default:
+                        // in case you add “magic armor” later
+                        acValue = base + dexMod;
+                }
+            }
+        }
+
+        setField(form, "AC", String.valueOf(acValue));
     }
+
+
 }

@@ -1,0 +1,173 @@
+[
+  {
+    "name": "Aasimar",
+    "creatureType": "Humanoid",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [
+	  "Darkvision"
+      "Celestial Resistance",
+      "Healing Hands",
+      "Light Bearer", 
+	  "Celestial Revelation - Heavenly Wings - Inner Radiance - Necrotic Shroud"
+    ],
+	
+  },
+  {
+    "name": "Dragonborn",
+    "creatureType": "Humanoid",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [
+      "Draconic Ancestry - Black - Blue - Brass - Bronze - Copper - Gold - Green - Red - Silver - White",
+      "Breath Weapon",
+      "Damage Resistance",
+	  "Dragon Flight"
+    ]
+  },
+  {
+    "name": "Dwarf",
+    "creatureType": "Humanoid (Dwarf)",
+    "size": "Medium",
+    "speed": 25,
+    "traits": [
+      "Darkvision",
+      "Dwarven Resilience",
+      "Dwarven Combat Training",
+      "Stonecunning"
+    ],
+    "subraces": [
+      {
+        "name": "Hill Dwarf",
+        "traits": ["+1 Wisdom", "Dwarven Toughness (extra HP)"]
+      },
+      {
+        "name": "Mountain Dwarf",
+        "traits": ["+2 Strength", "Proficiency with light & medium armor"]
+      }
+    ]
+  },
+  {
+    "name": "Elf",
+    "creatureType": "Humanoid (Elf)",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [
+      "Darkvision",
+      "Keen Senses",
+      "Fey Ancestry",
+      "Trance"
+    ],
+    "subraces": [
+      {
+        "name": "High Elf",
+        "traits": ["+1 Intelligence", "Cantrip", "Extra language"]
+      },
+      {
+        "name": "Wood Elf",
+        "traits": ["+1 Wisdom", "Fleet of Foot (35 ft.)", "Mask of the Wild"]
+      },
+      {
+        "name": "Drow",
+        "traits": ["+1 Charisma", "Superior Darkvision", "Sunlight Sensitivity", "Drow Magic"]
+      }
+    ]
+  },
+  {
+    "name": "Gnome",
+    "creatureType": "Humanoid (Gnome)",
+    "size": "Small",
+    "speed": 25,
+    "traits": [
+      "Darkvision",
+      "Gnome Cunning"
+    ],
+    "subraces": [
+      {
+        "name": "Forest Gnome",
+        "traits": ["+1 Dexterity", "Minor Illusion cantrip"]
+      },
+      {
+        "name": "Rock Gnome",
+        "traits": ["+1 Constitution", "Artificer’s Lore", "Tinker’s Tools"]
+      }
+    ]
+  },
+  {
+    "name": "Goliath",
+    "creatureType": "Humanoid (Goliath)",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [
+      "Natural Athlete",
+      "Stone’s Endurance",
+      "Powerful Build",
+      "Mountain Born"
+    ]
+  },
+  {
+    "name": "Halfling",
+    "creatureType": "Humanoid (Halfling)",
+    "size": "Small",
+    "speed": 25,
+    "traits": [
+      "Lucky",
+      "Brave",
+      "Halfling Nimbleness"
+    ],
+    "subraces": [
+      {
+        "name": "Lightfoot",
+        "traits": ["+1 Charisma", "Naturally Stealthy"]
+      },
+      {
+        "name": "Stout",
+        "traits": ["+1 Constitution", "Stout Resilience"]
+      }
+    ]
+  },
+  {
+    "name": "Human",
+    "creatureType": "Humanoid (Human)",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [],
+    "subraces": [
+      {
+        "name": "Standard Human",
+        "traits": ["+1 to all ability scores"]
+      },
+      {
+        "name": "Variant Human",
+        "traits": [
+          "Choose two ability scores +1",
+          "One skill proficiency",
+          "One feat of your choice"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Orc",
+    "creatureType": "Humanoid (Orc)",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [
+      "Darkvision",
+      "Menacing",
+      "Powerful Build",
+      "Aggressive"
+    ]
+  },
+  {
+    "name": "Tiefling",
+    "creatureType": "Humanoid (Tiefling)",
+    "size": "Medium",
+    "speed": 30,
+    "traits": [
+      "Darkvision",
+      "Hellish Resistance",
+      "Infernal Legacy"
+    ]
+  }
+]

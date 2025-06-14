@@ -1,0 +1,299 @@
+[
+  {
+    "name": "Acolyte",
+    "abilityScores": ["Intelligence", "Wisdom", "Charisma"],
+    "feat": "Magic Initiate (Cleric)",
+    "skillProficiencies": ["Insight", "Religion"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Holy Symbol",
+          "Prayer Book",
+          "5 sticks of incense",
+          "Vestments",
+          "Common clothes",
+          "Pouch (15 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Artisan",
+    "abilityScores": ["Intelligence", "Strength", "Dexterity"],
+    "feat": "Crafter",
+    "skillProficiencies": ["Investigation", "Persuasion"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Set of artisan’s tools",
+          "Letter of introduction",
+          "Set of traveler’s clothes",
+          "Belt pouch (15 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Charlatan",
+    "abilityScores": ["Dexterity", "Constitution", "Charisma"],
+    "feat": "Skilled",
+    "skillProficiencies": ["Deception", "Sleight of Hand"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Set of fine clothes",
+          "Disguise kit",
+          "Tools of the Con (10 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Criminal",
+    "abilityScores": ["Intelligence", "Dexterity", "Constitution"],
+    "feat": "Alert",
+    "skillProficiencies": ["Sleight of Hand", "Stealth"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Crowbar",
+          "Dark common clothes with hood",
+          "Belt pouch (15 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Entertainer",
+    "abilityScores": ["Strength", "Dexterity", "Charisma"],
+    "feat": "Musician",
+    "skillProficiencies": ["Acrobatics", "Performance"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Musical instrument",
+          "Costume",
+          "Favor of an admirer",
+          "Belt pouch (15 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Farmer",
+    "abilityScores": ["Strength", "Constitution", "Wisdom"],
+    "feat": "Tough",
+    "skillProficiencies": ["Animal Handling", "Nature"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Shovel",
+          "Iron pot",
+          "Common clothes",
+          "Pouch (10 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Guard",
+    "abilityScores": ["Intelligence", "Wisdom", "Strength"],
+    "feat": "Alert",
+    "skillProficiencies": ["Athletics", "Perception"],
+    "startingEquipmentOptions": [
+      { "label": "A", "items": [] },
+      { "label": "B", "items": [] }
+    ]
+  },
+  {
+    "name": "Guide",
+    "abilityScores": ["Dexterity", "Wisdom", "Constitution"],
+    "feat": "Magic Initiate (Druid)",
+    "skillProficiencies": ["Stealth", "Survival"],
+    "startingEquipmentOptions": [
+      { "label": "A", "items": [] },
+      { "label": "B", "items": [] }
+    ]
+  },
+  {
+    "name": "Hermit",
+    "abilityScores": ["Constitution", "Wisdom", "Charisma"],
+    "feat": "Healer",
+    "skillProficiencies": ["Medicine", "Religion"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Scroll case",
+          "Herbalism kit",
+          "Common clothes",
+          "Pouch (5 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Merchant",
+    "abilityScores": ["Intelligence", "Constitution", "Charisma"],
+    "feat": "Lucky",
+    "skillProficiencies": ["Animal Handling", "Persuasion"],
+    "startingEquipmentOptions": [
+      { "label": "A", "items": [] },
+      { "label": "B", "items": [] }
+    ]
+  },
+  {
+    "name": "Noble",
+    "abilityScores": ["Intelligence", "Strength", "Charisma"],
+    "feat": "Skilled",
+    "skillProficiencies": ["History", "Persuasion"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Fine clothes",
+          "Signet ring",
+          "Scroll of pedigree",
+          "Purse (25 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Sage",
+    "abilityScores": ["Intelligence", "Wisdom", "Constitution"],
+    "feat": "Magic Initiate (Wizard)",
+    "skillProficiencies": ["Arcana", "History"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Bottle of black ink",
+          "Quill",
+          "Small knife",
+          "Letter from a dead colleague",
+          "Common clothes",
+          "Pouch (10 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Sailor",
+    "abilityScores": ["Strength", "Dexterity", "Wisdom"],
+    "feat": "Tavern Brawler",
+    "skillProficiencies": ["Acrobatics", "Perception"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Belaying pin",
+          "50 ft. of silk rope",
+          "Lucky charm",
+          "Common clothes",
+          "Pouch (10 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Scribe",
+    "abilityScores": ["Intelligence", "Wisdom", "Dexterity"],
+    "feat": "Skilled",
+    "skillProficiencies": ["Investigation", "Perception"],
+    "startingEquipmentOptions": [
+      { "label": "A", "items": [] },
+      { "label": "B", "items": [] }
+    ]
+  },
+  {
+    "name": "Soldier",
+    "abilityScores": ["Strength", "Dexterity", "Constituion"],
+    "feat": "Savage Attacker",
+    "skillProficiencies": ["Athletics", "Intimidation"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Insignia of rank",
+          "Trophy from a fallen enemy",
+          "Set of bone dice or deck of cards",
+          "Common clothes",
+          "Belt pouch (10 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  },
+  {
+    "name": "Wayfarer",
+    "abilityScores": ["Dexterity", "Wisdom", "Charisma"],
+    "feat": "Lucky",
+    "skillProficiencies": ["Insight", "Stealth"],
+    "startingEquipmentOptions": [
+      {
+        "label": "A",
+        "items": [
+          "Staff",
+          "Hunting trap",
+          "Trophy from the wild",
+          "Traveler’s clothes",
+          "Pouch (10 gp)"
+        ]
+      },
+      {
+        "label": "B",
+        "items": []
+      }
+    ]
+  }
+]

@@ -49,5 +49,9 @@ public class ArmorData {
 	
 	public String getArmorNotes() { return armorNotes; }
 	public void setArmorNotes(String armorNotes) { this.armorNotes = armorNotes; }
+	public int getBaseAC() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
