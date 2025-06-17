@@ -27,13 +27,13 @@
   },
   {
     "name": "Dwarf",
-    "creatureType": "Humanoid (Dwarf)",
+    "creatureType": "Humanoid",
     "size": "Medium",
-    "speed": 25,
+    "speed": 30,
     "traits": [
       "Darkvision",
       "Dwarven Resilience",
-      "Dwarven Combat Training",
+      "Dwarven Toughnessf",
       "Stonecunning"
     ],
     "subraces": [
