@@ -1,48 +1,181 @@
 [
-  {
-    "name": "Barbarian",
-    "hitDie": 12,
-    "primaryAbility": "Strength",
-    "savingThrows": ["Strength", "Constitution"],
-    "skillChoices": {
-      "choose": 2,
-      "from": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
-    },
-    "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-    "armorProficiencies": ["Light Armor", "Medium Armor", "Shields"],
-    "startingEquipmentOptions": [
-      {
-        "label": "A",
-        "items": ["Greataxe", "Four Handaxes", "Explorer’s Pack", "15 GP"]
-      },
-      {
-        "label": "B",
-        "items": ["75 GP"]
-      }
-    ],
-  },
-  {
-    "name": "Bard",
-    "hitDie": 8,
-    "primaryAbility": "Charisma",
-    "savingThrows": ["Dexterity", "Charisma"],
-    "skillChoices": {
-      "choose": 3,
-      "from": ["any"]
-    },
-    "weaponProficiencies": ["Simple Weapons"],
-    "armorProficiencies": ["Light Armor"],
-    "startingEquipmentOptions": [
-      {
-        "label": "A",
-        "items": ["Two Daggers", "Leather Armor", "Entertainer's Pack", "Musical Instument of Your Choice", "19 GP"]
-      },
-      {
-        "label": "B",
-        "items": ["90 GP"]
-      }
-    ],
-  },
+	{
+	  "name": "Barbarian",
+	  "hitDie": 12,
+	  "primaryAbility": "Strength",
+	  "savingThrows": ["Strength", "Constitution"],
+	  "skillChoices": {
+	    "choose": 2,
+	    "from": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
+	  },
+	  "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
+	  "armorProficiencies": ["Light Armor", "Medium Armor", "Shields"],
+	  "startingEquipmentOptions": [
+	    {
+	      "label": "A",
+	      "items": ["Greataxe", "Four Handaxes", "Explorer’s Pack", "15 GP"]
+	    },
+	    {
+	      "label": "B",
+	      "items": ["75 GP"]
+	    }
+	  ],
+	  "featuresByLevel": {
+	    "1": [
+	      "Rage (2 times)",
+	      "Unarmored Defense"
+	    ],
+	    "2": [
+	      "Reckless Attack",
+	      "Danger Sense"
+	    ],
+	    "3": [
+	      "Barbarian Subclass Feature",
+	      "Rage (3 times)"
+	    ],
+	    "4": [
+	      "Ability Score Improvement"
+	    ],
+	    "5": [
+	      "Extra Attack",
+	      "Fast Movement"
+	    ],
+	    "6": [
+	      "Subclass Feature"
+	    ],
+	    "7": [
+	      "Feral Instinct"
+	    ],
+	    "8": [
+	      "Ability Score Improvement"
+	    ],
+	    "9": [
+	      "Brutal Critical (1 die)"
+	    ],
+	    "10": [
+	      "Subclass Feature"
+	    ],
+	    "11": [
+	      "Relentless Rage"
+	    ],
+	    "12": [
+	      "Ability Score Improvement"
+	    ],
+	    "13": [
+	      "Brutal Critical (2 dice)"
+	    ],
+	    "14": [
+	      "Subclass Feature"
+	    ],
+	    "15": [
+	      "Persistent Rage"
+	    ],
+	    "16": [
+	      "Ability Score Improvement"
+	    ],
+	    "17": [
+	      "Brutal Critical (3 dice)"
+	    ],
+	    "18": [
+	      "Indomitable Might"
+	    ],
+	    "19": [
+	      "Ability Score Improvement"
+	    ],
+	    "20": [
+	      "Primal Champion"
+	    ]
+	  }
+	},
+	{
+	  "name": "Bard",
+	  "hitDie": 8,
+	  "primaryAbility": "Charisma",
+	  "savingThrows": ["Dexterity", "Charisma"],
+	  "skillChoices": {
+	    "choose": 3,
+	    "from": ["any"]
+	  },
+	  "weaponProficiencies": ["Simple Weapons"],
+	  "armorProficiencies": ["Light Armor"],
+	  "startingEquipmentOptions": [
+	    {
+	      "label": "A",
+	      "items": ["Two Daggers", "Leather Armor", "Entertainer's Pack", "Musical Instrument of Your Choice", "19 GP"]
+	    },
+	    {
+	      "label": "B",
+	      "items": ["90 GP"]
+	    }
+	  ],
+	  "featuresByLevel": {
+	    "1": [
+	      "Bardic Inspiration (d6)",
+	      "Spellcasting"
+	    ],
+	    "2": [
+	      "Jack of All Trades",
+	      "Song of Rest (d6)"
+	    ],
+	    "3": [
+	      "Bard Subclass Feature"
+	    ],
+	    "4": [
+	      "Ability Score Improvement"
+	    ],
+	    "5": [
+	      "Bardic Inspiration (d8)",
+	      "Font of Inspiration"
+	    ],
+	    "6": [
+	      "Subclass Feature"
+	    ],
+	    "7": [
+	      "Song of Rest (d8)"
+	    ],
+	    "8": [
+	      "Ability Score Improvement"
+	    ],
+	    "9": [
+	      "Expertise"
+	    ],
+	    "10": [
+	      "Bardic Inspiration (d10)",
+	      "Magical Secrets (2 spells)"
+	    ],
+	    "11": [
+	      "Song of Rest (d10)"
+	    ],
+	    "12": [
+	      "Ability Score Improvement"
+	    ],
+	    "13": [
+	      "Magical Secrets (2 spells)"
+	    ],
+	    "14": [
+	      "Subclass Feature"
+	    ],
+	    "15": [
+	      "Bardic Inspiration (d12)",
+	      "Song of Rest (d12)"
+	    ],
+	    "16": [
+	      "Ability Score Improvement"
+	    ],
+	    "17": [
+	      "Magical Secrets (2 spells)"
+	    ],
+	    "18": [
+	      "Superior Inspiration"
+	    ],
+	    "19": [
+	      "Ability Score Improvement"
+	    ],
+	    "20": [
+	      "Magical Secrets (2 spells)"
+	    ]
+	  }
+	},
   {
     "name": "Cleric",
     "hitDie": 8,

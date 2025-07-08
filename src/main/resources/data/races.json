@@ -1,173 +1,587 @@
 [
   {
     "name": "Aasimar",
-    "creatureType": "Humanoid",
+    "creatureType": "Humanoid (Celestial)",
     "size": "Medium",
     "speed": 30,
     "traits": [
-	  "Darkvision"
-      "Celestial Resistance",
-      "Healing Hands",
-      "Light Bearer", 
-	  "Celestial Revelation - Heavenly Wings - Inner Radiance - Necrotic Shroud"
-    ],
-	
-  },
-  {
-    "name": "Dragonborn",
-    "creatureType": "Humanoid",
-    "size": "Medium",
-    "speed": 30,
-    "traits": [
-      "Draconic Ancestry - Black - Blue - Brass - Bronze - Copper - Gold - Green - Red - Silver - White",
-      "Breath Weapon",
-      "Damage Resistance",
-	  "Dragon Flight"
-    ]
-  },
-  {
-    "name": "Dwarf",
-    "creatureType": "Humanoid",
-    "size": "Medium",
-    "speed": 30,
-    "traits": [
-      "Darkvision",
-      "Dwarven Resilience",
-      "Dwarven Toughnessf",
-      "Stonecunning"
-    ],
-    "subraces": [
       {
-        "name": "Hill Dwarf",
-        "traits": ["+1 Wisdom", "Dwarven Toughness (extra HP)"]
+        "name": "Darkvision",
+        "description": "See in dim light within 60 ft. as if it were bright light, and in darkness as if it were dim light.",
+        "type": "passive"
       },
       {
-        "name": "Mountain Dwarf",
-        "traits": ["+2 Strength", "Proficiency with light & medium armor"]
-      }
-    ]
-  },
-  {
-    "name": "Elf",
-    "creatureType": "Humanoid (Elf)",
-    "size": "Medium",
-    "speed": 30,
-    "traits": [
-      "Darkvision",
-      "Keen Senses",
-      "Fey Ancestry",
-      "Trance"
-    ],
-    "subraces": [
-      {
-        "name": "High Elf",
-        "traits": ["+1 Intelligence", "Cantrip", "Extra language"]
+        "name": "Celestial Resistance",
+        "description": "You have resistance to necrotic and radiant damage.",
+        "type": "passive"
       },
       {
-        "name": "Wood Elf",
-        "traits": ["+1 Wisdom", "Fleet of Foot (35 ft.)", "Mask of the Wild"]
+        "name": "Healing Hands",
+        "description": "As an action, touch a creature and restore a number of hit points equal to your level. Once you use this trait, you can’t use it again until you finish a long rest.",
+        "type": "active",
+        "usage": {
+          "times": 1,
+          "refresh": "longRest"
+        }
       },
       {
-        "name": "Drow",
-        "traits": ["+1 Charisma", "Superior Darkvision", "Sunlight Sensitivity", "Drow Magic"]
-      }
-    ]
-  },
-  {
-    "name": "Gnome",
-    "creatureType": "Humanoid (Gnome)",
-    "size": "Small",
-    "speed": 25,
-    "traits": [
-      "Darkvision",
-      "Gnome Cunning"
-    ],
-    "subraces": [
-      {
-        "name": "Forest Gnome",
-        "traits": ["+1 Dexterity", "Minor Illusion cantrip"]
+        "name": "Light Bearer",
+        "description": "You know the _light_ cantrip. Charisma is your spellcasting ability for it.",
+        "type": "spell"
       },
       {
-        "name": "Rock Gnome",
-        "traits": ["+1 Constitution", "Artificer’s Lore", "Tinker’s Tools"]
-      }
-    ]
-  },
-  {
-    "name": "Goliath",
-    "creatureType": "Humanoid (Goliath)",
-    "size": "Medium",
-    "speed": 30,
-    "traits": [
-      "Natural Athlete",
-      "Stone’s Endurance",
-      "Powerful Build",
-      "Mountain Born"
-    ]
-  },
-  {
-    "name": "Halfling",
-    "creatureType": "Humanoid (Halfling)",
-    "size": "Small",
-    "speed": 25,
-    "traits": [
-      "Lucky",
-      "Brave",
-      "Halfling Nimbleness"
-    ],
-    "subraces": [
-      {
-        "name": "Lightfoot",
-        "traits": ["+1 Charisma", "Naturally Stealthy"]
-      },
-      {
-        "name": "Stout",
-        "traits": ["+1 Constitution", "Stout Resilience"]
-      }
-    ]
-  },
-  {
-    "name": "Human",
-    "creatureType": "Humanoid (Human)",
-    "size": "Medium",
-    "speed": 30,
-    "traits": [],
-    "subraces": [
-      {
-        "name": "Standard Human",
-        "traits": ["+1 to all ability scores"]
-      },
-      {
-        "name": "Variant Human",
-        "traits": [
-          "Choose two ability scores +1",
-          "One skill proficiency",
-          "One feat of your choice"
+        "name": "Celestial Revelation",
+        "description": "Once per long rest, you can invoke a radiance that lasts 1 minute. Choose one option.",
+        "type": "choice",
+        "usage": {
+          "times": 1,
+          "refresh": "longRest"
+        },
+        "options": [
+          {
+            "name": "Heavenly Wings",
+            "effect": "Sprout luminous, spectral wings for the duration. You have a flying speed of 30 feet."
+          },
+          {
+            "name": "Radiant Soul",
+            "effect": "Gain a +1d6 bonus to radiant damage once per turn when you deal radiant or necrotic damage."
+          },
+          {
+            "name": "Necrotic Shroud",
+            "effect": "Form a fearsome visage. Each creature of your choice within 10 feet must succeed on a Wisdom save or be frightened of you until the end of your next turn."
+          }
         ]
       }
     ]
   },
   {
-    "name": "Orc",
-    "creatureType": "Humanoid (Orc)",
+    "name": "Dragonborn",
+    "creatureType": "Humanoid (Dragonborn)",
     "size": "Medium",
     "speed": 30,
     "traits": [
-      "Darkvision",
-      "Menacing",
-      "Powerful Build",
-      "Aggressive"
+      {
+        "name": "Draconic Ancestry",
+        "description": "Choose one dragon type; it determines the damage type for your Breath Weapon and Damage Resistance.",
+        "type": "choice",
+        "options": [
+          { "name": "Black",  "damageType": "Acid" },
+          { "name": "Blue",   "damageType": "Lightning" },
+          { "name": "Brass",  "damageType": "Fire" },
+          { "name": "Bronze", "damageType": "Lightning" },
+          { "name": "Copper", "damageType": "Acid" },
+          { "name": "Gold",   "damageType": "Fire" },
+          { "name": "Green",  "damageType": "Poison" },
+          { "name": "Red",    "damageType": "Fire" },
+          { "name": "Silver", "damageType": "Cold" },
+          { "name": "White",  "damageType": "Cold" }
+        ]
+      },
+      {
+        "name": "Breath Weapon",
+        "description": "Exhale energy in a 15-foot cone or 5-by-30-foot line (your choice) that deals 2d6 damage (type from Draconic Ancestry). Dex save for half. Recharge on a short or long rest.",
+        "type": "active",
+        "usage": {
+          "times": 1,
+          "refresh": "shortRest"
+        },
+        "parameters": {
+          "damage": "2d6",
+          "saveAbility": "Dexterity",
+          "saveDcFormula": "8 + your Constitution modifier + your proficiency bonus",
+          "areaOptions": ["15-ft. cone", "5-by-30-ft. line"]
+        }
+      },
+      {
+        "name": "Damage Resistance",
+        "description": "You have resistance to the damage type associated with your Draconic Ancestry.",
+        "type": "passive"
+      },
+      {
+        "name": "Dragon Flight",
+        "description": "At 10th level, you can use a bonus action to sprout wings from your back. You gain a flying speed equal to your walking speed for 10 minutes. Once you use this trait, you can’t use it again until you finish a long rest.",
+        "type": "active",
+        "usage": {
+          "times": 1,
+          "refresh": "longRest"
+        },
+        "parameters": {
+          "duration": "10 minutes",
+          "speed": "equal to walking speed"
+        }
+      }
     ]
   },
   {
-    "name": "Tiefling",
-    "creatureType": "Humanoid (Tiefling)",
-    "size": "Medium",
-    "speed": 30,
-    "traits": [
-      "Darkvision",
-      "Hellish Resistance",
-      "Infernal Legacy"
-    ]
-  }
+      "name": "Dwarf",
+      "creatureType": "Humanoid (Dwarf)",
+      "size": "Medium",
+      "speed": 30,
+      "traits": [
+        {
+          "name": "Darkvision",
+          "description": "You can see in dim light within 120 feet of you as if it were bright light, and in darkness as if it were dim light.",
+          "type": "passive"
+        },
+        {
+          "name": "Dwarven Resilience",
+          "description": "You have advantage on saving throws against poison, and you have resistance to poison damage.",
+          "type": "passive"
+        },
+        {
+          "name": "Dwarven Toughness",
+          "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+          "type": "passive"
+        },
+        {
+          "name": "Stone Cunning",
+          "description": "As a bonus action, you can gain tremorsense out to 60 feet for 10 minutes.",
+          "type": "active",
+          "usage": {
+            "timesFormula": "proficiencyBonus",
+            "refresh": "longRest"
+          },
+          "parameters": {
+            "range": "60 feet",
+            "duration": "10 minutes"
+          }
+        }
+      ]
+    },
+	{
+	    "name": "Elf",
+	    "creatureType": "Humanoid (Elf)",
+	    "size": "Medium",
+	    "speed": 30,
+	    "traits": [
+	      {
+	        "name": "Fey Ancestry",
+	        "description": "You have advantage on saving throws against being charmed, and magic can’t put you to sleep.",
+	        "type": "passive"
+	      },
+	      {
+	        "name": "Keen Senses",
+	        "description": "You have proficiency in the Perception skill.",
+	        "type": "passive"
+	      },
+	      {
+	        "name": "Trance",
+	        "description": "Elves don’t need to sleep. Instead, they meditate deeply for 4 hours a day in a trance-like state. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
+	        "type": "passive"
+	      }
+	    ],
+	    "subraces": [
+	      {
+	        "name": "Drow",
+	        "traits": [
+	          {
+	            "name": "Enhanced Darkvision",
+	            "description": "Your darkvision increases to 120 feet.",
+	            "type": "passive"
+	          },
+	          {
+	            "name": "Dancing Lights",
+	            "description": "You know the dancing lights cantrip. Charisma is your spellcasting ability for it.",
+	            "type": "spell"
+	          },
+	          {
+	            "name": "Faerie Fire",
+	            "description": "At 3rd level, you know the faerie fire spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+	            "type": "spell",
+	            "usage": { "times": 1, "refresh": "longRest" }
+	          },
+	          {
+	            "name": "Darkness",
+	            "description": "At 5th level, you know the darkness spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+	            "type": "spell",
+	            "usage": { "times": 1, "refresh": "longRest" }
+	          }
+	        ]
+	      },
+	      {
+	        "name": "High Elf",
+	        "traits": [
+	          {
+	            "name": "Elf Cantrip",
+	            "description": "You know the prestidigitation cantrip. When you finish a long rest, you can replace it with any wizard cantrip of your choice.",
+	            "type": "spell"
+	          },
+	          {
+	            "name": "Detect Magic",
+	            "description": "At 3rd level, you know the detect magic spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+	            "type": "spell",
+	            "usage": { "times": 1, "refresh": "longRest" }
+	          },
+	          {
+	            "name": "Misty Step",
+	            "description": "At 5th level, you know the misty step spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+	            "type": "spell",
+	            "usage": { "times": 1, "refresh": "longRest" }
+	          }
+	        ]
+	      },
+	      {
+	        "name": "Wood Elf",
+	        "traits": [
+	          {
+	            "name": "Fleet of Foot",
+	            "description": "Your base walking speed increases to 35 feet.",
+	            "type": "passive"
+	          },
+	          {
+	            "name": "Druidic Cantrip",
+	            "description": "You know one druid cantrip of your choice. Wisdom is your spellcasting ability for it.",
+	            "type": "spell"
+	          },
+	          {
+	            "name": "Longstrider",
+	            "description": "At 3rd level, you know the longstrider spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+	            "type": "spell",
+	            "usage": { "times": 1, "refresh": "longRest" }
+	          },
+	          {
+	            "name": "Pass without Trace",
+	            "description": "At 5th level, you know the pass without trace spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+	            "type": "spell",
+	            "usage": { "times": 1, "refresh": "longRest" }
+	          }
+	        ]
+	      }
+	    ]
+	  },
+	  {
+	      "name": "Gnome",
+	      "creatureType": "Humanoid (Gnome)",
+	      "size": "Small",
+	      "speed": 30,
+	      "traits": [
+	        {
+	          "name": "Darkvision",
+	          "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+	          "type": "passive"
+	        },
+	        {
+	          "name": "Gnomish Cunning",
+	          "description": "You have advantage on Intelligence, Wisdom, and Charisma saving throws against magic.",
+	          "type": "passive"
+	        },
+	        {
+	          "name": "Gnomish Lineage",
+	          "description": "When you cast spells, you may use Intelligence, Wisdom, or Charisma as your spellcasting ability modifier.",
+	          "type": "passive"
+	        }
+	      ],
+	      "subraces": [
+	        {
+	          "name": "Forest Gnome",
+	          "traits": [
+	            {
+	              "name": "Minor Illusion",
+	              "description": "You know the _minor illusion_ cantrip. Intelligence is your spellcasting ability for it.",
+	              "type": "spell"
+	            },
+	            {
+	              "name": "Speak with Animals",
+	              "description": "You always have the _speak with animals_ spell prepared. You can cast it a number of times equal to your proficiency bonus per day without expending a spell slot, regaining all uses after a long rest.",
+	              "type": "spell",
+	              "usage": {
+	                "timesFormula": "proficiencyBonus",
+	                "refresh": "longRest"
+	              }
+	            }
+	          ]
+	        },
+	        {
+	          "name": "Rock Gnome",
+	          "traits": [
+	            {
+	              "name": "Gnome Cunning Cantrips",
+	              "description": "You know the _mending_ and _prestidigitation_ cantrips. Intelligence is your spellcasting ability for them.",
+	              "type": "spell"
+	            },
+	            {
+	              "name": "Tinker’s Tools Crafting",
+	              "description": "As part of casting _prestidigitation_, you can create a Tiny clockwork device (AC 5, 1 HP) such as a toy, music box, or fire starter. It lasts 8 hours or until destroyed. You can have up to 3 such devices at a time. Activating one is a bonus action.",
+	              "type": "active",
+	              "limits": {
+	                "maxDevices": 3,
+	                "duration": "8 hours"
+	              }
+	            }
+	          ]
+	        }
+	      ]
+	    },
+		{
+		    "name": "Goliath",
+		    "creatureType": "Humanoid (Goliath)",
+		    "size": "Medium",
+		    "speed": 35,
+		    "traits": [
+		      {
+		        "name": "Giant Ancestry",
+		        "description": "Choose one giant ancestry. You can use its benefit a number of times equal to your proficiency bonus, regaining all uses after a long rest.",
+		        "type": "choice",
+		        "usage": {
+		          "timesFormula": "proficiencyBonus",
+		          "refresh": "longRest"
+		        },
+		        "options": [
+		          {
+		            "name": "Cloud's Jaunt",
+		            "description": "As a bonus action, you magically teleport up to 30 feet to an unoccupied space you can see."
+		          },
+		          {
+		            "name": "Fire's Burn",
+		            "description": "When you hit a target with an attack, you deal an extra 1d10 fire damage."
+		          },
+		          {
+		            "name": "Frost's Chill",
+		            "description": "When you hit a target with an attack, you deal an extra 1d12 cold damage and reduce its speed by 10 feet until the end of its next turn."
+		          },
+		          {
+		            "name": "Hill's Tumble",
+		            "description": "When you hit a Large or smaller creature with an attack, you can knock it prone."
+		          },
+		          {
+		            "name": "Stone's Endurance",
+		            "description": "When you take damage, you can use your reaction to roll 1d12 + your Constitution modifier and reduce the damage by that amount."
+		          },
+		          {
+		            "name": "Storm's Thunder",
+		            "description": "When you take damage from a creature within 60 feet of you, you can use your reaction to deal 1d8 thunder damage to that creature."
+		          }
+		        ]
+		      },
+		      {
+		        "name": "Large Form",
+		        "description": "Starting at 5th level, you can use a bonus action to grow to Large size for up to 10 minutes. While Large, you have advantage on Strength checks and your speed increases by 10 feet. Once you use this trait, you can’t do so again until you finish a long rest.",
+		        "type": "active",
+		        "usage": {
+		          "times": 1,
+		          "refresh": "longRest"
+		        },
+		        "parameters": {
+		          "duration": "10 minutes",
+		          "size": "Large",
+		          "strengthCheckAdvantage": true,
+		          "speedIncrease": "10 ft"
+		        }
+		      },
+		      {
+		        "name": "Powerful Build",
+		        "description": "You count as one size larger when determining your carrying capacity, and you have advantage on saving throws to escape being grappled.",
+		        "type": "passive"
+		      }
+		    ]
+		  },
+		  {
+		      "name": "Halfling",
+		      "creatureType": "Humanoid (Halfling)",
+		      "size": "Small",
+		      "speed": 30,
+		      "traits": [
+		        {
+		          "name": "Brave",
+		          "description": "You have advantage on saving throws you make to avoid or end the frightened condition.",
+		          "type": "passive"
+		        },
+		        {
+		          "name": "Halfling Nimbleness",
+		          "description": "You can move through the space of any creature that is a size larger than you. You can move through it, but you can’t end your turn there.",
+		          "type": "passive"
+		        },
+		        {
+		          "name": "Lucky",
+		          "description": "When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.",
+		          "type": "passive"
+		        },
+		        {
+		          "name": "Naturally Stealthy",
+		          "description": "You can attempt to hide even when you are only obscured by a creature that is at least one size larger than you.",
+		          "type": "passive"
+		        }
+		      ]
+		    },
+			{
+			    "name": "Human",
+			    "creatureType": "Humanoid (Human)",
+			    "size": "Medium",
+			    "speed": 30,
+			    "traits": [
+			      {
+			        "name": "Resourceful",
+			        "description": "You gain a Heroic Inspiration whenever you finish a long rest.",
+			        "type": "passive"
+			      },
+			      {
+			        "name": "Skillful",
+			        "description": "You gain proficiency in one skill of your choice.",
+			        "type": "choice",
+			        "options": {
+			          "choose": 1,
+			          "fromAllSkills": true
+			        }
+			      },
+			      {
+			        "name": "Versatile",
+			        "description": "You gain an orgin feat of your choice.",
+			        "type": "choice",
+			        "options": {
+			        "choose": 1,
+			        }
+			      }
+			    ]
+			  },
+			  {
+			      "name": "Orc",
+			      "creatureType": "Humanoid (Orc)",
+			      "size": "Medium",
+			      "speed": 30,
+			      "traits": [
+			        {
+			          "name": "Adrenaline Rush",
+			          "description": "When you take the Dash action as a bonus action, you gain temporary hit points equal to your proficiency bonus. You can use this trait a number of times equal to your proficiency bonus, regaining all uses after a long rest.",
+			          "type": "active",
+			          "usage": {
+			            "timesFormula": "proficiencyBonus",
+			            "refresh": "longRest"
+			          }
+			        },
+			        {
+			          "name": "Darkvision",
+			          "description": "You can see in dim light within 120 feet of you as if it were bright light, and in darkness as if it were dim light.",
+			          "type": "passive"
+			        },
+			        {
+			          "name": "Relentless Endurance",
+			          "description": "When you are reduced to 0 hit points but not killed outright, you drop to 1 hit point instead. Once you use this trait, you can’t use it again until you finish a long rest.",
+			          "type": "reaction",
+			          "usage": {
+			            "times": 1,
+			            "refresh": "longRest"
+			          }
+			        }
+			      ]
+			    },
+				{
+				  "name": "Tiefling",
+				  "creatureType": "Humanoid (Tiefling)",
+				  "size": "Medium",
+				  "speed": 30,
+				  "traits": [
+				    {
+				      "name": "Darkvision",
+				      "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+				      "type": "passive"
+				    },
+				    {
+				      "name": "Otherworldly Presence",
+				      "description": "You know the Thaumaturgy cantrip.",
+				      "type": "spell"
+				    }
+				  ],
+				  "subraces": [
+				    {
+				      "name": "Abyssal",
+				      "traits": [
+				        {
+				          "name": "Poison Resistance",
+				          "description": "You have resistance to poison damage.",
+				          "type": "passive"
+				        },
+				        {
+				          "name": "Poison Spray",
+				          "description": "You know the poison spray cantrip. Charisma is your spellcasting ability for it.",
+				          "type": "spell"
+				        },
+				        {
+				          "name": "Ray of Sickness",
+				          "description": "At 3rd level, you know the ray of sickness spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+				          "type": "spell",
+				          "usage": {
+				            "times": 1,
+				            "refresh": "longRest"
+				          }
+				        },
+				        {
+				          "name": "Hold Person",
+				          "description": "At 5th level, you know the hold person spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+				          "type": "spell",
+				          "usage": {
+				            "times": 1,
+				            "refresh": "longRest"
+				          }
+				        }
+				      ]
+				    },
+				    {
+				      "name": "Chthonic",
+				      "traits": [
+				        {
+				          "name": "Necrotic Resistance",
+				          "description": "You have resistance to necrotic damage.",
+				          "type": "passive"
+				        },
+				        {
+				          "name": "Chill Touch",
+				          "description": "You know the chill touch cantrip. Charisma is your spellcasting ability for it.",
+				          "type": "spell"
+				        },
+				        {
+				          "name": "False Life",
+				          "description": "At 3rd level, you know the false life spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+				          "type": "spell",
+				          "usage": {
+				            "times": 1,
+				            "refresh": "longRest"
+				          }
+				        },
+				        {
+				          "name": "Ray of Enfeeblement",
+				          "description": "At 5th level, you know the ray of enfeeblement spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+				          "type": "spell",
+				          "usage": {
+				            "times": 1,
+				            "refresh": "longRest"
+				          }
+				        }
+				      ]
+				    },
+				    {
+				      "name": "Infernal",
+				      "traits": [
+				        {
+				          "name": "Fire Resistance",
+				          "description": "You have resistance to fire damage.",
+				          "type": "passive"
+				        },
+				        {
+				          "name": "Fire Bolt",
+				          "description": "You know the fire bolt cantrip. Charisma is your spellcasting ability for it.",
+				          "type": "spell"
+				        },
+				        {
+				          "name": "Hellish Rebuke",
+				          "description": "At 3rd level, you know the hellish rebuke spell. You can cast it once as a reaction without expending a spell slot and regain the ability after a long rest.",
+				          "type": "spell",
+				          "usage": {
+				            "times": 1,
+				            "refresh": "longRest"
+				          }
+				        },
+				        {
+				          "name": "Darkness",
+				          "description": "At 5th level, you know the darkness spell. You can cast it once without expending a spell slot and regain the ability after a long rest.",
+				          "type": "spell",
+				          "usage": {
+				            "times": 1,
+				            "refresh": "longRest"
+				          }
+				        }
+				      ]
+				    }
+				  ]
+				}
+
 ]
