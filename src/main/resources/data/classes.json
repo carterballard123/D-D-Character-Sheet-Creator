@@ -1,15 +1,19 @@
 [
 	{
+	  "classId": "barbarian",
 	  "name": "Barbarian",
 	  "hitDie": 12,
 	  "primaryAbility": "Strength",
-	  "savingThrows": ["Strength", "Constitution"],
-	  "skillChoices": {
-	    "choose": 2,
-	    "from": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
+	  "proficiencies": {
+	    "armor": ["Light Armor", "Medium Armor", "Shields"],
+	    "weapons": ["Simple Weapons", "Martial Weapons"],
+	    "tools": [],
+	    "savingThrows": ["Strength", "Constitution"],
+	    "skills": {
+	      "choose": 2,
+	      "from": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
+	    }
 	  },
-	  "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-	  "armorProficiencies": ["Light Armor", "Medium Armor", "Shields"],
 	  "startingEquipmentOptions": [
 	    {
 	      "label": "A",
@@ -22,82 +26,169 @@
 	  ],
 	  "featuresByLevel": {
 	    "1": [
-	      "Rage (2 times)",
-	      "Unarmored Defense"
+	      {
+	        "name": "Rage",
+	        "type": "classFeature",
+	        "uses": 2,
+	        "scalesWith": "barbarianLevel"
+	      },
+	      {
+	        "name": "Unarmored Defense",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "2": [
-	      "Reckless Attack",
-	      "Danger Sense"
+	      {
+	        "name": "Reckless Attack",
+	        "type": "classFeature"
+	      },
+	      {
+	        "name": "Danger Sense",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "3": [
-	      "Barbarian Subclass Feature",
-	      "Rage (3 times)"
+	      {
+	        "name": "Primal Knowledge",
+	        "type": "classFeature",
+	        "description": "Gain an extra skill proficiency from the Barbarian list."
+	      },
+	      {
+	        "name": "Rage (3 times)",
+	        "type": "classFeature",
+	        "uses": 3
+	      }
 	    ],
 	    "4": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "5": [
-	      "Extra Attack",
-	      "Fast Movement"
+	      {
+	        "name": "Extra Attack",
+	        "type": "classFeature"
+	      },
+	      {
+	        "name": "Fast Movement",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "6": [
-	      "Subclass Feature"
+	      {
+	        "name": "Rage (4 times)",
+	        "type": "classFeature",
+	        "uses": 4
+	      }
 	    ],
 	    "7": [
-	      "Feral Instinct"
+	      {
+	        "name": "Feral Instinct",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "8": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "9": [
-	      "Brutal Critical (1 die)"
+	      {
+	        "name": "Brutal Critical",
+	        "type": "classFeature",
+	        "diceBonus": 1
+	      }
 	    ],
 	    "10": [
-	      "Subclass Feature"
+	      {
+	        "name": "Rage (5 times)",
+	        "type": "classFeature",
+	        "uses": 5
+	      }
 	    ],
 	    "11": [
-	      "Relentless Rage"
+	      {
+	        "name": "Relentless Rage",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "12": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "13": [
-	      "Brutal Critical (2 dice)"
+	      {
+	        "name": "Brutal Critical",
+	        "type": "classFeature",
+	        "diceBonus": 2
+	      }
 	    ],
 	    "14": [
-	      "Subclass Feature"
+	      {
+	        "name": "Rage (6 times)",
+	        "type": "classFeature",
+	        "uses": 6
+	      }
 	    ],
 	    "15": [
-	      "Persistent Rage"
+	      {
+	        "name": "Persistent Rage",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "16": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "17": [
-	      "Brutal Critical (3 dice)"
+	      {
+	        "name": "Brutal Critical",
+	        "type": "classFeature",
+	        "diceBonus": 3
+	      }
 	    ],
 	    "18": [
-	      "Indomitable Might"
+	      {
+	        "name": "Indomitable Might",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "19": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "20": [
-	      "Primal Champion"
+	      {
+	        "name": "Primal Champion",
+	        "type": "classFeature",
+	        "description": "+4 to Strength and Constitution (max 24)"
+	      }
 	    ]
 	  }
 	},
 	{
+	  "classId": "bard",
 	  "name": "Bard",
 	  "hitDie": 8,
 	  "primaryAbility": "Charisma",
-	  "savingThrows": ["Dexterity", "Charisma"],
-	  "skillChoices": {
-	    "choose": 3,
-	    "from": ["any"]
+	  "proficiencies": {
+	    "armor": ["Light Armor"],
+	    "weapons": ["Simple Weapons"],
+	    "tools": ["Musical Instrument of Your Choice"],
+	    "savingThrows": ["Dexterity", "Charisma"],
+	    "skills": {
+	      "choose": 3,
+	      "from": ["any"]
+	    }
 	  },
-	  "weaponProficiencies": ["Simple Weapons"],
-	  "armorProficiencies": ["Light Armor"],
 	  "startingEquipmentOptions": [
 	    {
 	      "label": "A",
@@ -110,290 +201,1859 @@
 	  ],
 	  "featuresByLevel": {
 	    "1": [
-	      "Bardic Inspiration (d6)",
-	      "Spellcasting"
+	      {
+	        "name": "Bardic Inspiration",
+	        "type": "classFeature",
+	        "diceSize": "d6",
+	        "uses": "Charisma modifier",
+	        "scalesWith": "level"
+	      },
+	      {
+	        "name": "Spellcasting",
+	        "type": "classFeature"
+	      }
 	    ],
 	    "2": [
-	      "Jack of All Trades",
-	      "Song of Rest (d6)"
+	      {
+	        "name": "Jack of All Trades",
+	        "type": "classFeature"
+	      },
+	      {
+	        "name": "Song of Rest",
+	        "type": "classFeature",
+	        "diceSize": "d6"
+	      }
 	    ],
 	    "3": [
-	      "Bard Subclass Feature"
+	      {
+	        "subclassFeature": true
+	      }
 	    ],
 	    "4": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "5": [
-	      "Bardic Inspiration (d8)",
-	      "Font of Inspiration"
+	      {
+	        "name": "Bardic Inspiration",
+	        "type": "classFeature",
+	        "diceSize": "d8"
+	      },
+	      {
+	        "name": "Font of Inspiration",
+	        "type": "classFeature",
+	        "description": "You regain all uses of Bardic Inspiration when you finish a short or long rest."
+	      }
 	    ],
 	    "6": [
-	      "Subclass Feature"
+	      {
+	        "subclassFeature": true
+	      }
 	    ],
 	    "7": [
-	      "Song of Rest (d8)"
+	      {
+	        "name": "Song of Rest",
+	        "type": "classFeature",
+	        "diceSize": "d8"
+	      }
 	    ],
 	    "8": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "9": [
-	      "Expertise"
+	      {
+	        "name": "Expertise",
+	        "type": "classFeature",
+	        "description": "Choose two skills in which you double your proficiency bonus."
+	      }
 	    ],
 	    "10": [
-	      "Bardic Inspiration (d10)",
-	      "Magical Secrets (2 spells)"
+	      {
+	        "name": "Bardic Inspiration",
+	        "type": "classFeature",
+	        "diceSize": "d10"
+	      },
+	      {
+	        "name": "Magical Secrets",
+	        "type": "magicalSecrets",
+	        "numberOfSpells": 2,
+	        "description": "Choose two spells from any class list."
+	      }
 	    ],
 	    "11": [
-	      "Song of Rest (d10)"
+	      {
+	        "name": "Song of Rest",
+	        "type": "classFeature",
+	        "diceSize": "d10"
+	      }
 	    ],
 	    "12": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "13": [
-	      "Magical Secrets (2 spells)"
+	      {
+	        "name": "Magical Secrets",
+	        "type": "magicalSecrets",
+	        "numberOfSpells": 2
+	      }
 	    ],
 	    "14": [
-	      "Subclass Feature"
+	      {
+	        "subclassFeature": true
+	      }
 	    ],
 	    "15": [
-	      "Bardic Inspiration (d12)",
-	      "Song of Rest (d12)"
+	      {
+	        "name": "Bardic Inspiration",
+	        "type": "classFeature",
+	        "diceSize": "d12"
+	      },
+	      {
+	        "name": "Song of Rest",
+	        "type": "classFeature",
+	        "diceSize": "d12"
+	      }
 	    ],
 	    "16": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "17": [
-	      "Magical Secrets (2 spells)"
+	      {
+	        "name": "Magical Secrets",
+	        "type": "magicalSecrets",
+	        "numberOfSpells": 2
+	      }
 	    ],
 	    "18": [
-	      "Superior Inspiration"
+	      {
+	        "name": "Superior Inspiration",
+	        "type": "classFeature",
+	        "description": "When you roll initiative and have no uses of Bardic Inspiration left, you regain one use."
+	      }
 	    ],
 	    "19": [
-	      "Ability Score Improvement"
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
 	    ],
 	    "20": [
-	      "Magical Secrets (2 spells)"
+	      {
+	        "name": "Magical Secrets",
+	        "type": "magicalSecrets",
+	        "numberOfSpells": 2
+	      }
 	    ]
 	  }
 	},
-  {
-    "name": "Cleric",
-    "hitDie": 8,
-    "primaryAbility": "Wisdom",
-    "savingThrows": ["Wisdom", "Charisma"],
-    "skillChoices": {
-      "choose": 2,
-      "from": ["History", "Insight", "Medicine", "Persuasion", "Religion"]
-    },
-    "weaponProficiencies": ["Simple Weapons"],
-    "armorProficiencies": ["Light Armor", "Medium Armor", "Shields"],
-    "startingEquipmentOptions": [
-      {
-        "label": "A",
-        "items": ["Mace", "Scale Mail", "Shield", "Priest’s Pack"]
-      },
-      {
-        "label": "B",
-        "items": ["Warhammer", "Chain Mail", "Shield", "Priest’s Pack"]
-      }
-    ],
-  },
-  {
-    "name": "Druid",
-    "hitDie": 8,
-    "primaryAbility": "Wisdom",
-    "savingThrows": ["Intelligence", "Wisdom"],
-    "skillChoices": {
-      "choose": 2,
-      "from": ["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception", "Religion", "Survival"]
-    },
-    "weaponProficiencies": ["Simple Weapons"],
-    "armorProficiencies": ["Light Armor", "Shields"],
-    "startingEquipmentOptions": [
-      {
-        "label": "A",
-        "items": ["Wooden Shield", "Scimitar", "Leather Armor", "Explorer’s Pack"]
-      },
-      {
-        "label": "B",
-        "items": ["Quarterstaff", "Leather Armor", "Druidic Focus", "Explorer’s Pack"]
-      }
-    ],
-  },
-  {
-    "name": "Fighter",
-    "hitDie": 10,
-    "primaryAbility": "Strength",
+	{
+	  "classId": "cleric",
+	  "name": "Cleric",
+	  "hitDie": 8,
+	  "primaryAbility": "Wisdom",
+	  "proficiencies": {
+	    "armor": ["Light Armor", "Medium Armor", "Shields"],
+	    "weapons": ["Simple Weapons"],
+	    "tools": [],
+	    "savingThrows": ["Wisdom", "Charisma"],
+	    "skills": {
+	      "choose": 2,
+	      "from": ["History", "Insight", "Medicine", "Persuasion", "Religion"]
+	    }
+	  },
+	  "startingEquipmentOptions": [
+	    {
+	      "label": "A",
+	      "items": ["Mace", "Scale Mail", "Shield", "Priest’s Pack"]
+	    },
+	    {
+	      "label": "B",
+	      "items": ["Warhammer", "Chain Mail", "Shield", "Priest’s Pack"]
+	    }
+	  ],
+	  "featuresByLevel": {
+	    "1": [
+	      {
+	        "name": "Spellcasting",
+	        "type": "classFeature"
+	      },
+	      {
+	        "name": "Channel Divinity",
+	        "type": "classFeature",
+	        "uses": 1,
+	        "scalesWith": "level"
+	      }
+	    ],
+	    "2": [
+	      {
+	        "name": "Channel Divinity: Turn Undead",
+	        "type": "classFeature"
+	      },
+	      {
+	        "name": "Harness Divine Power",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "3": [
+	      {
+	        "subclassFeature": true
+	      }
+	    ],
+	    "4": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "5": [
+	      {
+	        "name": "Destroy Undead (CR 1/2)",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "6": [
+	      {
+	        "subclassFeature": true
+	      }
+	    ],
+	    "7": [
+	      {
+	        "name": "Divine Spark",
+	        "type": "classFeature",
+	        "description": "Empower your spells with radiant damage when healing."
+	      }
+	    ],
+	    "8": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "9": [
+	      {
+	        "name": "Destroy Undead (CR 1)",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "10": [
+	      {
+	        "name": "Divine Intervention",
+	        "type": "classFeature",
+	        "description": "Call on your deity for direct aid (roll d100 ≤ cleric level)."
+	      }
+	    ],
+	    "11": [
+	      {
+	        "name": "Destroy Undead (CR 2)",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "12": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "13": [],
+	    "14": [],
+	    "15": [
+	      {
+	        "name": "Destroy Undead (CR 3)",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "16": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "17": [
+	      {
+	        "subclassFeature": true
+	      },
+	      {
+	        "name": "Channel Divinity Uses",
+	        "type": "classFeature",
+	        "uses": 2
+	      }
+	    ],
+	    "18": [
+	      {
+	        "name": "Destroy Undead (CR 4)",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "19": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "20": [
+	      {
+	        "name": "Improved Divine Intervention",
+	        "type": "classFeature",
+	        "description": "Divine Intervention succeeds automatically."
+	      }
+	    ]
+	  }
+	},
+	{
+	  "classId": "druid",
+	  "name": "Druid",
+	  "hitDie": 8,
+	  "primaryAbility": "Wisdom",
+	  "proficiencies": {
+	    "armor": ["Light Armor", "Shields"],
+	    "weapons": ["Simple Weapons"],
+	    "tools": ["Druidic Focus"],
+	    "savingThrows": ["Intelligence", "Wisdom"],
+	    "skills": {
+	      "choose": 2,
+	      "from": ["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception", "Religion", "Survival"]
+	    }
+	  },
+	  "startingEquipmentOptions": [
+	    {
+	      "label": "A",
+	      "items": ["Wooden Shield", "Scimitar", "Leather Armor", "Explorer’s Pack"]
+	    },
+	    {
+	      "label": "B",
+	      "items": ["Quarterstaff", "Leather Armor", "Druidic Focus", "Explorer’s Pack"]
+	    }
+	  ],
+	  "featuresByLevel": {
+	    "1": [
+	      {
+	        "name": "Druidic",
+	        "type": "classFeature",
+	        "description": "You know Druidic, the secret language of druids."
+	      },
+	      {
+	        "name": "Spellcasting",
+	        "type": "classFeature"
+	      }
+	    ],
+	    "2": [
+	      {
+	        "name": "Wild Shape",
+	        "type": "classFeature",
+	        "uses": 2,
+	        "scalesWith": "level",
+	        "description": "Transform into a beast you've seen before. Limitations based on CR and movement."
+	      }
+	    ],
+	    "3": [
+	      {
+	        "subclassFeature": true
+	      }
+	    ],
+	    "4": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "5": [
+	      {
+	        "name": "Wild Shape Improvement",
+	        "type": "classFeature",
+	        "description": "You can transform into creatures with a swim speed."
+	      }
+	    ],
+	    "6": [
+	      {
+	        "subclassFeature": true
+	      }
+	    ],
+	    "7": [
+	      {
+	        "name": "Wild Shape Improvement",
+	        "type": "classFeature",
+	        "description": "You can transform into CR 1 beasts."
+	      }
+	    ],
+	    "8": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      },
+	      {
+	        "name": "Wild Shape Improvement",
+	        "type": "classFeature",
+	        "description": "You can now use Wild Shape an unlimited number of times."
+	      }
+	    ],
+	    "9": [],
+	    "10": [
+	      {
+	        "name": "Subtle Spellcasting",
+	        "type": "classFeature",
+	        "description": "You can ignore verbal and somatic components of druid spells."
+	      }
+	    ],
+	    "11": [],
+	    "12": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "13": [],
+	    "14": [
+	      {
+	        "subclassFeature": true
+	      }
+	    ],
+	    "15": [],
+	    "16": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "17": [],
+	    "18": [
+	      {
+	        "name": "Beast Spells",
+	        "type": "classFeature",
+	        "description": "You can cast many druid spells while in Wild Shape."
+	      }
+	    ],
+	    "19": [
+	      {
+	        "name": "Ability Score Improvement",
+	        "type": "ASI"
+	      }
+	    ],
+	    "20": [
+	      {
+	        "name": "Archdruid",
+	        "type": "classFeature",
+	        "description": "You can ignore verbal, somatic, and non-consumed material components, and you can cast spells in any shape."
+	      }
+	    ]
+	  }
+	},
+{
+  "classId": "fighter",
+  "name": "Fighter",
+  "hitDie": 10,
+  "primaryAbility": "Strength",
+  "proficiencies": {
+    "armor": ["Light Armor", "Medium Armor", "Heavy Armor", "Shields"],
+    "weapons": ["Simple Weapons", "Martial Weapons"],
+    "tools": [],
     "savingThrows": ["Strength", "Constitution"],
-    "skillChoices": {
+    "skills": {
       "choose": 2,
       "from": ["Acrobatics", "Animal Handling", "Athletics", "History", "Insight", "Intimidation", "Perception", "Survival"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Chain Mail", "Longsword", "Shield", "Light Crossbow", "20 Bolts", "Explorer’s Pack"]
     },
-    "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-    "armorProficiencies": ["Light Armor", "Medium Armor", "Heavy Armor", "Shields"],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Chain Mail", "Two Handaxes", "Explorer’s Pack"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Chain Mail", "Longsword", "Shield", "Light Crossbow", "20 Bolts", "Explorer’s Pack"]
+        "name": "Fighting Style",
+        "type": "classFeature",
+        "description": "Choose a fighting style option that enhances your combat ability."
       },
       {
-        "label": "B",
-        "items": ["Chain Mail", "Two Handaxes", "Explorer’s Pack"]
+        "name": "Second Wind",
+        "type": "classFeature",
+        "uses": 1,
+        "scalesWith": "shortRest",
+        "description": "Regain 1d10 + fighter level HP as a bonus action."
       }
     ],
-  },
-  {
-    "name": "Monk",
-    "hitDie": 8,
-    "primaryAbility": "Dexterity and Wisdom",
+    "2": [
+      {
+        "name": "Action Surge",
+        "type": "classFeature",
+        "uses": 1,
+        "scalesWith": "shortRest"
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "5": [
+      {
+        "name": "Extra Attack",
+        "type": "classFeature"
+      }
+    ],
+    "6": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "7": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "9": [
+      {
+        "name": "Indomitable",
+        "type": "classFeature",
+        "uses": 1,
+        "description": "Reroll a failed saving throw once per long rest."
+      }
+    ],
+    "10": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "11": [
+      {
+        "name": "Extra Attack (2)",
+        "type": "classFeature",
+        "description": "You can attack three times whenever you take the Attack action."
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [
+      {
+        "name": "Indomitable",
+        "type": "classFeature",
+        "uses": 2,
+        "description": "You can reroll a saving throw twice per long rest."
+      }
+    ],
+    "14": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "15": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [
+      {
+        "name": "Action Surge (2 uses)",
+        "type": "classFeature",
+        "uses": 2
+      },
+      {
+        "name": "Indomitable",
+        "type": "classFeature",
+        "uses": 3
+      }
+    ],
+    "18": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Extra Attack (3)",
+        "type": "classFeature",
+        "description": "You can attack four times whenever you take the Attack action."
+      }
+    ]
+  }
+},
+{
+  "classId": "monk",
+  "name": "Monk",
+  "hitDie": 8,
+  "primaryAbility": "Dexterity and Wisdom",
+  "proficiencies": {
+    "armor": [],
+    "weapons": ["Simple Weapons", "Martial Weapons"],
+    "tools": [],
     "savingThrows": ["Strength", "Dexterity"],
-    "skillChoices": {
+    "skills": {
       "choose": 2,
       "from": ["Acrobatics", "Athletics", "History", "Insight", "Religion", "Stealth"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Shortsword", "Explorer’s Pack"]
     },
-    "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-    "armorProficiencies": [],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["10 Darts", "Explorer’s Pack"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Shortsword", "Explorer’s Pack"]
+        "name": "Unarmored Defense",
+        "type": "classFeature",
+        "description": "AC = 10 + Dex mod + Wis mod when not wearing armor or using a shield."
       },
       {
-        "label": "B",
-        "items": ["10 Darts", "Explorer’s Pack"]
+        "name": "Martial Arts",
+        "type": "classFeature",
+        "diceSize": "d4",
+        "description": "Use Dex instead of Str for monk weapons; martial arts die improves with level."
       }
     ],
-  },
-  {
-    "name": "Paladin",
-    "hitDie": 10,
-    "primaryAbility": "Charisma and Strength",
+    "2": [
+      {
+        "name": "Ki",
+        "type": "classFeature",
+        "uses": "monkLevel",
+        "scalesWith": "shortRest",
+        "description": "Use Ki points for special techniques like Flurry of Blows, Step of the Wind, etc."
+      },
+      {
+        "name": "Unarmored Movement",
+        "type": "classFeature",
+        "description": "+10 ft speed when not wearing armor or wielding a shield."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Martial Arts",
+        "type": "classFeature",
+        "diceSize": "d6"
+      },
+      {
+        "name": "Deflect Missiles",
+        "type": "classFeature",
+        "description": "Reduce ranged damage with your reaction; possibly catch the missile."
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Slow Fall",
+        "type": "classFeature",
+        "description": "Reduce falling damage by 5 × monk level as a reaction."
+      }
+    ],
+    "5": [
+      {
+        "name": "Extra Attack",
+        "type": "classFeature"
+      },
+      {
+        "name": "Stunning Strike",
+        "type": "classFeature",
+        "description": "Spend 1 Ki to attempt to stun a target you hit with a melee weapon attack."
+      },
+      {
+        "name": "Martial Arts",
+        "type": "classFeature",
+        "diceSize": "d6"
+      }
+    ],
+    "6": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Ki-Empowered Strikes",
+        "type": "classFeature",
+        "description": "Your unarmed strikes count as magical for overcoming resistance and immunity."
+      },
+      {
+        "name": "Unarmored Movement",
+        "type": "classFeature",
+        "description": "+15 ft speed bonus."
+      }
+    ],
+    "7": [
+      {
+        "name": "Evasion",
+        "type": "classFeature",
+        "description": "Take no damage on Dex saves vs. half-damage effects; half on failure."
+      },
+      {
+        "name": "Stillness of Mind",
+        "type": "classFeature",
+        "description": "Use your action to end an effect on yourself causing frightened or charmed."
+      }
+    ],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Unarmored Movement",
+        "type": "classFeature",
+        "description": "+20 ft speed bonus."
+      }
+    ],
+    "9": [
+      {
+        "name": "Martial Arts",
+        "type": "classFeature",
+        "diceSize": "d8"
+      }
+    ],
+    "10": [
+      {
+        "name": "Purity of Body",
+        "type": "classFeature",
+        "description": "Immune to disease and poison."
+      }
+    ],
+    "11": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Unarmored Movement",
+        "type": "classFeature",
+        "description": "+25 ft speed bonus."
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [
+      {
+        "name": "Tongue of the Sun and Moon",
+        "type": "classFeature",
+        "description": "You can understand and be understood by any creature that knows a language."
+      }
+    ],
+    "14": [
+      {
+        "name": "Diamond Soul",
+        "type": "classFeature",
+        "description": "Proficiency in all saving throws. Reroll one failed save per long rest."
+      },
+      {
+        "name": "Unarmored Movement",
+        "type": "classFeature",
+        "description": "+30 ft speed bonus."
+      }
+    ],
+    "15": [
+      {
+        "name": "Martial Arts",
+        "type": "classFeature",
+        "diceSize": "d10"
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "18": [
+      {
+        "name": "Empty Body",
+        "type": "classFeature",
+        "description": "You can turn invisible and become resistant to all damage but force for 1 minute."
+      }
+    ],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Perfect Self",
+        "type": "classFeature",
+        "description": "Regain 4 Ki points when you roll initiative and have none left."
+      }
+    ]
+  }
+},
+{
+  "classId": "paladin",
+  "name": "Paladin",
+  "hitDie": 10,
+  "primaryAbility": "Charisma and Strength",
+  "proficiencies": {
+    "armor": ["Light Armor", "Medium Armor", "Heavy Armor", "Shields"],
+    "weapons": ["Simple Weapons", "Martial Weapons"],
+    "tools": ["Holy Symbol"],
     "savingThrows": ["Wisdom", "Charisma"],
-    "skillChoices": {
+    "skills": {
       "choose": 2,
       "from": ["Athletics", "Insight", "Intimidation", "Medicine", "Persuasion", "Religion"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Martial Weapon", "Shield", "5 Javelins", "Priest’s Pack", "Chain Mail", "Holy Symbol"]
     },
-    "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-    "armorProficiencies": ["Light Armor", "Medium Armor", "Heavy Armor", "Shields"],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Martial Weapon", "Shield", "5 Javelins", "Explorer’s Pack", "Chain Mail", "Holy Symbol"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Martial Weapon", "Shield", "5 Javelins", "Priest’s Pack", "Chain Mail", "Holy Symbol"]
+        "name": "Divine Sense",
+        "type": "classFeature",
+        "uses": "1 + Charisma modifier",
+        "scalesWith": "longRest",
+        "description": "Sense celestials, fiends, or undead within 60 feet."
       },
       {
-        "label": "B",
-        "items": ["Martial Weapon", "Shield", "5 Javelins", "Explorer’s Pack", "Chain Mail", "Holy Symbol"]
+        "name": "Lay on Hands",
+        "type": "classFeature",
+        "uses": "5 × paladin level",
+        "scalesWith": "longRest",
+        "description": "Heal hit points or cure diseases/poison with a pool of healing power."
       }
     ],
-  },
-  {
-    "name": "Ranger",
-    "hitDie": 10,
-    "primaryAbility": "Dexterity and Wisdom",
+    "2": [
+      {
+        "name": "Spellcasting",
+        "type": "classFeature"
+      },
+      {
+        "name": "Divine Smite",
+        "type": "classFeature",
+        "description": "Expend spell slots to deal radiant damage on a melee weapon hit."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Divine Health",
+        "type": "classFeature",
+        "description": "You are immune to disease."
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "5": [
+      {
+        "name": "Extra Attack",
+        "type": "classFeature"
+      }
+    ],
+    "6": [
+      {
+        "name": "Aura of Protection",
+        "type": "classFeature",
+        "description": "You and allies within 10 ft gain a bonus to saving throws equal to your Charisma modifier."
+      }
+    ],
+    "7": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "9": [],
+    "10": [
+      {
+        "name": "Aura of Courage",
+        "type": "classFeature",
+        "description": "You and allies within 10 ft can't be frightened while you’re conscious."
+      }
+    ],
+    "11": [
+      {
+        "name": "Improved Divine Smite",
+        "type": "classFeature",
+        "description": "Your melee weapon attacks deal +1d8 radiant damage."
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [],
+    "14": [],
+    "15": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [
+      {
+        "name": "Aura of Protection Upgrade",
+        "type": "classFeature",
+        "description": "Aura of Protection range increases to 30 feet."
+      }
+    ],
+    "18": [
+      {
+        "name": "Aura of Courage Upgrade",
+        "type": "classFeature",
+        "description": "Aura of Courage range increases to 30 feet."
+      }
+    ],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Sacred Oath Feature",
+        "type": "classFeature",
+        "description": "You gain the final feature from your subclass."
+      }
+    ]
+  }
+},
+{
+  "classId": "ranger",
+  "name": "Ranger",
+  "hitDie": 10,
+  "primaryAbility": "Dexterity and Wisdom",
+  "proficiencies": {
+    "armor": ["Light Armor", "Medium Armor", "Shields"],
+    "weapons": ["Simple Weapons", "Martial Weapons"],
+    "tools": [],
     "savingThrows": ["Strength", "Dexterity"],
-    "skillChoices": {
+    "skills": {
       "choose": 3,
       "from": ["Animal Handling", "Athletics", "Insight", "Investigation", "Nature", "Perception", "Stealth", "Survival"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Scale Mail", "Two Shortswords", "Dungeoneer’s Pack", "Longbow", "20 Arrows"]
     },
-    "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-    "armorProficiencies": ["Light Armor", "Medium Armor", "Shields"],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Leather Armor", "Two Shortswords", "Explorer’s Pack", "Longbow", "20 Arrows"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Scale Mail", "Two Shortswords", "Dungeoneer’s Pack", "Longbow", "20 Arrows"]
+        "name": "Favored Enemy",
+        "type": "classFeature",
+        "description": "You gain bonuses when tracking and dealing with a chosen creature type."
       },
       {
-        "label": "B",
-        "items": ["Leather Armor", "Two Shortswords", "Explorer’s Pack", "Longbow", "20 Arrows"]
+        "name": "Favored Terrain",
+        "type": "classFeature",
+        "description": "Choose a type of terrain. Gain exploration benefits in it."
       }
     ],
-  },
-  {
-    "name": "Rogue",
-    "hitDie": 8,
-    "primaryAbility": "Dexterity",
+    "2": [
+      {
+        "name": "Spellcasting",
+        "type": "classFeature"
+      },
+      {
+        "name": "Fighting Style",
+        "type": "classFeature",
+        "description": "Choose a style such as Archery, Defense, Dueling, or Two-Weapon Fighting."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Primeval Awareness",
+        "type": "classFeature",
+        "description": "Use spell slot to detect favored enemies within 1 mile."
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "5": [
+      {
+        "name": "Extra Attack",
+        "type": "classFeature"
+      }
+    ],
+    "6": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Favored Enemy Improvement",
+        "type": "classFeature",
+        "description": "Choose an additional favored enemy and gain improved benefits."
+      }
+    ],
+    "7": [
+      {
+        "name": "Land’s Stride",
+        "type": "classFeature",
+        "description": "You ignore nonmagical difficult terrain and resist natural obstacles."
+      }
+    ],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Fleet of Foot",
+        "type": "classFeature",
+        "description": "You can Dash as a bonus action."
+      }
+    ],
+    "9": [
+      {
+        "name": "Favored Terrain Improvement",
+        "type": "classFeature",
+        "description": "Choose an additional favored terrain and gain improved benefits."
+      }
+    ],
+    "10": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "11": [
+      {
+        "name": "Hide in Plain Sight",
+        "type": "classFeature",
+        "description": "Spend 1 minute camouflaging yourself to gain +10 Stealth while motionless."
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [],
+    "14": [
+      {
+        "name": "Vanish",
+        "type": "classFeature",
+        "description": "Hide as a bonus action; can't be tracked by nonmagical means."
+      }
+    ],
+    "15": [
+      {
+        "name": "Favored Enemy Enhancement",
+        "type": "classFeature",
+        "description": "Attacks against favored enemies ignore resistance to weapon damage."
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [],
+    "18": [
+      {
+        "name": "Feral Senses",
+        "type": "classFeature",
+        "description": "You can detect invisible creatures within 30 feet."
+      }
+    ],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Foe Slayer",
+        "type": "classFeature",
+        "description": "Add Wisdom modifier to attack/damage against favored enemies once per turn."
+      }
+    ]
+  }
+},
+{
+  "classId": "rogue",
+  "name": "Rogue",
+  "hitDie": 8,
+  "primaryAbility": "Dexterity",
+  "proficiencies": {
+    "armor": ["Light Armor"],
+    "weapons": ["Simple Weapons", "Martial Weapons"],
+    "tools": ["Thieves’ Tools"],
     "savingThrows": ["Dexterity", "Intelligence"],
-    "skillChoices": {
+    "skills": {
       "choose": 4,
       "from": ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Rapier", "Shortbow", "20 Arrows", "Burglar’s Pack", "Leather Armor", "Two Daggers", "Thieves’ Tools"]
     },
-    "weaponProficiencies": ["Simple Weapons", "Martial Weapons"],
-    "armorProficiencies": ["Light Armor"],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Rapier", "Shortsword", "Dungeoneer’s Pack", "Leather Armor", "Two Daggers", "Thieves’ Tools"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Rapier", "Shortbow", "20 Arrows", "Burglar’s Pack", "Leather Armor", "Two Daggers", "Thieves’ Tools"]
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "1d6",
+        "scalesWith": "level",
+        "description": "Once per turn, deal extra damage if you have advantage or a nearby ally."
       },
       {
-        "label": "B",
-        "items": ["Rapier", "Shortsword", "Dungeoneer’s Pack", "Leather Armor", "Two Daggers", "Thieves’ Tools"]
+        "name": "Expertise",
+        "type": "classFeature",
+        "description": "Choose two skill or tool proficiencies to double proficiency bonus."
+      },
+      {
+        "name": "Thieves' Cant",
+        "type": "classFeature",
+        "description": "You know the secret rogue language and coded messages."
       }
     ],
-  },
-  {
-    "name": "Sorcerer",
-    "hitDie": 6,
-    "primaryAbility": "Charisma",
+    "2": [
+      {
+        "name": "Cunning Action",
+        "type": "classFeature",
+        "description": "Take the Dash, Disengage, or Hide action as a bonus action."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "2d6"
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "5": [
+      {
+        "name": "Uncanny Dodge",
+        "type": "classFeature",
+        "description": "Use reaction to halve damage from an attacker you can see."
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "3d6"
+      }
+    ],
+    "6": [
+      {
+        "name": "Expertise",
+        "type": "classFeature",
+        "description": "Choose two more proficiencies to gain expertise."
+      }
+    ],
+    "7": [
+      {
+        "name": "Evasion",
+        "type": "classFeature",
+        "description": "Take no damage on Dex saves vs. half-damage effects; half on fail."
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "4d6"
+      }
+    ],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "9": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "5d6"
+      }
+    ],
+    "10": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "11": [
+      {
+        "name": "Reliable Talent",
+        "type": "classFeature",
+        "description": "When you make an ability check with a proficient skill, treat a d20 roll of 9 or lower as 10."
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "6d6"
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "7d6"
+      }
+    ],
+    "14": [
+      {
+        "name": "Blindsense",
+        "type": "classFeature",
+        "description": "You can sense hidden or invisible creatures within 10 feet."
+      }
+    ],
+    "15": [
+      {
+        "name": "Slippery Mind",
+        "type": "classFeature",
+        "description": "You gain proficiency in Wisdom saving throws."
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "8d6"
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "9d6"
+      }
+    ],
+    "18": [
+      {
+        "name": "Elusive",
+        "type": "classFeature",
+        "description": "No attack roll has advantage against you unless you are incapacitated."
+      }
+    ],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Stroke of Luck",
+        "type": "classFeature",
+        "description": "Once per short rest, treat a missed attack or failed check as a success."
+      },
+      {
+        "name": "Sneak Attack",
+        "type": "classFeature",
+        "dice": "10d6"
+      }
+    ]
+  }
+},
+{
+  "classId": "sorcerer",
+  "name": "Sorcerer",
+  "hitDie": 6,
+  "primaryAbility": "Charisma",
+  "proficiencies": {
+    "armor": [],
+    "weapons": ["Simple Weapons"],
+    "tools": [],
     "savingThrows": ["Constitution", "Charisma"],
-    "skillChoices": {
+    "skills": {
       "choose": 2,
       "from": ["Arcana", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Light Crossbow", "20 Bolts", "Component Pouch", "Two Daggers", "Explorer’s Pack"]
     },
-    "weaponProficiencies": ["Simple Weapons"],
-    "armorProficiencies": [],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Dagger", "Arcane Focus", "Scholar’s Pack"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Light Crossbow", "20 Bolts", "Component Pouch", "Two Daggers", "Explorer’s Pack"]
+        "name": "Spellcasting",
+        "type": "classFeature"
       },
       {
-        "label": "B",
-        "items": ["Dagger", "Arcane Focus", "Scholar’s Pack"]
+        "name": "Sorcerous Origin",
+        "type": "classFeature",
+        "description": "Choose your sorcerous bloodline subclass."
       }
     ],
-  },
-  {
-    "name": "Warlock",
-    "hitDie": 8,
-    "primaryAbility": "Charisma",
+    "2": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 2,
+        "description": "Gain sorcery points that can be used to create spell slots or power metamagic."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Metamagic",
+        "type": "classFeature",
+        "description": "Learn 2 Metamagic options that let you alter how spells work."
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 3
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 4
+      }
+    ],
+    "5": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 5
+      }
+    ],
+    "6": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 6
+      }
+    ],
+    "7": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 7
+      }
+    ],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 8
+      }
+    ],
+    "9": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 9
+      }
+    ],
+    "10": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Metamagic",
+        "type": "classFeature",
+        "description": "Learn one additional Metamagic option."
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 10
+      }
+    ],
+    "11": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 11
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 12
+      }
+    ],
+    "13": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 13
+      }
+    ],
+    "14": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 14
+      }
+    ],
+    "15": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 15
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 16
+      }
+    ],
+    "17": [
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 17
+      }
+    ],
+    "18": [
+      {
+        "name": "Sorcerous Restoration",
+        "type": "classFeature",
+        "description": "Regain 4 sorcery points when you finish a short rest."
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 18
+      }
+    ],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 19
+      }
+    ],
+    "20": [
+      {
+        "name": "Sorcerous Mastery",
+        "type": "classFeature",
+        "description": "You regain 4 sorcery points when you roll initiative and can cast Wish without components once per long rest."
+      },
+      {
+        "name": "Font of Magic",
+        "type": "classFeature",
+        "sorceryPoints": 20
+      }
+    ]
+  }
+},
+{
+  "classId": "warlock",
+  "name": "Warlock",
+  "hitDie": 8,
+  "primaryAbility": "Charisma",
+  "proficiencies": {
+    "armor": ["Light Armor"],
+    "weapons": ["Simple Weapons"],
+    "tools": [],
     "savingThrows": ["Wisdom", "Charisma"],
-    "skillChoices": {
+    "skills": {
       "choose": 2,
       "from": ["Arcana", "Deception", "History", "Intimidation", "Investigation", "Religion"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Light Crossbow", "20 Bolts", "Component Pouch", "Two Daggers", "Scholar’s Pack"]
     },
-    "weaponProficiencies": ["Simple Weapons"],
-    "armorProficiencies": ["Light Armor"],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Dagger", "Arcane Focus", "Dungeoneer’s Pack"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Light Crossbow", "20 Bolts", "Component Pouch", "Two Daggers", "Scholar’s Pack"]
+        "name": "Pact Magic",
+        "type": "classFeature",
+        "description": "You gain access to spellcasting using Charisma. Regain slots on a short rest."
       },
       {
-        "label": "B",
-        "items": ["Dagger", "Arcane Focus", "Dungeoneer’s Pack"]
+        "name": "Otherworldly Patron",
+        "type": "classFeature",
+        "description": "Choose your subclass (e.g., Fiend, Archfey, Great Old One)."
       }
     ],
-  },
-  {
-    "name": "Wizard",
-    "hitDie": 6,
-    "primaryAbility": "Intelligence",
+    "2": [
+      {
+        "name": "Eldritch Invocations",
+        "type": "classFeature",
+        "description": "Learn magical enhancements, such as Agonizing Blast or Devil's Sight."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      },
+      {
+        "name": "Pact Boon",
+        "type": "classFeature",
+        "description": "Choose Pact of the Chain, Blade, or Tome."
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "5": [],
+    "6": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "7": [],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "9": [
+      {
+        "name": "Mystic Arcanum (5th Level)",
+        "type": "classFeature",
+        "description": "Choose a 5th-level spell you can cast once per long rest."
+      }
+    ],
+    "10": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "11": [
+      {
+        "name": "Mystic Arcanum (6th Level)",
+        "type": "classFeature",
+        "description": "Choose a 6th-level spell you can cast once per long rest."
+      }
+    ],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [
+      {
+        "name": "Mystic Arcanum (7th Level)",
+        "type": "classFeature"
+      }
+    ],
+    "14": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "15": [
+      {
+        "name": "Mystic Arcanum (8th Level)",
+        "type": "classFeature"
+      }
+    ],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [
+      {
+        "name": "Mystic Arcanum (9th Level)",
+        "type": "classFeature"
+      }
+    ],
+    "18": [],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Eldritch Master",
+        "type": "classFeature",
+        "description": "Once per long rest, regain all Pact Magic slots after 1 minute of meditation."
+      }
+    ]
+  }
+},
+{
+  "classId": "wizard",
+  "name": "Wizard",
+  "hitDie": 6,
+  "primaryAbility": "Intelligence",
+  "proficiencies": {
+    "armor": [],
+    "weapons": ["Simple Weapons"],
+    "tools": [],
     "savingThrows": ["Intelligence", "Wisdom"],
-    "skillChoices": {
+    "skills": {
       "choose": 2,
       "from": ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"]
+    }
+  },
+  "startingEquipmentOptions": [
+    {
+      "label": "A",
+      "items": ["Quarterstaff", "Spellbook", "Scholar’s Pack"]
     },
-    "weaponProficiencies": ["Simple Weapons"],
-    "armorProficiencies": [],
-    "startingEquipmentOptions": [
+    {
+      "label": "B",
+      "items": ["Dagger", "Component Pouch", "Explorer’s Pack"]
+    }
+  ],
+  "featuresByLevel": {
+    "1": [
       {
-        "label": "A",
-        "items": ["Quarterstaff", "Spellbook", "Scholar’s Pack"]
+        "name": "Spellcasting",
+        "type": "classFeature",
+        "description": "Cast wizard spells using Intelligence. You prepare spells daily from your spellbook."
       },
       {
-        "label": "B",
-        "items": ["Dagger", "Component Pouch", "Explorer’s Pack"]
+        "name": "Spellbook",
+        "type": "classFeature",
+        "description": "Contains the spells you know. You prepare a subset of them each day."
       }
     ],
+    "2": [
+      {
+        "name": "Arcane Recovery",
+        "type": "classFeature",
+        "description": "Regain some spell slots on a short rest once per day."
+      }
+    ],
+    "3": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "4": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "5": [],
+    "6": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "7": [],
+    "8": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "9": [],
+    "10": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "11": [],
+    "12": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "13": [],
+    "14": [
+      {
+        "subclassFeature": true
+      }
+    ],
+    "15": [],
+    "16": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "17": [
+      {
+        "name": "Spell Mastery",
+        "type": "classFeature",
+        "description": "Choose a 1st- and 2nd-level spell to cast at will without expending a slot."
+      }
+    ],
+    "18": [],
+    "19": [
+      {
+        "name": "Ability Score Improvement",
+        "type": "ASI"
+      }
+    ],
+    "20": [
+      {
+        "name": "Signature Spells",
+        "type": "classFeature",
+        "description": "Choose two 3rd-level spells you can cast once without expending a spell slot."
+      }
+    ]
   }
+}
 ]

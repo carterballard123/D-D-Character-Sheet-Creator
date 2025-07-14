@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class ArmorRepository {
 	 // In-memory map: lowercase name → ArmorData
 	 private final Map<String, ArmorData> byName = new HashMap<>();

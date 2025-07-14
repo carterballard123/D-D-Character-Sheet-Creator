@@ -1,149 +1,145 @@
 [
-	// Unarmored
-	{
-		"name": "Unarmored",
-		"type": "Unarmored",
-		"baseAc": 10,
-		"maxDexBonus": 255,
-		"minStrength": 0,
-		"stealthDisadvantage": false,
-		"weightLbs": 0,
-		"costGp": 0,
-		"notes": ""
-	  },
-	// Light Armor
-	{
-	    "name": "Padded Armor",
-	    "type": "Light Armor",
-	    "baseAc": 11,
-	    "maxDexBonus": 255,
-	    "minStrength": 0,
-	    "stealthDisadvantage": true,
-	    "weightLbs": 8,
-	    "costGp": 5,
-	    "notes": ""
-	  },
-	{
-	  	"name": "Leather Armor",
-	  	"type": "Light Armor",
-	  	"baseAc": 11,
-	  	"maxDexBonus": 255,
-	  	"minStrength": 0,
-	  	"stealthDisadvantage": false,
-	  	"weightLbs": 10,
-	  	"costGp": 10,
-	  	"notes": ""
-	  },
-	{
-	  	"name": "Studded Leather Armor",
-	  	"type": "Light Armor",
-	  	"baseAc": 12,
-	  	"maxDexBonus": 255,
-	  	"minStrength": 0,
-	  	"stealthDisadvantage": false,
-	  	"weightLbs": 13,
-	  	"costGp": 45,
-	  	"notes": ""
-	  },
-	  // Medium Armor
-	{
-	  	"name": "Hide Armor",
-	  	"type": "Medium Armor",
-	  	"baseAc": 12,
-	  	"maxDexBonus": 2,
-	  	"minStrength": 0,
-	  	"stealthDisadvantage": false,
-	  	"weightLbs": 12,
-	  	"costGp": 10,
-	  	"notes": ""
-	  },
-	{
-		"name": "Chain Shirt",
-		"type": "Medium Armor",
-		"baseAc": 13,
-		"maxDexBonus": 2,
-		"minStrength": 0,
-		"stealthDisadvantage": false,
-		"weightLbs": 20,
-		"costGp": 50,
-		"notes": ""
-	  },
-	{
-		"name": "Scale Mail",
-		"type": "Medium Armor",
-		"baseAc": 14,
-		"maxDexBonus": 2,
-		"minStrength": 0,
-		"stealthDisadvantage": true,
-		"weightLbs": 45,
-		"costGp": 50,
-		"notes": ""
-	  },
-	{
-		"name": "Breastplate",
-		"type": "Medium Armor",
-		"baseAc": 14,
-		"maxDexBonus": 2,
-		"minStrength": 0,
-		"stealthDisadvantage": false,
-		"weightLbs": 20,
-		"costGp": 400,
-		"notes": ""
-	  },
-	{
-		"name": "Half Plate Armor",
-		"type": "Medium Armor",
-		"baseAc": 15,
-		"maxDexBonus": 2,
-		"minStrength": 0,
-		"stealthDisadvantage": true,
-		"weightLbs": 40,
-		"costGp": 750,
-		"notes": ""
-	  },
-	  // Heavy Armor
-	{
-	    "name": "Ring Mail",
-	    "type": "Large Armor",
-	    "baseAc": 14,
-	    "maxDexBonus": 0,
-	    "minStrength": 0,
-	    "stealthDisadvantage": true,
-	    "weightLbs": 40,
-	    "costGp": 30,
-	    "notes": ""
-	  },
-	{
-		"name": "Chain Mail",
-		"type": "Large Armor",
-		"baseAc": 16,
-		"maxDexBonus": 0,
-		"minStrength": 13,
-		"stealthDisadvantage": true,
-		"weightLbs": 55,
-		"costGp": 75,
-		"notes": ""
-	  },
-    {
-	    "name": "Splint Armor",
-	    "type": "Large Armor",
-	    "baseAc": 17,
-	    "maxDexBonus": 0,
-	    "minStrength": 15,
-	    "stealthDisadvantage": true,
-	    "weightLbs": 60,
-	    "costGp": 200,
-	    "notes": ""
-	  },
-	{
-		"name": "Plate Armor",
-		"type": "Large Armor",
-		"baseAc": 18,
-		"maxDexBonus": 0,
-		"minStrength": 15,
-		"stealthDisadvantage": true,
-		"weightLbs": 65,
-		"costGp": 1500,
-		"notes": ""
-	  }
+  {
+    "armorName": "Unarmored",
+    "armorType": "Unarmored",
+    "armorClass": 10,
+    "maxDexBonus": 255,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": false,
+    "armorWeight": 0,
+    "armorCost": 0,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Padded Armor",
+    "armorType": "Light Armor",
+    "armorClass": 11,
+    "maxDexBonus": 255,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": true,
+    "armorWeight": 8,
+    "armorCost": 5,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Leather Armor",
+    "armorType": "Light Armor",
+    "armorClass": 11,
+    "maxDexBonus": 255,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": false,
+    "armorWeight": 10,
+    "armorCost": 10,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Studded Leather Armor",
+    "armorType": "Light Armor",
+    "armorClass": 12,
+    "maxDexBonus": 255,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": false,
+    "armorWeight": 13,
+    "armorCost": 45,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Hide Armor",
+    "armorType": "Medium Armor",
+    "armorClass": 12,
+    "maxDexBonus": 2,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": false,
+    "armorWeight": 12,
+    "armorCost": 10,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Chain Shirt",
+    "armorType": "Medium Armor",
+    "armorClass": 13,
+    "maxDexBonus": 2,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": false,
+    "armorWeight": 20,
+    "armorCost": 50,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Scale Mail",
+    "armorType": "Medium Armor",
+    "armorClass": 14,
+    "maxDexBonus": 2,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": true,
+    "armorWeight": 45,
+    "armorCost": 50,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Breastplate",
+    "armorType": "Medium Armor",
+    "armorClass": 14,
+    "maxDexBonus": 2,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": false,
+    "armorWeight": 20,
+    "armorCost": 400,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Half Plate Armor",
+    "armorType": "Medium Armor",
+    "armorClass": 15,
+    "maxDexBonus": 2,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": true,
+    "armorWeight": 40,
+    "armorCost": 750,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Ring Mail",
+    "armorType": "Heavy Armor",
+    "armorClass": 14,
+    "maxDexBonus": 0,
+    "minStrengthReq": 0,
+    "stealthDisadvantage": true,
+    "armorWeight": 40,
+    "armorCost": 30,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Chain Mail",
+    "armorType": "Heavy Armor",
+    "armorClass": 16,
+    "maxDexBonus": 0,
+    "minStrengthReq": 13,
+    "stealthDisadvantage": true,
+    "armorWeight": 55,
+    "armorCost": 75,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Splint Armor",
+    "armorType": "Heavy Armor",
+    "armorClass": 17,
+    "maxDexBonus": 0,
+    "minStrengthReq": 15,
+    "stealthDisadvantage": true,
+    "armorWeight": 60,
+    "armorCost": 200,
+    "armorNotes": ""
+  },
+  {
+    "armorName": "Plate Armor",
+    "armorType": "Heavy Armor",
+    "armorClass": 18,
+    "maxDexBonus": 0,
+    "minStrengthReq": 15,
+    "stealthDisadvantage": true,
+    "armorWeight": 65,
+    "armorCost": 1500,
+    "armorNotes": ""
+  }
 ]
