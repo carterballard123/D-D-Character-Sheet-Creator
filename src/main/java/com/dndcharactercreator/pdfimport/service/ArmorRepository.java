@@ -5,13 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Repository
 public class ArmorRepository {
 	 // In-memory map: lowercase name → ArmorData
 	 private final Map<String, ArmorData> byName = new HashMap<>();

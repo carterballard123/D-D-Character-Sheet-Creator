@@ -192,13 +192,23 @@ import java.util.Map;
 	      "choose": 2,
 	      "from": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
 	    }
+	    "startingEquipmentOptions": [
+	    {
+	      "label": "A",
+	      "items": ["Greataxe", "Four Handaxes", "Explorer’s Pack", "15 GP"]
+	    },
+	    {
+	      "label": "B",
+	      "items": ["75 GP"]
+	    }
+	  ]
  */
 
 public class ClassesData {
 	
 	private String classID;
 	private String name;
-	private int hitDie;
+	private Integer hitDie;
 	private String primaryAbility;
 	private Proficiencies proficiencies;
 	private List<StartingEquipmentOptions> startingEquipmentOptions;
@@ -210,8 +220,8 @@ public class ClassesData {
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
 	
-	public int getHitDie() { return hitDie; }
-	public void setHitDie(int hitDie) { this.hitDie = hitDie; }
+	public Integer getHitDie() { return hitDie; }
+	public void setHitDie(Integer hitDie) { this.hitDie = hitDie; }
 	
 	public String getPrimaryAbility() { return primaryAbility; }
 	public void setPrimaryAbility(String primaryAbility) { this.primaryAbility = primaryAbility; }
@@ -226,6 +236,83 @@ public class ClassesData {
 	public void setFeaturesByLevel(Map<String, List<Feature>> featuresByLevel) { this.featuresByLevel = featuresByLevel; }
 	
 	
+	public class Proficiencies {
+		
+		private List<String> armorProficiencies;
+		private List<String> weaponProficiencies;
+		private List<String> toolProficiencies;
+		private List<String> savingThrowProficiencies;
+		private skillChoices skills;
+		
+		public List<String> getArmorProficiencies() { return armorProficiencies; }
+		public void setArmorProficiencies(List<String> armorProficiencies) { this.armorProficiencies = armorProficiencies; }
+		
+		public List<String> getWeaponProficiencies() { return weaponProficiencies; }
+		public void setWeaponProficiencies(List<String> weaponProficiencies) { this.weaponProficiencies = weaponProficiencies; }
+		
+		public List<String> getToolProficiencies() { return toolProficiencies; }
+		public void setToolProficiencies(List<String> toolProficiencies) { this.toolProficiencies = toolProficiencies; }
+		
+		public List<String> getSavingThrowProficiencies() { return savingThrowProficiencies; }
+		public void setSavingThrowProficiencies(List<String> savingThrowProficiencies) { this.savingThrowProficiencies = savingThrowProficiencies; }
+		
+		public skillChoices getSkillChoice() { return skills; }
+		public void setSkillChoices(skillChoices skills) { this.skills = skills; }
+		
+	}
+	
+	public class skillChoices {
+		
+		private Integer choose;
+		private List<String> limitedSkillList;
+		
+		public Integer getChoose() { return choose; }
+		public void setChoose(Integer choose) { this.choose = choose; }
+		
+		public List<String> getLimitedSkillList() { return limitedSkillList; }
+		public void setLimitedSkillList(List<String> limitedSkillList) { this.limitedSkillList = limitedSkillList; }
+		
+	}
+	
+	public class StartingEquipmentOptions {
+		
+		private String label;
+		private List<String> items;
+		
+		public String getLabel() { return label; }
+		public void setLabel(String label) { this.label = label; }
+		
+		public List<String> getItems() { return items; }
+		public void setItems(List<String> items) { this.items = items; }
+		
+	}
+	
+	public class Feature {
+		private String name;
+        private String type;
+        private String description;
+        private Integer uses;
+        private String scalesWith;
+        private Integer diceBonus;
+        
+        public String getName() { return name; }
+		public void setName(String name) { this.name = name; }
+		
+		public String getType() { return type; }
+		public void setType(String type) { this.type = type; }
+		
+		public String getDescription() { return description; }
+		public void setDescription(String description) { this.description = description; }
+		
+		public Integer getUses() { return uses; }
+		public void setUses(Integer uses) { this.uses = uses; }
+		
+		public String getScalesWith() { return scalesWith; }
+		public void setScalesWith(String scalesWith) { this.scalesWith = scalesWith; }
+		
+		public Integer getDiceBonus() { return diceBonus; }
+		public void setDiceBonus(Integer diceBonus) { this.diceBonus = diceBonus; }
+	}
 	
 	
 }

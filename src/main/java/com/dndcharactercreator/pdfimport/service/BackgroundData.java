@@ -1,6 +1,7 @@
 package com.dndcharactercreator.pdfimport.service;
 
 import java.util.List;
+
 /*
  * {
     "name": "Acolyte",
