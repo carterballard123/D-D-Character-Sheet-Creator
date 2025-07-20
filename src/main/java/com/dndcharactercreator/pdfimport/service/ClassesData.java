@@ -288,6 +288,7 @@ public class ClassesData {
 	}
 	
 	public class Feature {
+		
 		private String name;
         private String type;
         private String description;
@@ -312,6 +313,7 @@ public class ClassesData {
 		
 		public Integer getDiceBonus() { return diceBonus; }
 		public void setDiceBonus(Integer diceBonus) { this.diceBonus = diceBonus; }
+		
 	}
 	
 	
