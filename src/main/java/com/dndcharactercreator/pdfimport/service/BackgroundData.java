@@ -31,7 +31,7 @@ import java.util.List;
 public class BackgroundData {
 
     /** JSON “name” field, e.g. “Acolyte” */
-    private String name;
+    private String backgroundName;
 
     /** JSON “abilityScores” array */
     private List<String> abilityScores;
@@ -46,11 +46,11 @@ public class BackgroundData {
     private List<StartingEquipmentOption> startingEquipmentOptions;
 
     public String getName() {
-        return name;
+        return backgroundName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBackGroundName(String backgroundName) {
+        this.backgroundName = backgroundName;
     }
 
     public List<String> getAbilityScores() {
