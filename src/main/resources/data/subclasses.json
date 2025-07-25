@@ -1040,207 +1040,197 @@
 			       }
 			     ]
 			   },
-			   {
-			      "name": "Aberrant Sorcery",
-			      "source": "Player's Handbook 2024",
-			      "description": "Your powers come from an alien influence, warping your mind and magic.",
-			      "features": [
-			        {
-			          "level": 1,
-			          "name": "Aberrant Birth",
-			          "effect": "You gain resistance to psychic damage and can telepathically speak to any creature you can see within 120 feet."
-			        },
-			        {
-			          "level": 6,
-			          "name": "Psionic Sorcery",
-			          "effect": "When you cast a spell with a spell slot, you can spend Sorcery Points instead of verbal, somatic, or material components."
-			        }
-			      ]
-			    },
-			    {
-			      "name": "Clockwork Sorcery",
-			      "source": "Player's Handbook 2024",
-			      "description": "You draw power from order and precision, reflecting the influence of Mechanus.",
-			      "features": [
-			        {
-			          "level": 1,
-			          "name": "Clockwork Magic",
-			          "effect": "You gain additional spells that emphasize control, restoration, and negation of chaos."
-			        },
-			        {
-			          "level": 1,
-			          "name": "Restore Balance",
-			          "effect": "You can negate advantage or disadvantage on a nearby creature's roll as a reaction."
-			        }
-			      ]
-			    },
-			    {
-			      "name": "Draconic Sorcery",
-			      "source": "Player's Handbook 2024",
-			      "description": "Your bloodline is touched by dragonkind, empowering your spells and form.",
-			      "features": [
-			        {
-			          "level": 1,
-			          "name": "Dragon Ancestor",
-			          "effect": "Choose a dragon type. You gain a bonus language and affinity with a damage type."
-			        },
-			        {
-			          "level": 1,
-			          "name": "Draconic Resilience",
-			          "effect": "Your HP increases and your skin gains a protective sheen, increasing your AC."
-			        }
-			      ]
-			    },
-			    {
-			      "name": "Wild Magic Sorcery",
-			      "source": "Player's Handbook 2024",
-			      "description": "Your magic is unpredictable and bursts forth in chaotic surges.",
-			      "features": [
-			        {
-			          "level": 1,
-			          "name": "Wild Magic Surge",
-			          "effect": "When you cast a sorcerer spell of 1st level or higher, the DM can ask you to roll for a random magical effect."
-			        },
-			        {
-			          "level": 1,
-			          "name": "Tides of Chaos",
-			          "effect": "You can gain advantage on one attack roll, ability check, or saving throw. After using, roll for a surge."
-			        }
-			      ]
-			    },
-				{
-				    "name": "The Archfey",
-				    "source": "Player's Handbook 2024",
-				    "description": "Your patron is a lord or lady of the Feywild — whimsical, mysterious, and powerful.",
-				    "features": [
-				      {
-				        "level": 1,
-				        "name": "Fey Presence",
-				        "effect": "You can force creatures in a 10-foot cube to make a Wisdom saving throw or be charmed or frightened (your choice) until the end of your next turn."
-				      },
-				      {
-				        "level": 6,
-				        "name": "Misty Escape",
-				        "effect": "When you take damage, you can use your reaction to turn invisible and teleport up to 60 feet."
-				      }
-				    ]
-				  },
-				  {
-				    "name": "The Celestial",
-				    "source": "Player's Handbook 2024",
-				    "description": "You have forged a pact with a being of the Upper Planes — an angel, unicorn, or ancient spirit of good.",
-				    "features": [
-				      {
-				        "level": 1,
-				        "name": "Healing Light",
-				        "effect": "You gain a pool of d6s equal to 1 + your Warlock level. As a bonus action, you can heal a creature you can see within 60 feet by spending dice from the pool."
-				      },
-				      {
-				        "level": 6,
-				        "name": "Radiant Soul",
-				        "effect": "When you cast a spell that deals radiant or fire damage, you can add your Charisma modifier to one damage roll."
-				      }
-				    ]
-				  },
-				  {
-				    "name": "The Fiend",
-				    "source": "Player's Handbook 2024",
-				    "description": "Your patron is a powerful demon, devil, or similar entity from the Lower Planes.",
-				    "features": [
-				      {
-				        "level": 1,
-				        "name": "Dark One's Blessing",
-				        "effect": "When you reduce a hostile creature to 0 HP, you gain temporary HP equal to your Charisma modifier + Warlock level."
-				      },
-				      {
-				        "level": 6,
-				        "name": "Dark One’s Own Luck",
-				        "effect": "You can add 1d10 to an ability check or saving throw after seeing the roll. Once per short rest."
-				      }
-				    ]
-				  },
-				  {
-				    "name": "The Great Old One",
-				    "source": "Player's Handbook 2024",
-				    "description": "Your patron is a cosmic being of unimaginable power — an ancient entity from the Far Realm.",
-				    "features": [
-				      {
-				        "level": 1,
-				        "name": "Awakened Mind",
-				        "effect": "You can telepathically speak to any creature you can see within 30 feet, regardless of language."
-				      }
-					  },
-				      {
-				        "level": 6,
-				        "name": "Entropic Ward",
-				        "effect": "When a creature makes an attack against you, you can use your reaction to impose disadvantage. If the attack misses, your next attack has advantage."
-				      },
-					    {
-					      "name": "School of Abjuration",
-					      "source": "Player's Handbook 2024",
-					      "description": "Wizards who specialize in protective magic, warding allies and dispelling hostile forces.",
-					      "features": [
-					        {
-					          "level": 2,
-					          "name": "Arcane Ward",
-					          "effect": "When you cast an abjuration spell of 1st level or higher, you create a magical ward that absorbs damage. The ward has HP equal to twice your Wizard level + Int modifier."
-					        },
-					        {
-					          "level": 6,
-					          "name": "Projected Ward",
-					          "effect": "When a creature within 30 feet takes damage, you can use your reaction to absorb that damage with your Arcane Ward."
-					        }
-					      ]
-					    },
-					    {
-					      "name": "School of Divination",
-					      "source": "Player's Handbook 2024",
-					      "description": "Wizards who master foresight and fate, manipulating chance and guiding destiny.",
-					      "features": [
-					        {
-					          "level": 2,
-					          "name": "Portent",
-					          "effect": "After finishing a long rest, roll two d20s and record the numbers. You can replace any attack roll, saving throw, or ability check made by you or a creature you can see with one of these rolls."
-					        },
-					        {
-					          "level": 6,
-					          "name": "Expert Divination",
-					          "effect": "Casting divination spells of 2nd level or higher returns a portion of the spell slot's level as temporary hit points or utility effects (check PHB specifics)."
-					        }
-					      ]
-					    },
-					    {
-					      "name": "School of Evocation",
-					      "source": "Player's Handbook 2024",
-					      "description": "Wizards who focus on destructive elemental magic — fireballs, lightning bolts, and powerful force spells.",
-					      "features": [
-					        {
-					          "level": 2,
-					          "name": "Sculpt Spells",
-					          "effect": "When you cast an evocation spell that affects allies, you can choose a number of them equal to 1 + the spell’s level to automatically succeed on the save and take no damage."
-					        },
-					        {
-					          "level": 6,
-					          "name": "Potent Cantrip",
-					          "effect": "Your damaging cantrips deal half damage to creatures that succeed on saving throws, instead of no damage."
-					        }
-					      ]
-					    },
-					    {
-					      "name": "School of Illusion",
-					      "source": "Player's Handbook 2024",
-					      "description": "Masters of deceptive magic, illusionists trick the senses and confound their enemies with phantasms.",
-					      "features": [
-					        {
-					          "level": 2,
-					          "name": "Improved Minor Illusion",
-					          "effect": "You learn the Minor Illusion cantrip, and you can create both sound and image with a single casting."
-					        },
-					        {
-					          "level": 6,
-					          "name": "Malleable Illusions",
-					          "effect": "When you cast an illusion spell with a duration of 1 minute or longer, you can use your action to change the nature of the illusion within its normal parameters."
-					        }
-					      ]
-					    }
-]
+			   [
+			     {
+			       "name": "Aberrant Sorcery",
+			       "parentClass": "Sorcerer",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Aberrant Birth",
+			           "description": "You gain resistance to psychic damage and can telepathically speak to any creature you can see within 120 feet."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Psionic Sorcery",
+			           "description": "When you cast a spell with a spell slot, you can spend Sorcery Points instead of verbal, somatic, or material components."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "Clockwork Sorcery",
+			       "parentClass": "Sorcerer",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Clockwork Magic",
+			           "description": "You gain additional spells that emphasize control, restoration, and negation of chaos."
+			         },
+			         {
+			           "level": 1,
+			           "name": "Restore Balance",
+			           "description": "You can negate advantage or disadvantage on a nearby creature's roll as a reaction."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "Draconic Sorcery",
+			       "parentClass": "Sorcerer",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Dragon Ancestor",
+			           "description": "Choose a dragon type. You gain a bonus language and affinity with a damage type."
+			         },
+			         {
+			           "level": 1,
+			           "name": "Draconic Resilience",
+			           "description": "Your HP increases and your skin gains a protective sheen, increasing your AC."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "Wild Magic Sorcery",
+			       "parentClass": "Sorcerer",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Wild Magic Surge",
+			           "description": "When you cast a sorcerer spell of 1st level or higher, the DM can ask you to roll for a random magical effect."
+			         },
+			         {
+			           "level": 1,
+			           "name": "Tides of Chaos",
+			           "description": "You can gain advantage on one attack roll, ability check, or saving throw. After using, roll for a surge."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "The Archfey",
+			       "parentClass": "Warlock",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Fey Presence",
+			           "description": "You can force creatures in a 10-foot cube to make a Wisdom saving throw or be charmed or frightened (your choice) until the end of your next turn."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Misty Escape",
+			           "description": "When you take damage, you can use your reaction to turn invisible and teleport up to 60 feet."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "The Celestial",
+			       "parentClass": "Warlock",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Healing Light",
+			           "description": "You gain a pool of d6s equal to 1 + your Warlock level. As a bonus action, you can heal a creature you can see within 60 feet by spending dice from the pool."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Radiant Soul",
+			           "description": "When you cast a spell that deals radiant or fire damage, you can add your Charisma modifier to one damage roll."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "The Fiend",
+			       "parentClass": "Warlock",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Dark One's Blessing",
+			           "description": "When you reduce a hostile creature to 0 HP, you gain temporary HP equal to your Charisma modifier + Warlock level."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Dark One’s Own Luck",
+			           "description": "You can add 1d10 to an ability check or saving throw after seeing the roll. Once per short rest."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "The Great Old One",
+			       "parentClass": "Warlock",
+			       "traits": [
+			         {
+			           "level": 1,
+			           "name": "Awakened Mind",
+			           "description": "You can telepathically speak to any creature you can see within 30 feet, regardless of language."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Entropic Ward",
+			           "description": "When a creature makes an attack against you, you can use your reaction to impose disadvantage. If the attack misses, your next attack has advantage."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "School of Abjuration",
+			       "parentClass": "Wizard",
+			       "traits": [
+			         {
+			           "level": 2,
+			           "name": "Arcane Ward",
+			           "description": "When you cast an abjuration spell of 1st level or higher, you create a magical ward that absorbs damage. The ward has HP equal to twice your Wizard level + Int modifier."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Projected Ward",
+			           "description": "When a creature within 30 feet takes damage, you can use your reaction to absorb that damage with your Arcane Ward."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "School of Divination",
+			       "parentClass": "Wizard",
+			       "traits": [
+			         {
+			           "level": 2,
+			           "name": "Portent",
+			           "description": "After finishing a long rest, roll two d20s and record the numbers. You can replace any attack roll, saving throw, or ability check made by you or a creature you can see with one of these rolls."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Expert Divination",
+			           "description": "Casting divination spells of 2nd level or higher returns a portion of the spell slot's level as temporary hit points or utility effects (check PHB specifics)."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "School of Evocation",
+			       "parentClass": "Wizard",
+			       "traits": [
+			         {
+			           "level": 2,
+			           "name": "Sculpt Spells",
+			           "description": "When you cast an evocation spell that affects allies, you can choose a number of them equal to 1 + the spell’s level to automatically succeed on the save and take no damage."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Potent Cantrip",
+			           "description": "Your damaging cantrips deal half damage to creatures that succeed on saving throws, instead of no damage."
+			         }
+			       ]
+			     },
+			     {
+			       "name": "School of Illusion",
+			       "parentClass": "Wizard",
+			       "traits": [
+			         {
+			           "level": 2,
+			           "name": "Improved Minor Illusion",
+			           "description": "You learn the Minor Illusion cantrip, and you can create both sound and image with a single casting."
+			         },
+			         {
+			           "level": 6,
+			           "name": "Malleable Illusions",
+			           "description": "When you cast an illusion spell with a duration of 1 minute or longer, you can use your action to change the nature of the illusion within its normal parameters."
+			         }
+			       ]
+			     }
+			   ]
