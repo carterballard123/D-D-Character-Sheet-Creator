@@ -59,7 +59,7 @@ public class SubclassesRepository {
      * Convenience trait lookup.
      */
     public Optional<SubclassesData.Trait> findTrait(String subclassName, int level, String traitName) {
-        return findByName(subclassName).stream().flatMap(sc -> sc.getTrait().stream()).filter(t -> t.getLevel() == level && (traitName == null || t.getName().equalsIgnoreCase(traitName))).findFirst();
+        return findByName(subclassName).stream().flatMap(sc -> sc.getTraits().stream()).filter(t -> t.getLevel() == level && (traitName == null || t.getName().equalsIgnoreCase(traitName))).findFirst();
     }
     
 	 private static class Multimap<K, V> {

@@ -1,6 +1,6 @@
 [
 	{
-	  "classId": "barbarian",
+	  "classID": "barbarian",
 	  "name": "Barbarian",
 	  "hitDie": 12,
 	  "primaryAbility": "Strength",
@@ -175,7 +175,7 @@
 	  }
 	},
 	{
-	  "classId": "bard",
+	  "classID": "bard",
 	  "name": "Bard",
 	  "hitDie": 8,
 	  "primaryAbility": "Charisma",
@@ -358,7 +358,7 @@
 	  }
 	},
 	{
-	  "classId": "cleric",
+	  "classID": "cleric",
 	  "name": "Cleric",
 	  "hitDie": 8,
 	  "primaryAbility": "Wisdom",
@@ -511,7 +511,7 @@
 	  }
 	},
 	{
-	  "classId": "druid",
+	  "classID": "druid",
 	  "name": "Druid",
 	  "hitDie": 8,
 	  "primaryAbility": "Wisdom",
@@ -649,7 +649,7 @@
 	  }
 	},
 {
-  "classId": "fighter",
+  "classID": "fighter",
   "name": "Fighter",
   "hitDie": 10,
   "primaryAbility": "Strength",
@@ -816,7 +816,7 @@
   }
 },
 {
-  "classId": "monk",
+  "classID": "monk",
   "name": "Monk",
   "hitDie": 8,
   "primaryAbility": "Dexterity and Wisdom",
@@ -1038,7 +1038,7 @@
   }
 },
 {
-  "classId": "paladin",
+  "classID": "paladin",
   "name": "Paladin",
   "hitDie": 10,
   "primaryAbility": "Charisma and Strength",
@@ -1194,7 +1194,7 @@
   }
 },
 {
-  "classId": "ranger",
+  "classID": "ranger",
   "name": "Ranger",
   "hitDie": 10,
   "primaryAbility": "Dexterity and Wisdom",
@@ -1362,7 +1362,7 @@
   }
 },
 {
-  "classId": "rogue",
+  "classID": "rogue",
   "name": "Rogue",
   "hitDie": 8,
   "primaryAbility": "Dexterity",
@@ -1570,7 +1570,7 @@
   }
 },
 {
-  "classId": "sorcerer",
+  "classID": "sorcerer",
   "name": "Sorcerer",
   "hitDie": 6,
   "primaryAbility": "Charisma",
@@ -1795,7 +1795,7 @@
   }
 },
 {
-  "classId": "warlock",
+  "classID": "warlock",
   "name": "Warlock",
   "hitDie": 8,
   "primaryAbility": "Charisma",
@@ -1939,7 +1939,7 @@
   }
 },
 {
-  "classId": "wizard",
+  "classID": "wizard",
   "name": "Wizard",
   "hitDie": 6,
   "primaryAbility": "Intelligence",

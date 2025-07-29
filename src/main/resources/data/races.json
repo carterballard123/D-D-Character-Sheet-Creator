@@ -428,7 +428,7 @@
 			        "description": "You gain an orgin feat of your choice.",
 			        "type": "choice",
 			        "options": {
-			        "choose": 1,
+			        "choose": 1
 			        }
 			      }
 			    ]

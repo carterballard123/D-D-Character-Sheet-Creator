@@ -1,16 +1,8 @@
 package com.dndcharactercreator.pdfimport.service;
 
-/*
- * "name": "Padded Armor",
-	    "type": "Light Armor",
-	    "baseAc": 11,
-	    "maxDexBonus": 255,
-	    "minStrength": 0,
-	    "stealthDisadvantage": true,
-	    "weightLbs": 8,
-	    "costGp": 5,
-	    "notes": ""
- */
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmorData {
 	String armorName;
 	String armorType;

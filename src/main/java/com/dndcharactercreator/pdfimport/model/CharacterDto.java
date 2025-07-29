@@ -29,6 +29,7 @@ public class CharacterDto {
 	@Size(max = 3, message = "You can choose a maximum of 3 weapons")
 	private List<String> characterWeapons;
 	private String characterArmorName;
+	private String characterShield;
 	
 	@NotNull
 	@Min(1) @Max(30)
@@ -61,6 +62,7 @@ public class CharacterDto {
 	public Integer getCharacterExperiencePoints() { return characterExperiencePoints; }
 	public List<String> getCharacterWeapons() { return characterWeapons; }
 	public String getCharacterArmor() { return characterArmorName; }
+	public String getCharacterShield() { return characterShield; }
 	public Integer getCharacterStrength() { return characterStrength; }
 	public Integer getCharacterDexterity() { return characterDexterity; }
 	public Integer getCharacterConstitution() { return characterConstitution; }
@@ -80,6 +82,7 @@ public class CharacterDto {
 	public void setCharacterExperiencePoints(Integer characterExperiencePoints) { this.characterExperiencePoints = characterExperiencePoints; }
 	public void setCharacterWeapons(List<String> characterWeapons) { this.characterWeapons = characterWeapons; }
 	public void setCharacterArmor(String characterArmor) { this.characterArmorName = characterArmor; }
+	public void setCharacterHasShield(String characterShield) { this.characterShield = characterShield; }
 	public void setCharacterStrength(Integer characterStrength) { this.characterStrength = characterStrength; }
 	public void setCharacterDexterity(Integer characterDexterity) { this.characterDexterity = characterDexterity; }
 	public void setCharacterConstitution(Integer characterConstitution) { this.characterConstitution = characterConstitution; }

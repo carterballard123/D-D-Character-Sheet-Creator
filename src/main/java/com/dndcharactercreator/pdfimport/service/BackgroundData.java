@@ -2,36 +2,13 @@ package com.dndcharactercreator.pdfimport.service;
 
 import java.util.List;
 
-/*
- * {
-    "name": "Acolyte",
-    "abilityScores": ["Intelligence", "Wisdom", "Charisma"],
-    "feat": "Magic Initiate (Cleric)",
-    "skillProficiencies": ["Insight", "Religion"],
-    "startingEquipmentOptions": [
-      {
-        "label": "A",
-        "items": [
-          "Holy Symbol",
-          "Prayer Book",
-          "5 sticks of incense",
-          "Vestments",
-          "Common clothes",
-          "Pouch (15 gp)"
-        ]
-      },
-      {
-        "label": "B",
-        "items": []
-      }
-    ]
-  }
- */
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BackgroundData {
 
     /** JSON “name” field, e.g. “Acolyte” */
-    private String backgroundName;
+    private String name;
 
     /** JSON “abilityScores” array */
     private List<String> abilityScores;
@@ -46,11 +23,11 @@ public class BackgroundData {
     private List<StartingEquipmentOption> startingEquipmentOptions;
 
     public String getName() {
-        return backgroundName;
+        return name;
     }
 
-    public void setBackGroundName(String backgroundName) {
-        this.backgroundName = backgroundName;
+    public void setBackGroundName(String name) {
+        this.name = name;
     }
 
     public List<String> getAbilityScores() {
@@ -89,6 +66,7 @@ public class BackgroundData {
      * Represents one of the “startingEquipmentOptions” entries,
      * with a label (“A” or “B”) and the list of item strings.
      */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class StartingEquipmentOption {
         private String label;
         private List<String> items;
