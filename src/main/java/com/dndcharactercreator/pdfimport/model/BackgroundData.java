@@ -1,4 +1,4 @@
-package com.dndcharactercreator.pdfimport.service;
+package com.dndcharactercreator.pdfimport.model;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class BackgroundData {
         return name;
     }
 
-    public void setBackGroundName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

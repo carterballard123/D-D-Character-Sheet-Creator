@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.dndcharactercreator.pdfimport.repository.LanguagesRepository;
+
 import java.util.List;
 import java.util.Optional;
 

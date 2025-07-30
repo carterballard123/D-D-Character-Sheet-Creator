@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.dndcharactercreator.pdfimport.model.BackgroundData;
+import com.dndcharactercreator.pdfimport.repository.BackgroundRepository;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

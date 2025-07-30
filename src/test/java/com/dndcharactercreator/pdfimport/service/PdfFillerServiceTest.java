@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 
 import java.nio.file.Files;
@@ -25,8 +24,7 @@ class PdfFillerServiceTest {
 
     @Autowired
     private PdfFillerService pdfFillerService;
-
-    @MockBean
+    
     private CharacterMathService math;
 
     private int templatePageCount;

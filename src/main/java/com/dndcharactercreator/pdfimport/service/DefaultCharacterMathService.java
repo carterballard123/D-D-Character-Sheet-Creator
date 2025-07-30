@@ -2,6 +2,13 @@ package com.dndcharactercreator.pdfimport.service;
 
 import org.springframework.stereotype.Service;
 
+import com.dndcharactercreator.pdfimport.model.ArmorData;
+import com.dndcharactercreator.pdfimport.model.ClassesData;
+import com.dndcharactercreator.pdfimport.model.ShieldData;
+import com.dndcharactercreator.pdfimport.repository.ArmorRepository;
+import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
+import com.dndcharactercreator.pdfimport.repository.ShieldRepository;
+
 @Service
 public class DefaultCharacterMathService implements CharacterMathService {
 	private final ClassesRepository classesRepo;

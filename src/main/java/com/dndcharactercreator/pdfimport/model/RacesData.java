@@ -1,4 +1,4 @@
-package com.dndcharactercreator.pdfimport.service;
+package com.dndcharactercreator.pdfimport.model;
 
 import java.util.List;
 

@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.dndcharactercreator.pdfimport.model.ArmorData;
+import com.dndcharactercreator.pdfimport.repository.ArmorRepository;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,10 +34,10 @@ class ArmorRepositoryTest {
     @Test
     void findByName_knownName_shouldReturnData() {
         // Grab the first entry’s name
-        String firstName = armorRepository.findAll().get(0).getArmorName();
+        String firstName = armorRepository.findAll().get(0).getName();
         ArmorData data = armorRepository.findByName(firstName);
         assertNotNull(data, "findByName(known) should not return null");
-        assertEquals(firstName, data.getArmorName(), "Returned armor should have matching name");
+        assertEquals(firstName, data.getName(), "Returned armor should have matching name");
     }
 
     @Test
@@ -46,10 +49,10 @@ class ArmorRepositoryTest {
     @Test
     void findByName_caseInsensitiveLookup() {
         // Use uppercase / mixed case to verify case-insensitivity
-        String firstName = armorRepository.findAll().get(0).getArmorName();
+        String firstName = armorRepository.findAll().get(0).getName();
         String altCase = firstName.toUpperCase();
         ArmorData data = armorRepository.findByName(altCase);
         assertNotNull(data, "Lookup should be case-insensitive");
-        assertEquals(firstName, data.getArmorName());
+        assertEquals(firstName, data.getName());
     }
 }

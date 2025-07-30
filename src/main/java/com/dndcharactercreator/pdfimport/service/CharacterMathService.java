@@ -1,7 +1,5 @@
 package com.dndcharactercreator.pdfimport.service;
 
-import com.dndcharactercreator.pdfimport.model.CharacterDto;
-
 public interface CharacterMathService {
 	int computeModifier(int score);
 	int computeProficiency(int level);

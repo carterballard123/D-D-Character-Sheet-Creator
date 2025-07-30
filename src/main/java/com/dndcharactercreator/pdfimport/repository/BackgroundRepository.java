@@ -1,5 +1,6 @@
-package com.dndcharactercreator.pdfimport.service;
+package com.dndcharactercreator.pdfimport.repository;
 
+import com.dndcharactercreator.pdfimport.model.BackgroundData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;

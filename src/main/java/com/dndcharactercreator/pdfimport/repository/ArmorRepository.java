@@ -1,10 +1,10 @@
-package com.dndcharactercreator.pdfimport.service;
+package com.dndcharactercreator.pdfimport.repository;
 
+import com.dndcharactercreator.pdfimport.model.ArmorData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.io.InputStream;
@@ -33,7 +33,7 @@ public class ArmorRepository {
 	    
 	    // 3) Populate our map for quick lookups:
 	    for (ArmorData a : list) {
-	        byName.put(a.getArmorName().toLowerCase(), a);
+	        byName.put(a.getName().toLowerCase(), a);
 	    }
 	}
 	

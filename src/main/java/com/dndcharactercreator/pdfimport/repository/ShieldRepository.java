@@ -1,5 +1,6 @@
-package com.dndcharactercreator.pdfimport.service;
+package com.dndcharactercreator.pdfimport.repository;
 
+import com.dndcharactercreator.pdfimport.model.ShieldData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -30,8 +31,8 @@ public class ShieldRepository {
 		return shields.get(name.toLowerCase(Locale.ROOT));
 	}
 	
-	public List<String> findAllNames() {
-		return new ArrayList<>(shields.keySet());
+	public List<ShieldData> findAll() {
+	    return new ArrayList<>(shields.values());
 	}
 	
 }

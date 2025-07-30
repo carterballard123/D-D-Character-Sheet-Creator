@@ -1,4 +1,4 @@
-package com.dndcharactercreator.pdfimport.service;
+package com.dndcharactercreator.pdfimport.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -15,8 +15,8 @@ public class ArmorData {
 	String armorNotes;
 	
 	// getters & setters
-	public String getArmorName() { return armorName; }
-	public void setArmorName(String armorName) { this.armorName = armorName; }
+	public String getName() { return armorName; }
+	public void setName(String armorName) { this.armorName = armorName; }
 	
 	public String getArmorType() { return armorType; }
 	public void setArmorType(String armorType) { this.armorType = armorType; }
