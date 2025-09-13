@@ -1,17 +1,27 @@
 package com.dndcharactercreator.pdfimport.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmorData {
+	@JsonProperty("armorName")
 	String armorName;
+	@JsonProperty("armorType")
 	String armorType;
+	@JsonProperty("baseArmorClass")
 	int baseArmorClass;
+	@JsonProperty("maxDexBonus")
 	int maxDexBonus;
+	@JsonProperty("minStrengthReq")
 	int minStrengthReq;
+	@JsonProperty("stealthDisadvantage")
 	boolean stealthDisadvantage;
+	@JsonProperty("armorWeight")
 	int armorWeight;
+	@JsonProperty("armorCost")
 	int armorCost;
+	@JsonProperty("armorNotes")
 	String armorNotes;
 	
 	// getters & setters

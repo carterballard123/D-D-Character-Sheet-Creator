@@ -32,7 +32,8 @@ public class ReferenceController {
 	 private final SkillsRepository skillsRepo;
 	 private final SubclassesRepository subclassesRepo;
 	 
-	 public ReferenceController(RacesRepository racesRepo, ArmorRepository armorRepo, ShieldRepository shieldRepo, BackgroundRepository backgroundRepo, ClassesRepository classesRepo, LanguagesRepository languagesRepo, SkillsRepository skillsRepo, SubclassesRepository subclassesRepo) {
+	 public ReferenceController(RacesRepository racesRepo, ArmorRepository armorRepo, ShieldRepository shieldRepo, 
+			 BackgroundRepository backgroundRepo, ClassesRepository classesRepo, LanguagesRepository languagesRepo, SkillsRepository skillsRepo, SubclassesRepository subclassesRepo) {
 		 this.armorRepo = armorRepo;
 		 this.backgroundRepo = backgroundRepo;
 		 this.classesRepo = classesRepo;

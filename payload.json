@@ -1,0 +1,18 @@
+{
+  "characterName": "Test",
+  "characterClass": "Fighter",
+  "characterLevel": 3,
+
+  "characterBackground": "Soldier",
+  "characterRace": "Human",
+  "characterAlignment": "Neutral Good",
+
+  "characterStrength": 15,
+  "characterDexterity": 14,
+  "characterConstitution": 16,
+  "characterIntelligence": 10,
+  "characterWisdom": 12,
+  "characterCharisma": 8,
+
+  "armorName": "Leather Armor"
+}
