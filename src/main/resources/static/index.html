@@ -79,6 +79,18 @@
             </select>
           </div>
 
+		  <!-- Ability Scores Mode -->
+		  <div>
+		    <label>Ability Scores Mode</label>
+		    <div class="pillbox" id="abilityModeGroup" role="radiogroup" aria-label="Ability Scores Mode">
+		      <label class="pill"><input type="radio" name="abilityMode" value="free" checked> Free</label>
+		      <label class="pill"><input type="radio" name="abilityMode" value="pointbuy"> Point Buy (27)</label>
+		      <label class="pill"><input type="radio" name="abilityMode" value="roll"> Roll (4d6 drop lowest)</label>
+		    </div>
+		    <div id="abilityHint" class="hint"></div>
+		    <div id="rollUI" class="hint"></div>
+		  </div>
+
           <div class="grid-3">
             <div><label for="characterStrength">STR</label><input id="characterStrength" name="characterStrength" type="number" min="1" max="30" value="15" required /></div>
             <div><label for="characterDexterity">DEX</label><input id="characterDexterity" name="characterDexterity" type="number" min="1" max="30" value="14" required /></div>
