@@ -232,15 +232,15 @@ async function loadAlignments() {
       .join('');
   } catch (e) {
     const tokens = [
-      'LAWFUL_GOOD',
-      'NEUTRAL_GOOD',
-      'CHAOTIC_GOOD',
-      'LAWFUL_NEUTRAL',
-      'NEUTRAL',
-      'CHAOTIC_NEUTRAL',
-      'LAWFUL_EVIL',
-      'NEUTRAL_EVIL',
-      'CHAOTIC_EVIL',
+      'Lawful Good',
+      'Neutral Good',
+      'Chaotic Good',
+      'Lawful Neutral',
+      'Neutral',
+      'Chaotic Neutral',
+      'Lawful Evil',
+      'Neutral Evil',
+      'Chaotic Evil',
     ];
     const items = tokens.map((x) => ({ label: prettyEnum(x), value: x }));
     $('characterAlignment').innerHTML = ['<option value="" selected disabled hidden>Select alignment</option>']
@@ -507,7 +507,15 @@ form.addEventListener('submit', async (e) => {
   payload.languages = getChecked('languages');
   payload.skills = getChecked('skills');
   payload.mode = modeValue();
-
+  // DEBUG: confirm armor/shield are being sent
+   console.log('[submit] payload preview', {
+     // if you changed your <select name="..."> to match the DTO:
+     characterArmor: payload.characterArmor,
+     characterShield: payload.characterShield,
+     // if you’re still using armorName/shieldName in the form:
+     armorName: payload.armorName,
+     shieldName: payload.shieldName
+   });
   try {
     const res = await fetch('/api/pdf/fill', {
       method: 'POST',

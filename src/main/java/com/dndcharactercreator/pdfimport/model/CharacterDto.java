@@ -30,6 +30,10 @@ public class CharacterDto {
 	private List<String> characterWeapons;
 	private String characterArmorName;
 	private String characterShield;
+	private Integer characterInitiative;
+	private Integer characterSpeed;
+	private String characterHitDice;
+	private List<String> characterLanguages;
 	
 	@NotNull
 	@Min(1) @Max(30)
@@ -63,6 +67,10 @@ public class CharacterDto {
 	public List<String> getCharacterWeapons() { return characterWeapons; }
 	public String getCharacterArmor() { return characterArmorName; }
 	public String getCharacterShield() { return characterShield; }
+	public Integer getCharacterInitiative() { return characterInitiative; }
+	public Integer getCharacterSpeed() { return characterSpeed; }
+	public String getCharacterHitDice() { return characterHitDice; }
+	public List<String> getCharacterLanguages() { return characterLanguages; }
 	public Integer getCharacterStrength() { return characterStrength; }
 	public Integer getCharacterDexterity() { return characterDexterity; }
 	public Integer getCharacterConstitution() { return characterConstitution; }
@@ -83,6 +91,10 @@ public class CharacterDto {
 	public void setCharacterWeapons(List<String> characterWeapons) { this.characterWeapons = characterWeapons; }
 	public void setCharacterArmor(String characterArmor) { this.characterArmorName = characterArmor; }
 	public void setCharacterHasShield(String characterShield) { this.characterShield = characterShield; }
+	public void setCharacterInitiative(Integer characterInitiative) { this.characterInitiative = characterInitiative; }
+	public void setCharacterSpeed(Integer characterSpeed) { this.characterSpeed = characterSpeed; }
+	public void setCharacterHitDice(String characterHitDice) { this.characterHitDice = characterHitDice; }
+	public void setCharacterLanguages(List<String> characterLanguages) {this.characterLanguages = characterLanguages; }
 	public void setCharacterStrength(Integer characterStrength) { this.characterStrength = characterStrength; }
 	public void setCharacterDexterity(Integer characterDexterity) { this.characterDexterity = characterDexterity; }
 	public void setCharacterConstitution(Integer characterConstitution) { this.characterConstitution = characterConstitution; }
