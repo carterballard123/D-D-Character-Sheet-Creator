@@ -1,6 +1,10 @@
 package com.dndcharactercreator.pdfimport.service;
 
 import com.dndcharactercreator.pdfimport.model.CharacterDto;
+import com.dndcharactercreator.pdfimport.model.ClassesData;
+// import com.dndcharactercreator.pdfimport.model.RacesData;
+import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
+import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class PdfFillerService {
@@ -20,10 +26,15 @@ public class PdfFillerService {
     private static final Logger log = LoggerFactory.getLogger(PdfFillerService.class);
     
     private final CharacterMathService math;
+    private final RacesRepository racesRepo;
+    private final ClassesRepository classesRepo;
     
-    public PdfFillerService(CharacterMathService math) {
+    public PdfFillerService(CharacterMathService math, RacesRepository racesRepo, ClassesRepository classesRepo) {
         this.math = math;
+        this.racesRepo = racesRepo;
+        this.classesRepo = classesRepo;
     }
+    
     /**
      * Loads the fillable PDF from classpath, populates both raw and computed fields,
      * then returns the finished PDF as a byte array.
@@ -51,6 +62,9 @@ public class PdfFillerService {
             fillProficiencyMod(form, dto);
             fillHP(form, dto);
             fillAC(form, dto);
+            fillSpeed(form, dto);
+            fillInitiative(form, dto);
+            fillHitDie(form, dto);
 
             // 4) Serialize and return
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -114,59 +128,61 @@ public class PdfFillerService {
         setField(form, "CHA", String.valueOf(CHA));
 
         // Ability modifiers
-        setField(form, "STRmod", String.valueOf(math.computeModifier(STR)));
-        setField(form, "DEXmod ",String.valueOf(math.computeModifier(DEX))); // trailing space
-        setField(form, "CONmod", String.valueOf(math.computeModifier(CON)));
-        setField(form, "INTmod", String.valueOf(math.computeModifier(INT)));
-        setField(form, "WISmod", String.valueOf(math.computeModifier(WIS)));
-        setField(form, "CHamod", String.valueOf(math.computeModifier(CHA)));
+        setField(form, "STRmod", fmtSigned(math.computeModifier(STR)));
+        setField(form, "DEXmod ",fmtSigned(math.computeModifier(DEX))); // trailing space
+        setField(form, "CONmod", fmtSigned(math.computeModifier(CON)));
+        setField(form, "INTmod", fmtSigned(math.computeModifier(INT)));
+        setField(form, "WISmod", fmtSigned(math.computeModifier(WIS)));
+        setField(form, "CHamod", fmtSigned(math.computeModifier(CHA)));
 
         // Saving throws (using raw modifiers for now
-        setField(form, "ST Strength",     String.valueOf(math.computeModifier(STR)));
-        setField(form, "ST Dexterity",    String.valueOf(math.computeModifier(DEX)));
-        setField(form, "ST Constitution", String.valueOf(math.computeModifier(CON)));
-        setField(form, "ST Intelligence", String.valueOf(math.computeModifier(INT)));
-        setField(form, "ST Wisdom",       String.valueOf(math.computeModifier(WIS)));
-        setField(form, "ST Charisma",     String.valueOf(math.computeModifier(CHA)));
+        setField(form, "ST Strength",     fmtSigned(math.computeModifier(STR)));
+        setField(form, "ST Dexterity",    fmtSigned(math.computeModifier(DEX)));
+        setField(form, "ST Constitution", fmtSigned(math.computeModifier(CON)));
+        setField(form, "ST Intelligence", fmtSigned(math.computeModifier(INT)));
+        setField(form, "ST Wisdom",       fmtSigned(math.computeModifier(WIS)));
+        setField(form, "ST Charisma",     fmtSigned(math.computeModifier(CHA)));
 
         // Skills (no proficiency bonus applied yet
-        setField(form, "Acrobatics",      String.valueOf(math.computeModifier(DEX)));
-        setField(form, "Animal",          String.valueOf(math.computeModifier(WIS)));
-        setField(form, "Arcana",          String.valueOf(math.computeModifier(INT)));
-        setField(form, "Athletics",       String.valueOf(math.computeModifier(STR)));
-        setField(form, "Deception ",      String.valueOf(math.computeModifier(CHA))); // trailing space
-        setField(form, "History ",        String.valueOf(math.computeModifier(INT))); // trailing space
-        setField(form, "Insight",         String.valueOf(math.computeModifier(WIS)));
-        setField(form, "Intimidation",    String.valueOf(math.computeModifier(CHA)));
-        setField(form, "Investigation ",  String.valueOf(math.computeModifier(INT))); // trailing space
-        setField(form, "Medicine",        String.valueOf(math.computeModifier(WIS)));
-        setField(form, "Nature",          String.valueOf(math.computeModifier(INT)));
-        setField(form, "Perception ",     String.valueOf(math.computeModifier(WIS))); // trailing space
-        setField(form, "Performance",     String.valueOf(math.computeModifier(CHA)));
-        setField(form, "Persuasion",      String.valueOf(math.computeModifier(CHA)));
-        setField(form, "Religion",        String.valueOf(math.computeModifier(INT)));
-        setField(form, "SleightofHand",   String.valueOf(math.computeModifier(DEX)));
-        setField(form, "Stealth ",        String.valueOf(math.computeModifier(DEX))); // trailing space
-        setField(form, "Survival",        String.valueOf(math.computeModifier(WIS)));
+        setField(form, "Acrobatics",      fmtSigned(math.computeModifier(DEX)));
+        setField(form, "Animal",          fmtSigned(math.computeModifier(WIS)));
+        setField(form, "Arcana",          fmtSigned(math.computeModifier(INT)));
+        setField(form, "Athletics",       fmtSigned(math.computeModifier(STR)));
+        setField(form, "Deception ",      fmtSigned(math.computeModifier(CHA))); // trailing space
+        setField(form, "History ",        fmtSigned(math.computeModifier(INT))); // trailing space
+        setField(form, "Insight",         fmtSigned(math.computeModifier(WIS)));
+        setField(form, "Intimidation",    fmtSigned(math.computeModifier(CHA)));
+        setField(form, "Investigation ",  fmtSigned(math.computeModifier(INT))); // trailing space
+        setField(form, "Medicine",        fmtSigned(math.computeModifier(WIS)));
+        setField(form, "Nature",          fmtSigned(math.computeModifier(INT)));
+        setField(form, "Perception ",     fmtSigned(math.computeModifier(WIS))); // trailing space
+        setField(form, "Performance",     fmtSigned(math.computeModifier(CHA)));
+        setField(form, "Persuasion",      fmtSigned(math.computeModifier(CHA)));
+        setField(form, "Religion",        fmtSigned(math.computeModifier(INT)));
+        setField(form, "SleightofHand",   fmtSigned(math.computeModifier(DEX)));
+        setField(form, "Stealth ",        fmtSigned(math.computeModifier(DEX))); // trailing space
+        setField(form, "Survival",        fmtSigned(math.computeModifier(WIS)));
     }
 
    
     // Fills the proficiency bonus field from character level.
     private void fillProficiencyMod(PDAcroForm form, CharacterDto dto) throws Exception {
-        setField(form, "ProfBonus", String.valueOf(math.computeProficiency(dto.getCharacterLevel())));
+        setField(form, "ProfBonus", fmtSigned(math.computeProficiency(dto.getCharacterLevel())));
     }
 
     private void fillHP(PDAcroForm form, CharacterDto dto) throws Exception {	
         int conMod = math.computeModifier(dto.getCharacterConstitution());
         int maxHP = math.computeMaxHP(dto.getCharacterClass(), dto.getCharacterLevel(), conMod);
 
-        System.out.printf(">>> fillHP: class=%s, level=%d, conMod=%d%n",
-                dto.getCharacterClass(), dto.getCharacterLevel(), conMod);
+        // System.out.printf(">>> fillHP: class=%s, level=%d, conMod=%d%n", dto.getCharacterClass(), dto.getCharacterLevel(), conMod);
         setField(form, "HPMax", String.valueOf(maxHP));
-        System.out.printf(">>> computed maxHP = %d%n", maxHP);
+        // System.out.printf(">>> computed maxHP = %d%n", maxHP);
     }
     
     private void fillAC(PDAcroForm form, CharacterDto dto) throws Exception {
+    	
+    	// System.out.printf("DTO armor='%s', shield='%s'%n", dto.getCharacterArmor(), dto.getCharacterShield());
+
         int dexMod = math.computeModifier(dto.getCharacterDexterity());
         int conMod = math.computeModifier(dto.getCharacterConstitution());
         int wisMod = math.computeModifier(dto.getCharacterWisdom());
@@ -176,6 +192,53 @@ public class PdfFillerService {
         
         setField(form, "AC", String.valueOf(AC));
     }
+    
+    private void fillSpeed(PDAcroForm form, CharacterDto dto) throws Exception {
+        Integer speed = dto.getCharacterSpeed(); // use what the client sent (if any)
 
+        if (speed == null) {
+            String raceName = dto.getCharacterRace();
+            if (raceName != null && !raceName.isBlank()) {
+                var race = racesRepo.findByName(raceName); // adjust if your repo returns Optional
+                if (race != null) {
+                    speed = race.getSpeed(); // direct from JSON/model
+                }
+            }
+        }
 
+        if (speed != null) {
+            setField(form, "Speed", String.valueOf(speed)); // PDF field is "Speed"
+        }
+    }
+    
+    private void fillInitiative(PDAcroForm form, CharacterDto dto) throws Exception {
+    	int dexMod = math.computeModifier(dto.getCharacterDexterity());
+    	setField(form, "Initiative", fmtSigned(dexMod));
+    }
+    
+    private void fillHitDie(PDAcroForm form, CharacterDto dto) throws Exception {
+    	
+        String raw = dto.getCharacterClass();
+        if (raw == null || raw.isBlank()) return;
+
+        String key = raw.trim().toLowerCase(java.util.Locale.ROOT);
+
+        java.util.Optional<com.dndcharactercreator.pdfimport.model.ClassesData> clsOpt = classesRepo.findByID(key);
+
+        if (clsOpt.isEmpty()) return;
+        
+        var cls = clsOpt.get();
+
+        int die = cls.getHitDie();
+        int level = Math.max(1, dto.getCharacterLevel());
+        String dice = level + "d" + die;
+
+        setField(form, "HDTotal", dice);
+    }
+    
+    private static String fmtSigned(Integer i) {
+    	if (i == null) return "";
+    	if(i >= 0) return "+" + String.valueOf(i);
+    	else return String.valueOf(i);
+    }
 }
