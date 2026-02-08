@@ -33,7 +33,7 @@ public class ArmorRepository {
 	    
 	    // 3) Populate our map for quick lookups:
 	    for (ArmorData a : list) {
-	        byName.put(a.getName().toLowerCase(), a);
+	        byName.put(a.getArmorName().toLowerCase(), a);
 	    }
 	}
 	

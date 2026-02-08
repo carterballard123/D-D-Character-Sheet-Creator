@@ -79,7 +79,7 @@ class PdfFillerServiceTest {
         dto.setCharacterCharisma(13);
         dto.setCharacterSubClass("Champion");
         dto.setCharacterArmor("Chain Mail");
-        dto.setCharacterHasShield("Shield");
+        dto.setCharacterShield("Shield");
 
         // --- fill the PDF ---
         byte[] pdfBytes = pdfFillerService.fill(dto);

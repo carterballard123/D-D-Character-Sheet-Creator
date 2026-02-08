@@ -34,10 +34,10 @@ class ArmorRepositoryTest {
     @Test
     void findByName_knownName_shouldReturnData() {
         // Grab the first entry’s name
-        String firstName = armorRepository.findAll().get(0).getName();
+        String firstName = armorRepository.findAll().get(0).getArmorName();
         ArmorData data = armorRepository.findByName(firstName);
         assertNotNull(data, "findByName(known) should not return null");
-        assertEquals(firstName, data.getName(), "Returned armor should have matching name");
+        assertEquals(firstName, data.getArmorName(), "Returned armor should have matching name");
     }
 
     @Test
@@ -49,10 +49,10 @@ class ArmorRepositoryTest {
     @Test
     void findByName_caseInsensitiveLookup() {
         // Use uppercase / mixed case to verify case-insensitivity
-        String firstName = armorRepository.findAll().get(0).getName();
+        String firstName = armorRepository.findAll().get(0).getArmorName();
         String altCase = firstName.toUpperCase();
         ArmorData data = armorRepository.findByName(altCase);
         assertNotNull(data, "Lookup should be case-insensitive");
-        assertEquals(firstName, data.getName());
+        assertEquals(firstName, data.getArmorName());
     }
 }

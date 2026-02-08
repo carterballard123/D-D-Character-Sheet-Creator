@@ -1,7 +1,7 @@
 package com.dndcharactercreator.pdfimport.service;
 
 import com.dndcharactercreator.pdfimport.model.CharacterDto;
-import com.dndcharactercreator.pdfimport.model.ClassesData;
+// import com.dndcharactercreator.pdfimport.model.ClassesData;
 // import com.dndcharactercreator.pdfimport.model.RacesData;
 import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
 import com.dndcharactercreator.pdfimport.repository.RacesRepository;
@@ -16,9 +16,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
-import java.util.Optional;
+// import java.util.Locale;
+// import java.util.Optional;
 
 @Service
 public class PdfFillerService {
@@ -65,6 +66,7 @@ public class PdfFillerService {
             fillSpeed(form, dto);
             fillInitiative(form, dto);
             fillHitDie(form, dto);
+            fillLanguages(form, dto);
 
             // 4) Serialize and return
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -77,7 +79,7 @@ public class PdfFillerService {
      * Helper to set a single text field. Logs a warning if the field name is not found,
      * or if the provided value is null/empty (in which case it writes an empty string).
      */
-    private void setField(PDAcroForm form, String name, String value) throws Exception {
+    private static void setField(PDAcroForm form, String name, String value) throws Exception {
         PDField field = form.getField(name);
         if (field == null) {
             log.warn("No field named \"{}\" found in PDF.", name);
@@ -241,4 +243,22 @@ public class PdfFillerService {
     	if(i >= 0) return "+" + String.valueOf(i);
     	else return String.valueOf(i);
     }
+    
+    private void fillLanguages(PDAcroForm form, CharacterDto dto) throws Exception {
+        var langs = dto.getCharacterLanguages();
+        var unique = new java.util.LinkedHashSet<String>();
+        if (langs != null) {
+            for (var s : langs) {
+                if (s == null) continue;
+                var t = s.trim();
+                if (!t.isEmpty()) unique.add(t);
+            }
+        }
+        setField(form, "ProficienciesLang", "Languages: " + String.join(", ", unique));
+    }
+    
+    private static void checkSavingThrowBoxes(PDAcroForm form, CharacterDto dto) throws Exception {
+    	
+    }
+    
 }

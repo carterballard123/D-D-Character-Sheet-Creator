@@ -73,16 +73,16 @@ public class DefaultCharacterMathService implements CharacterMathService {
 			} else {
 				switch (armor.getArmorType().toLowerCase()) {
 					case "heavy armor":
-						baseAC = armor.getArmorClass();
+						baseAC = armor.getBaseArmorClass();
 						break;
 					case "medium armor":
-						baseAC = armor.getArmorClass() + Math.min(dexMod, armor.getMaxDexBonus());
+						baseAC = armor.getBaseArmorClass() + Math.min(dexMod, armor.getMaxDexBonus());
 						break;
 					case "light armor":
-						baseAC = armor.getArmorClass() + dexMod;
+						baseAC = armor.getBaseArmorClass() + dexMod;
 						break;
 					default:
-						baseAC = armor.getArmorClass();
+						baseAC = armor.getBaseArmorClass();
 				}
 			}
 		}

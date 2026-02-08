@@ -55,7 +55,7 @@ class ReferenceControllerTest {
 
     @Test
     void GET_armorReturnsJsonArray() throws Exception {
-        ArmorData a = new ArmorData(); a.setName("Chain Mail");
+        ArmorData a = new ArmorData(); a.setArmorName("Chain Mail");
         when(armorRepo.findAll()).thenReturn(List.of(a));
 
         mvc.perform(get("/api/reference/armor"))
