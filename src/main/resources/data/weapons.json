@@ -1,0 +1,308 @@
+{
+	"CLUB": {
+		"name": "Club",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 1,
+			"unit": "SP"
+		},
+		"weightLb": 2,
+		"damage": {
+			"dice": "1d4",
+			"type": "BLUDGEONING"
+		},
+		"properties": ["LIGHT"],
+		"mastery": "SLOW"
+	},
+	"DAGGER": {
+		"name": "Dagger",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 2,
+			"unit": "GP"
+		},
+		"weightLb": 1,
+		"damage": {
+			"dice": "1d4",
+			"type": "PIERCING"
+		},
+		"properties": ["FINESSE", "LIGHT", "THROWN"],
+		"range": {
+			"minRange": 20,
+			"maxRange": 60
+		},
+		"mastery": "NICK"
+	},
+	"GREATCLUB": {
+		"name": "Greatclub",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 2,
+			"unit": "SP"
+		},
+		"weightLb": 10,
+		"damage": {
+			"dice": "1d8",
+			"type": "BLUDGEONING"
+		},
+		"properties": ["TWO_HANDED"],
+		"mastery": "PUSH"
+	},
+	"HANDAXE": {
+		"name": "Handaxe",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 5,
+			"unit": "GP"
+		},
+		"weightLb": 2,
+		"damage": {
+			"dice": "1d6",
+			"type": "SLASHING"
+		},
+		"properties": ["LIGHT", "THROWN"],
+		"range": {
+			"minRange": 20,
+			"maxRange": 60
+		},
+		"mastery": "Vex"
+	},
+	"JAVELIN": {
+		"name": "Javelin",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 5,
+			"unit": "SP"
+		},
+		"weightLb": 2,
+		"damage": {
+			"dice": "1d6",
+			"type": "PIERCING"
+		},
+		"properties": ["THROWN"],
+		"range": {
+			"minRange": 30,
+			"maxRange": 120
+		},
+		"mastery": "SLOW"
+	},
+	"LIGHT_HAMMER": {
+		"name": "Light Hammer",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 2,
+			"unit": "GP"
+		},
+		"weightLb": 2,
+		"damage": {
+			"dice": "1d4",
+			"type": "BLUDGEONING"
+		},
+		"properties": ["LIGHT", "THROWN"],
+		"range": {
+			"minRange": 20,
+			"maxRange": 60
+		},
+		"mastery": "NICK"
+	},
+	"MACE": {
+		"name": "Mace",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 5,
+			"unit": "GP"
+		},
+		"weightLb": 4,
+		"damage": {
+			"dice": "1d6",
+			"type": "BLUDGEONING"
+		},
+		"properties": [],
+		"mastery": "SAP"
+	},
+	"QUATERSTAFF": {
+		"name": "Quarterstaff",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 2,
+			"unit": "SP"
+		},
+		"weightLb": 4,
+		"damage": {
+			"dice": "1d6",
+			"type": "BLUDGEONING"
+		},
+		"properties": ["VERSATILE"],
+		"versatileDamageDice": "1d8",
+		"mastery": "TOPPLE"
+	},
+	"SICKLE": {
+		"name": "Sickle",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 1,
+			"unit": "GP"
+		},
+		"weightLb": 2,
+		"damage": {
+			"dice": "1d4",
+			"type": "SLASHING"
+		},
+		"properties": ["LIGHT"],
+		"mastery": "NICK"
+	},
+	"SPEAR": {
+		"name": "Spear",
+		"category": "SIMPLE",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 1,
+			"unit": "GP"
+		},
+		"weightLb": 3,
+		"damage": {
+			"dice": "1d6",
+			"type": "PIERCING"
+		},
+		"properties": ["Versatile", "THROWN"],
+		"range": {
+			"minRange": 20,
+			"maxRange": 60
+		},
+		"versatileDamageDice": "1d8",
+		"mastery": "SAP"
+	},
+	"DART": {
+		"name": "Dart",
+		"category": "SIMPLE",
+		"weaponType": "RANGED",
+		"cost": {
+			"amount": 5,
+			"unit": "CP"
+		},
+		"weightLb": 0.25,
+		"damage": {
+			"dice": "1d4",
+			"type": "PIERCING"
+		},
+		"properties": ["FINESSE", "THROWN"],
+		"range": {
+			"minRange": 20,
+			"maxRange": 60
+		},
+		"mastery": "VEX"
+	},
+	"LIGHT_CROSSBOW": {
+		"name": "Light Crossbow",
+		"category": "SIMPLE",
+		"weaponType": "RANGED",
+		"cost": {
+			"amount": 25,
+			"unit": "GP"
+		},
+		"weightLb": 5,
+		"damage": {
+			"dice": "1d8",
+			"type": "PIERCING"
+		},
+		"properties": ["AMMUNITION", "LOADING", "TWO_HANDED"],
+		"range": {
+			"minRange": 80,
+			"maxRange": 320
+		},
+		"mastery": "SLOW"
+	},
+	"SHORTBOW": {
+		"name": "Shortbow",
+		"category": "SIMPLE",
+		"weaponType": "RANGED",
+		"cost": {
+			"amount": 25,
+			"unit": "GP"
+		},
+		"weightLb": 2,
+		"damage": {
+			"dice": "1d6",
+			"type": "PIERCING"
+		},
+		"properties": ["AMMUNITION", "TWHO_HANDED"],
+		"range": {
+			"minRange": 80,
+			"maxRange": 320
+		},
+		"mastery": "VEX"
+	},
+	"SLING": {
+		"name": "Sling",
+		"category": "SIMPLE",
+		"weaponType": "RANGED",
+		"cost": {
+			"amount": 1,
+			"unit": "SP"
+		},
+		"weightLb": 0,
+		"damage": {
+			"dice": "1d4",
+			"type": "BLUDGEONING"
+		},
+		"properties": ["AMMUNITION"],
+		"range": {
+			"minRange": 30,
+			"maxRange": 120
+		},
+		"mastery": "SLOW"
+	},
+	"BATTLEAXE": {
+		"name": "BattleAxe",
+		"category": "MARTIAL",
+		"weaponType": "MELEE",
+		"cost": {
+			"amount": 10,
+			"unit": "GP"
+		},
+		"weightLb": 4,
+		"damage": {
+			"dice": "1d8",
+			"type": "SLASHING"
+		},
+		"properties": ["VERSATILE"],
+		"versatileDamageDice": "1d10",
+		"mastery": "TOPPLE"
+	},
+}
+
+
+
+
+/*
+sample 
+"DAGGER": {
+	"name": "Dagger",
+	"category": "SIMPLE",
+	"weaponType": "MELEE",
+	"cost": {
+		"amount": 2,
+		"unit": "GP"
+	},
+	"weightLb": 1,
+	"damage": {
+		"dice": "1d4",
+		"type": "PIERCING"
+	},
+	"properties": ["FINESSE", "LIGHT", "THROWN"],
+	"range": {
+		"minRange": 20,
+		"maxRange": 60
+	},
+	"mastery": "NICK"
+},
+*/
