@@ -219,6 +219,7 @@
 			"minRange": 80,
 			"maxRange": 320
 		},
+		"ammunitionType": "BOLT",
 		"mastery": "SLOW"
 	},
 	"SHORTBOW": {
@@ -239,6 +240,7 @@
 			"minRange": 80,
 			"maxRange": 320
 		},
+		"ammunitionType": "ARROW",
 		"mastery": "VEX"
 	},
 	"SLING": {
@@ -259,6 +261,7 @@
 			"minRange": 30,
 			"maxRange": 120
 		},
+		"ammunitionType": "BULLET",
 		"mastery": "SLOW"
 	},
 	"BATTLEAXE": {
@@ -576,6 +579,7 @@
 			"minRange": 25,
 			"maxRange": 100
 		},
+		"ammunitionType": "NEEDLE",
 		"mastery": "VEX"
 	},
 	"HAND_CROSSBOW": {
@@ -596,6 +600,7 @@
 			"minRange": 30,
 			"maxRange": 120
 		},
+		"ammunitionType": "BOLT",
 		"mastery": "VEX"
 	},
 	"HEAVY_CROSSBOW": {
@@ -616,6 +621,7 @@
 			"minRange": 100,
 			"maxRange": 400
 		},
+		"ammunitionType": "BOLT",
 		"mastery": "PUSH"
 	},
 	"LONGBOW": {
@@ -636,6 +642,7 @@
 			"minRange": 150,
 			"maxRange": 600
 		},
+		"ammunitionType": "ARROW",
 		"mastery": "SLOW"
 	},
 	"MUSKET": {
@@ -656,6 +663,7 @@
 			"minRange": 40,
 			"maxRange": 120
 		},
+		"ammunitionType": "BULLET",
 		"mastery": "SLOW"
 	},
 	"PISTOL": {
@@ -676,6 +684,7 @@
 			"minRange": 30,
 			"maxRange": 90
 		},
+		"ammunitionType": "BULLET",
 		"mastery": "VEX"
 	}
 }
