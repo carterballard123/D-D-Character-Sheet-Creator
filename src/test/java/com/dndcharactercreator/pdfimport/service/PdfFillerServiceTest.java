@@ -9,6 +9,10 @@ import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
+import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +29,14 @@ class PdfFillerServiceTest {
     @Autowired
     private PdfFillerService pdfFillerService;
     
+    @MockitoBean
     private CharacterMathService math;
+
+    @MockitoBean
+    private RacesRepository racesRepo;
+
+    @MockitoBean
+    private ClassesRepository classesRepo;
 
     private int templatePageCount;
 

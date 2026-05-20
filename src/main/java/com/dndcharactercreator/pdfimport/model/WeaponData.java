@@ -39,7 +39,7 @@ public class WeaponData {
 	
 	/** Weight of the weapon in pounds. */
 	@JsonProperty("weightLb")
-	private Integer weightLb;
+	private Double weightLb;
 	
 	/** Damage profile of the weapon (dice and damage type). */
 	@JsonProperty("damage")
@@ -120,12 +120,12 @@ public class WeaponData {
 	}
 	
 	/** @return weight of the weapon in pounds */
-	public Integer getWeightLb() {
+	public Double getWeightLb() {
 		return weightLb;
 	}
 	
 	/** @param weightLb sets the weapon weight in pounds */
-	public void setWeightLb(Integer weightLb) {
+	public void setWeightLb(Double weightLb) {
 		this.weightLb = weightLb;
 	}
 	

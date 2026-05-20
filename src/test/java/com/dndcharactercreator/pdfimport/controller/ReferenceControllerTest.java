@@ -61,7 +61,7 @@ class ReferenceControllerTest {
         mvc.perform(get("/api/reference/armor"))
            .andExpect(status().isOk())
            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-           .andExpect(jsonPath("$[0].name").value("Chain Mail"));
+           .andExpect(jsonPath("$[0].armorName").value("Chain Mail"));
     }
 
     @Test
