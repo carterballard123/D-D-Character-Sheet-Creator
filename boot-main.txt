@@ -1,2 +1,0 @@
-src\main\java\com\dndcharactercreator\pdfimport\Application.java:4:import org.springframework.boot.autoconfigure.SpringBootApplication;
-src\main\java\com\dndcharactercreator\pdfimport\Application.java:6:@SpringBootApplication

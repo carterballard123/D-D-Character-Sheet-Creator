@@ -12,14 +12,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Repository responsible for loading and serving {@link BackgroundData} definitions.
+ * <p>
+ * Background records are loaded once at application startup from
+ * {@code classpath:data/backgrounds.json}, then cached in memory for fast,
+ * case-insensitive lookup by name.
+ * </p>
+ * <p>
+ * This class is a Spring-managed {@link Repository} and initializes its cache in
+ * {@link #loadAll()} via {@link PostConstruct}.
+ * </p>
+ */
 @Repository
 public class BackgroundRepository {
-    // In-memory map: lowercase background name → BackgroundData
+
+    /**
+     * In-memory lookup map keyed by lower-cased background name.
+     */
     private final Map<String, BackgroundData> byName = new HashMap<>();
 
     /**
-     * At application startup, read backgrounds.json and populate a lookup map
-     * keyed by lower-case name. Called by Spring right after the bean is constructed.
+     * Loads all background records from {@code data/backgrounds.json} and builds
+     * the internal lookup map.
+     * <p>
+     * This method is called automatically by Spring after bean construction.
+     * </p>
+     *
+     * @throws Exception if the JSON resource cannot be found, read, or parsed
      */
     @PostConstruct
     public void loadAll() throws Exception {
@@ -37,13 +57,23 @@ public class BackgroundRepository {
         }
     }
 
-    /** Find one background by its exact name (case-insensitive). Returns null if not found. */
+    /**
+     * Finds a background by name using case-insensitive matching.
+     *
+     * @param name the background name to search for; may be {@code null}
+     * @return the matching {@link BackgroundData}, or {@code null} if {@code name} is {@code null}
+     *         or no match exists
+     */
     public BackgroundData findByName(String name) {
         if (name == null) return null;
         return byName.get(name.toLowerCase());
     }
 
-    /** Returns an immutable list of all backgrounds (for dropdowns, etc.). */
+    /**
+     * Returns all loaded backgrounds.
+     *
+     * @return an immutable snapshot list of all known background records
+     */
     public List<BackgroundData> findAll() {
         return List.copyOf(byName.values());
     }

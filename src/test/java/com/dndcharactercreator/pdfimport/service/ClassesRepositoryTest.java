@@ -74,7 +74,7 @@ class ClassesRepositoryTest {
         assertNotNull(cd.getStartingEquipmentOptions(), 
                       "startingEquipmentOptions should not be null");
 
-        Map<String, List<ClassesData.Feature>> features = cd.getFeatureByLevel();
+        Map<String, List<ClassesData.Feature>> features = cd.getFeaturesByLevel();
         assertNotNull(features, "featuresByLevel should not be null");
         assertFalse(features.isEmpty(), "featuresByLevel should contain entries");
     }

@@ -1,0 +1,34 @@
+{
+  "CLEAVE": {
+    "displayName": "Cleave",
+    "rulesText": "When you hit a creature with a melee attack, you can make a second melee attack against another creature within 5 ft of the first. The second hit deals the weapon’s damage only (no ability modifier unless negative)."
+  },
+  "GRAZE": {
+    "displayName": "Graze",
+    "rulesText": "If you miss a creature with a melee attack, it still takes damage equal to the ability modifier used for the attack."
+  },
+  "NICK": {
+    "displayName": "Nick",
+    "rulesText": "When you wield a Light weapon in each hand, you can make the extra off-hand attack as part of your Attack action instead of using a bonus action."
+  },
+  "PUSH": {
+    "displayName": "Push",
+    "rulesText": "When you hit a Large or smaller creature, you can push it up to 10 feet away from you in a straight line."
+  },
+  "SAP": {
+	"displayName": "Sap",
+	"rulesText" : "When you hit a creature, it has disadvantage on its next Attack Roll before the start of your next turn."
+  },
+  "SLOW": {
+	"displayName": "Slow",
+	"rulesText": "When you deal damage to a creature, its Speed is reduced by 10 feet until the start of your next turn."
+  },
+  "TOPPLE": {
+	"displayName": "Topple",
+	"rulesText": "When you hit a creature, it must make a Constitution saving throw or fall Prone."
+  },
+  "VEX": {
+	"displayName": "Vex",
+	"rulesText": "When you hit a creature, you have advantage on your next Attack Roll against that creature before the end of your next turn."
+  }
+}

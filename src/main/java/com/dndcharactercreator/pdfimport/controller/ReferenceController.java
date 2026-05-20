@@ -1,87 +1,175 @@
 package com.dndcharactercreator.pdfimport.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.dndcharactercreator.pdfimport.model.ArmorData;
 import com.dndcharactercreator.pdfimport.model.BackgroundData;
 import com.dndcharactercreator.pdfimport.model.ClassesData;
 import com.dndcharactercreator.pdfimport.model.RacesData;
 import com.dndcharactercreator.pdfimport.model.ShieldData;
 import com.dndcharactercreator.pdfimport.model.SubclassesData;
-import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 import com.dndcharactercreator.pdfimport.repository.ArmorRepository;
-import com.dndcharactercreator.pdfimport.repository.ShieldRepository;
 import com.dndcharactercreator.pdfimport.repository.BackgroundRepository;
 import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
 import com.dndcharactercreator.pdfimport.repository.LanguagesRepository;
+import com.dndcharactercreator.pdfimport.repository.RacesRepository;
+import com.dndcharactercreator.pdfimport.repository.ShieldRepository;
 import com.dndcharactercreator.pdfimport.repository.SkillsRepository;
 import com.dndcharactercreator.pdfimport.repository.SubclassesRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+/**
+ * REST controller that exposes reference (compendium) data used by the character builder UI.
+ *
+ * <p>This controller provides read-only endpoints that return lists of races, classes, backgrounds,
+ * equipment, and other lookup data. The frontend uses these endpoints to populate selection UI
+ * without hardcoding the data in JavaScript.
+ *
+ * <p>Data is sourced from repository classes which typically load and parse JSON files stored in
+ * {@code src/main/resources/data}.
+ *
+ * @author Carter Ballard
+ */
 @RestController
 @RequestMapping("/api/reference")
 public class ReferenceController {
-	 private final ArmorRepository armorRepo;
-	 private final BackgroundRepository backgroundRepo;
-	 private final ClassesRepository classesRepo;
-	 private final LanguagesRepository languagesRepo;
-	 private final RacesRepository racesRepo;
-	 private final ShieldRepository shieldRepo;
-	 private final SkillsRepository skillsRepo;
-	 private final SubclassesRepository subclassesRepo;
-	 
-	 public ReferenceController(RacesRepository racesRepo, ArmorRepository armorRepo, ShieldRepository shieldRepo, 
-			 BackgroundRepository backgroundRepo, ClassesRepository classesRepo, LanguagesRepository languagesRepo, SkillsRepository skillsRepo, SubclassesRepository subclassesRepo) {
-		 this.armorRepo = armorRepo;
-		 this.backgroundRepo = backgroundRepo;
-		 this.classesRepo = classesRepo;
-		 this.languagesRepo = languagesRepo;
-		 this.racesRepo = racesRepo;
-		 this.shieldRepo = shieldRepo;
-		 this.skillsRepo = skillsRepo;
-		 this.subclassesRepo = subclassesRepo;
-		 
-	 }
-	 
-	   @GetMapping("/races")
-	    public List<RacesData> allRaces() {
-	        return racesRepo.findAll();
-	    }
 
-	    @GetMapping("/armor")
-	    public List<ArmorData> allArmor() {
-	        return armorRepo.findAll();
-	    }
+    /** Repository for armor definitions. */
+    private final ArmorRepository armorRepo;
 
-	    @GetMapping("/shields")
-	    public List<ShieldData> allShields() {
-	        return shieldRepo.findAll();
-	    }
+    /** Repository for background definitions. */
+    private final BackgroundRepository backgroundRepo;
 
-	    @GetMapping("/backgrounds")
-	    public List<BackgroundData> allBackgrounds() {
-	        return backgroundRepo.findAll();
-	    }
+    /** Repository for class definitions. */
+    private final ClassesRepository classesRepo;
 
-	    @GetMapping("/classes")
-	    public List<ClassesData> allClasses() {
-	        return classesRepo.findAll();
-	    }
+    /** Repository for language lookup values. */
+    private final LanguagesRepository languagesRepo;
 
-	    @GetMapping("/languages")
-	    public List<String> allLanguages() {
-	        return languagesRepo.findAll();
-	    }
+    /** Repository for race definitions. */
+    private final RacesRepository racesRepo;
 
-	    @GetMapping("/skills")
-	    public List<String> allSkills() {
-	        return skillsRepo.findAll();
-	    }
+    /** Repository for shield definitions. */
+    private final ShieldRepository shieldRepo;
 
-	    @GetMapping("/subclasses")
-	    public List<SubclassesData> allSubclasses() {
-	        return subclassesRepo.findAll();
-	    }
+    /** Repository for skill lookup values. */
+    private final SkillsRepository skillsRepo;
+
+    /** Repository for subclass definitions. */
+    private final SubclassesRepository subclassesRepo;
+
+    /**
+     * Creates a {@code ReferenceController}.
+     *
+     * @param racesRepo repository for races
+     * @param armorRepo repository for armor
+     * @param shieldRepo repository for shields
+     * @param backgroundRepo repository for backgrounds
+     * @param classesRepo repository for classes
+     * @param languagesRepo repository for languages
+     * @param skillsRepo repository for skills
+     * @param subclassesRepo repository for subclasses
+     */
+    public ReferenceController(
+            RacesRepository racesRepo,
+            ArmorRepository armorRepo,
+            ShieldRepository shieldRepo,
+            BackgroundRepository backgroundRepo,
+            ClassesRepository classesRepo,
+            LanguagesRepository languagesRepo,
+            SkillsRepository skillsRepo,
+            SubclassesRepository subclassesRepo) {
+
+        this.armorRepo = armorRepo;
+        this.backgroundRepo = backgroundRepo;
+        this.classesRepo = classesRepo;
+        this.languagesRepo = languagesRepo;
+        this.racesRepo = racesRepo;
+        this.shieldRepo = shieldRepo;
+        this.skillsRepo = skillsRepo;
+        this.subclassesRepo = subclassesRepo; // ✅ FIX: was missing
+    }
+
+    /**
+     * Returns all available races.
+     *
+     * @return list of race definitions
+     */
+    @GetMapping("/races")
+    public List<RacesData> allRaces() {
+        return racesRepo.findAll();
+    }
+
+    /**
+     * Returns all available armor options.
+     *
+     * @return list of armor definitions
+     */
+    @GetMapping("/armor")
+    public List<ArmorData> allArmor() {
+        return armorRepo.findAll();
+    }
+
+    /**
+     * Returns all available shield options.
+     *
+     * @return list of shield definitions
+     */
+    @GetMapping("/shields")
+    public List<ShieldData> allShields() {
+        return shieldRepo.findAll();
+    }
+
+    /**
+     * Returns all available backgrounds.
+     *
+     * @return list of background definitions
+     */
+    @GetMapping("/backgrounds")
+    public List<BackgroundData> allBackgrounds() {
+        return backgroundRepo.findAll();
+    }
+
+    /**
+     * Returns all available classes.
+     *
+     * @return list of class definitions
+     */
+    @GetMapping("/classes")
+    public List<ClassesData> allClasses() {
+        return classesRepo.findAll();
+    }
+
+    /**
+     * Returns all language options available to the builder.
+     *
+     * @return list of language names
+     */
+    @GetMapping("/languages")
+    public List<String> allLanguages() {
+        return languagesRepo.findAll();
+    }
+
+    /**
+     * Returns all skill names available to the builder.
+     *
+     * @return list of skill names
+     */
+    @GetMapping("/skills")
+    public List<String> allSkills() {
+        return skillsRepo.findAll();
+    }
+
+    /**
+     * Returns all available subclasses.
+     *
+     * @return list of subclass definitions
+     */
+    @GetMapping("/subclasses")
+    public List<SubclassesData> allSubclasses() {
+        return subclassesRepo.findAll();
+    }
 }
