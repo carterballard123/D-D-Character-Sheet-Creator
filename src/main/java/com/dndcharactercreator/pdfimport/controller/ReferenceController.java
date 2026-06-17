@@ -1,6 +1,7 @@
 package com.dndcharactercreator.pdfimport.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,9 @@ import com.dndcharactercreator.pdfimport.model.ClassesData;
 import com.dndcharactercreator.pdfimport.model.RacesData;
 import com.dndcharactercreator.pdfimport.model.ShieldData;
 import com.dndcharactercreator.pdfimport.model.SubclassesData;
+import com.dndcharactercreator.pdfimport.model.WeaponData;
+import com.dndcharactercreator.pdfimport.model.WeaponMasteryDef;
+import com.dndcharactercreator.pdfimport.model.WeaponPropertyDef;
 import com.dndcharactercreator.pdfimport.repository.ArmorRepository;
 import com.dndcharactercreator.pdfimport.repository.BackgroundRepository;
 import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
@@ -20,6 +24,9 @@ import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 import com.dndcharactercreator.pdfimport.repository.ShieldRepository;
 import com.dndcharactercreator.pdfimport.repository.SkillsRepository;
 import com.dndcharactercreator.pdfimport.repository.SubclassesRepository;
+import com.dndcharactercreator.pdfimport.repository.WeaponMasteriesRepository;
+import com.dndcharactercreator.pdfimport.repository.WeaponPropertiesRepository;
+import com.dndcharactercreator.pdfimport.repository.WeaponsRepository;
 
 /**
  * REST controller that exposes reference (compendium) data used by the character builder UI.
@@ -61,6 +68,15 @@ public class ReferenceController {
     /** Repository for subclass definitions. */
     private final SubclassesRepository subclassesRepo;
 
+    /** Repository for weapon definitions. */
+    private final WeaponsRepository weaponsRepo;
+
+    /** Repository for weapon property definitions. */
+    private final WeaponPropertiesRepository weaponPropertiesRepo;
+
+    /** Repository for weapon mastery definitions. */
+    private final WeaponMasteriesRepository weaponMasteriesRepo;
+
     /**
      * Creates a {@code ReferenceController}.
      *
@@ -81,7 +97,10 @@ public class ReferenceController {
             ClassesRepository classesRepo,
             LanguagesRepository languagesRepo,
             SkillsRepository skillsRepo,
-            SubclassesRepository subclassesRepo) {
+            SubclassesRepository subclassesRepo,
+            WeaponsRepository weaponsRepo,
+            WeaponPropertiesRepository weaponPropertiesRepo,
+            WeaponMasteriesRepository weaponMasteriesRepo) {
 
         this.armorRepo = armorRepo;
         this.backgroundRepo = backgroundRepo;
@@ -90,7 +109,10 @@ public class ReferenceController {
         this.racesRepo = racesRepo;
         this.shieldRepo = shieldRepo;
         this.skillsRepo = skillsRepo;
-        this.subclassesRepo = subclassesRepo; // ✅ FIX: was missing
+        this.subclassesRepo = subclassesRepo;
+        this.weaponsRepo = weaponsRepo;
+        this.weaponPropertiesRepo = weaponPropertiesRepo;
+        this.weaponMasteriesRepo = weaponMasteriesRepo;
     }
 
     /**
@@ -171,5 +193,35 @@ public class ReferenceController {
     @GetMapping("/subclasses")
     public List<SubclassesData> allSubclasses() {
         return subclassesRepo.findAll();
+    }
+
+    /**
+     * Returns all available weapons keyed by weapon ID.
+     *
+     * @return map of weapon IDs to weapon definitions
+     */
+    @GetMapping("/weapons")
+    public Map<String, WeaponData> allWeapons() {
+        return weaponsRepo.getAllWeapons();
+    }
+
+    /**
+     * Returns all weapon property definitions keyed by property ID.
+     *
+     * @return map of weapon property IDs to definitions
+     */
+    @GetMapping("/weapon-properties")
+    public Map<String, WeaponPropertyDef> allWeaponProperties() {
+        return weaponPropertiesRepo.getAllWeaponProperties();
+    }
+
+    /**
+     * Returns all weapon mastery definitions keyed by mastery ID.
+     *
+     * @return map of weapon mastery IDs to definitions
+     */
+    @GetMapping("/weapon-masteries")
+    public Map<String, WeaponMasteryDef> allWeaponMasteries() {
+        return weaponMasteriesRepo.getAllWeaponMasteries();
     }
 }

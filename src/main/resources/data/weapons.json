@@ -1,6 +1,6 @@
 {
 	"CLUB": {
-		"name": "Club",
+		"displayName": "Club",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -16,7 +16,7 @@
 		"mastery": "SLOW"
 	},
 	"DAGGER": {
-		"name": "Dagger",
+		"displayName": "Dagger",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -36,7 +36,7 @@
 		"mastery": "NICK"
 	},
 	"GREATCLUB": {
-		"name": "Greatclub",
+		"displayName": "Greatclub",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -52,7 +52,7 @@
 		"mastery": "PUSH"
 	},
 	"HANDAXE": {
-		"name": "Handaxe",
+		"displayName": "Handaxe",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -69,10 +69,10 @@
 			"minRange": 20,
 			"maxRange": 60
 		},
-		"mastery": "Vex"
+		"mastery": "VEX"
 	},
 	"JAVELIN": {
-		"name": "Javelin",
+		"displayName": "Javelin",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -92,7 +92,7 @@
 		"mastery": "SLOW"
 	},
 	"LIGHT_HAMMER": {
-		"name": "Light Hammer",
+		"displayName": "Light Hammer",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -112,7 +112,7 @@
 		"mastery": "NICK"
 	},
 	"MACE": {
-		"name": "Mace",
+		"displayName": "Mace",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -128,7 +128,7 @@
 		"mastery": "SAP"
 	},
 	"QUATERSTAFF": {
-		"name": "Quarterstaff",
+		"displayName": "Quarterstaff",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -145,7 +145,7 @@
 		"mastery": "TOPPLE"
 	},
 	"SICKLE": {
-		"name": "Sickle",
+		"displayName": "Sickle",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -161,7 +161,7 @@
 		"mastery": "NICK"
 	},
 	"SPEAR": {
-		"name": "Spear",
+		"displayName": "Spear",
 		"category": "SIMPLE",
 		"weaponType": "MELEE",
 		"cost": {
@@ -173,7 +173,7 @@
 			"dice": "1d6",
 			"type": "PIERCING"
 		},
-		"properties": ["Versatile", "THROWN"],
+		"properties": ["VERSATILE", "THROWN"],
 		"range": {
 			"minRange": 20,
 			"maxRange": 60
@@ -182,7 +182,7 @@
 		"mastery": "SAP"
 	},
 	"DART": {
-		"name": "Dart",
+		"displayName": "Dart",
 		"category": "SIMPLE",
 		"weaponType": "RANGED",
 		"cost": {
@@ -202,7 +202,7 @@
 		"mastery": "VEX"
 	},
 	"LIGHT_CROSSBOW": {
-		"name": "Light Crossbow",
+		"displayName": "Light Crossbow",
 		"category": "SIMPLE",
 		"weaponType": "RANGED",
 		"cost": {
@@ -223,7 +223,7 @@
 		"mastery": "SLOW"
 	},
 	"SHORTBOW": {
-		"name": "Shortbow",
+		"displayName": "Shortbow",
 		"category": "SIMPLE",
 		"weaponType": "RANGED",
 		"cost": {
@@ -235,7 +235,7 @@
 			"dice": "1d6",
 			"type": "PIERCING"
 		},
-		"properties": ["AMMUNITION", "TWHO_HANDED"],
+		"properties": ["AMMUNITION", "TWO_HANDED"],
 		"range": {
 			"minRange": 80,
 			"maxRange": 320
@@ -244,7 +244,7 @@
 		"mastery": "VEX"
 	},
 	"SLING": {
-		"name": "Sling",
+		"displayName": "Sling",
 		"category": "SIMPLE",
 		"weaponType": "RANGED",
 		"cost": {
@@ -265,7 +265,7 @@
 		"mastery": "SLOW"
 	},
 	"BATTLEAXE": {
-		"name": "BattleAxe",
+		"displayName": "BattleAxe",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -282,7 +282,7 @@
 		"mastery": "TOPPLE"
 	},
 	"FLAIL": {
-		"name": "Flail",
+		"displayName": "Flail",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -298,7 +298,7 @@
 		"mastery": "SAP"
 	},
 	"GLAIVE": {
-		"name": "Glaive",
+		"displayName": "Glaive",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -314,7 +314,7 @@
 		"mastery": "GRAZE"
 	},
 	"GREATAXE": {
-		"name": "Greataxe",
+		"displayName": "Greataxe",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -330,7 +330,7 @@
 		"mastery": "CLEAVE"
 	},
 	"GREATSWORD": {
-		"name": "Greatsword",
+		"displayName": "Greatsword",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -346,7 +346,7 @@
 		"mastery": "GRAZE"
 	},
 	"HALBERD": {
-		"name": "Halberd",
+		"displayName": "Halberd",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -362,7 +362,7 @@
 		"mastery": "CLEAVE"
 	},
 	"LANCE": {
-		"name": "Lance",
+		"displayName": "Lance",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -378,7 +378,7 @@
 		"mastery": "TOPPLE"
 	},
 	"LONGSWORD": {
-		"name": "Longsword",
+		"displayName": "Longsword",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -395,7 +395,7 @@
 		"mastery": "SAP"
 	},
 	"MAUL": {
-		"name": "Maul",
+		"displayName": "Maul",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -411,7 +411,7 @@
 		"mastery": "TOPPLE"
 	},
 	"MORNINGSTAR": {
-		"name": "Morningstar",
+		"displayName": "Morningstar",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -427,7 +427,7 @@
 		"mastery": "SAP"
 	},
 	"PIKE": {
-		"name": "Pike",
+		"displayName": "Pike",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -443,7 +443,7 @@
 		"mastery": "PUSH"
 	},
 	"RAPIER": {
-		"name": "Rapier",
+		"displayName": "Rapier",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -459,7 +459,7 @@
 		"mastery": "VEX"
 	},
 	"SCIMITAR": {
-		"name": "Scimitar",
+		"displayName": "Scimitar",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -475,7 +475,7 @@
 		"mastery": "NICK"
 	},
 	"SHORTSWORD": {
-		"name": "Shortsword",
+		"displayName": "Shortsword",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -491,8 +491,8 @@
 		"mastery": "VEX"
 	},
 	"TRIDENT": {
-		"name": "Trident",
-		"category": "Martial",
+		"displayName": "Trident",
+		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
 			"amount": 5,
@@ -512,7 +512,7 @@
 		"mastery": "TOPPLE"
 	},
 	"WARHAMMER": {
-		"name": "Warhammer",
+		"displayName": "Warhammer",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -525,11 +525,11 @@
 			"type": "BLUDGEONING"
 		},
 		"properties": ["VERSATILE"],
-		"weaponDamageDice": "1d10",
+		"versatileDamageDice": "1d10",
 		"mastery": "PUSH"
 	},
 	"WAR_PICK": {
-		"name": "War Pick",
+		"displayName": "War Pick",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -542,11 +542,11 @@
 			"type": "PIERCING"
 		},
 		"properties": ["VERSATILE"],
-		"weaponDamageDice": "1d10",
+		"versatileDamageDice": "1d10",
 		"mastery": "SAP"
 	},
 	"WHIP": {
-		"name": "Whip",
+		"displayName": "Whip",
 		"category": "MARTIAL",
 		"weaponType": "MELEE",
 		"cost": {
@@ -562,7 +562,7 @@
 		"mastery": "SLOW"
 	},
 	"BLOWGUN": {
-		"name": "Blowgun",
+		"displayName": "Blowgun",
 		"category": "MARTIAL",
 		"weaponType": "RANGED",
 		"cost": {
@@ -583,9 +583,9 @@
 		"mastery": "VEX"
 	},
 	"HAND_CROSSBOW": {
-		"name": "Hand Crossbow",
+		"displayName": "Hand Crossbow",
 		"category": "MARTIAL",
-		"weaponType": "RANGD",
+		"weaponType": "RANGED",
 		"cost": {
 			"amount": 75,
 			"unit": "GP"
@@ -604,7 +604,7 @@
 		"mastery": "VEX"
 	},
 	"HEAVY_CROSSBOW": {
-		"name": "Heavy Crossbow",
+		"displayName": "Heavy Crossbow",
 		"category": "MARTIAL",
 		"weaponType": "RANGED",
 		"cost": {
@@ -625,7 +625,7 @@
 		"mastery": "PUSH"
 	},
 	"LONGBOW": {
-		"name": "Longbow",
+		"displayName": "Longbow",
 		"category": "MARTIAL",
 		"weaponType": "RANGED",
 		"cost": {
@@ -646,7 +646,7 @@
 		"mastery": "SLOW"
 	},
 	"MUSKET": {
-		"name": "Musket",
+		"displayName": "Musket",
 		"category": "MARTIAL",
 		"weaponType": "RANGED",
 		"cost": {
@@ -667,7 +667,7 @@
 		"mastery": "SLOW"
 	},
 	"PISTOL": {
-		"name": "Pistol",
+		"displayName": "Pistol",
 		"category": "MARTIAL",
 		"weaponType": "RANGED",
 		"cost": {

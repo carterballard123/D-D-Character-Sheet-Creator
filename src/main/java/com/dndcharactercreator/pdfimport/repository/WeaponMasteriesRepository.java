@@ -34,7 +34,7 @@ public class WeaponMasteriesRepository {
 		return weaponMasteries.get(masteryName);
 	}
 	
-	public Map<String, WeaponMasteryDef> getAllWeaponMastereis() {
+	public Map<String, WeaponMasteryDef> getAllWeaponMasteries() {
 		return weaponMasteries;
 	}
 }
