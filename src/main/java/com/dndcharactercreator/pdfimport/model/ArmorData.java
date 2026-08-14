@@ -27,7 +27,7 @@ public class ArmorData {
     private String armorType;
 
     /** Base Armor Class provided by the armor. */
-    @JsonProperty("baseArmorClass")
+    @JsonProperty("armorClass")
     private int baseArmorClass;
 
     /** Maximum Dexterity modifier allowed (0 for heavy armor). */

@@ -132,19 +132,19 @@ public class ClassesData {
     public static class Proficiencies {
 
         /** Armor categories/proficiencies granted by the class. */
-        @JsonProperty("armorProficiencies")
+        @JsonProperty("armor")
         private List<String> armorProficiencies;
 
         /** Weapon proficiencies granted by the class. */
-        @JsonProperty("weaponProficiencies")
+        @JsonProperty("weapons")
         private List<String> weaponProficiencies;
 
         /** Tool proficiencies granted by the class. */
-        @JsonProperty("toolProficiencies")
+        @JsonProperty("tools")
         private List<String> toolProficiencies;
 
         /** Saving throw proficiencies granted by the class. */
-        @JsonProperty("savingThrowProficiencies")
+        @JsonProperty("savingThrows")
         private List<String> savingThrowProficiencies;
 
         /** Skill choice rule (how many skills, and optional limited list). */
@@ -214,7 +214,7 @@ public class ClassesData {
          *
          * <p>If absent/null, the UI/rules may treat it as "choose from all skills".
          */
-        @JsonProperty("limitedSkillList")
+        @JsonProperty("from")
         private List<String> limitedSkillList;
 
         public Integer getChoose() {

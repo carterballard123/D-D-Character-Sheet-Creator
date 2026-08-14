@@ -76,7 +76,7 @@ public class LanguagesRepository {
      * @param lang language name to test; may be {@code null}
      * @return {@code true} if a case-insensitive match exists; otherwise {@code false}
      */
-    public boolean exits(String lang) {
+    public boolean exists(String lang) {
         return findByName(lang).isPresent();
 
     }
