@@ -6,6 +6,7 @@ import com.dndcharactercreator.pdfimport.model.ClassesData;
 import com.dndcharactercreator.pdfimport.model.RacesData;
 import com.dndcharactercreator.pdfimport.model.ShieldData;
 import com.dndcharactercreator.pdfimport.model.SubclassesData;
+import com.dndcharactercreator.pdfimport.model.WeaponData;
 import com.dndcharactercreator.pdfimport.repository.ArmorRepository;
 import com.dndcharactercreator.pdfimport.repository.BackgroundRepository;
 import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
@@ -14,6 +15,9 @@ import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 import com.dndcharactercreator.pdfimport.repository.ShieldRepository;
 import com.dndcharactercreator.pdfimport.repository.SkillsRepository;
 import com.dndcharactercreator.pdfimport.repository.SubclassesRepository;
+import com.dndcharactercreator.pdfimport.repository.WeaponMasteriesRepository;
+import com.dndcharactercreator.pdfimport.repository.WeaponPropertiesRepository;
+import com.dndcharactercreator.pdfimport.repository.WeaponsRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +26,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +46,9 @@ class ReferenceControllerTest {
     @MockitoBean private LanguagesRepository languagesRepo;
     @MockitoBean private SkillsRepository skillsRepo;
     @MockitoBean private SubclassesRepository subclassesRepo;
+    @MockitoBean private WeaponsRepository weaponsRepo;
+    @MockitoBean private WeaponPropertiesRepository weaponPropertiesRepo;
+    @MockitoBean private WeaponMasteriesRepository weaponMasteriesRepo;
 
     @Test
     void GET_racesReturnsJsonArray() throws Exception {
@@ -131,5 +139,17 @@ class ReferenceControllerTest {
            .andExpect(status().isOk())
            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
            .andExpect(jsonPath("$[0].name").value("Champion"));
+    }
+
+    @Test
+    void GET_weaponsReturnsJsonObject() throws Exception {
+        WeaponData weapon = new WeaponData();
+        weapon.setDisplayName("Longsword");
+        when(weaponsRepo.getAllWeapons()).thenReturn(Map.of("LONGSWORD", weapon));
+
+        mvc.perform(get("/api/reference/weapons"))
+           .andExpect(status().isOk())
+           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+           .andExpect(jsonPath("$.LONGSWORD.displayName").value("Longsword"));
     }
 }

@@ -1,6 +1,9 @@
 package com.dndcharactercreator.pdfimport.service;
 
 import com.dndcharactercreator.pdfimport.model.CharacterDto;
+import com.dndcharactercreator.pdfimport.model.ClassesData;
+import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
+import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
-import com.dndcharactercreator.pdfimport.repository.RacesRepository;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -62,6 +63,10 @@ class PdfFillerServiceTest {
                 ArgumentMatchers.anyString()))
             .thenReturn(18);
 
+        ClassesData fighter = new ClassesData();
+        fighter.setHitDie(10);
+        when(classesRepo.findByID("fighter")).thenReturn(Optional.of(fighter));
+
         // determine how many pages the blank template has
         var tpl = new ClassPathResource("templates/5ECharacterSheet.pdf");
         try (var in = tpl.getInputStream();
@@ -82,6 +87,7 @@ class PdfFillerServiceTest {
         dto.setCharacterRace("Human");
         dto.setCharacterAlignment("Neutral");
         dto.setCharacterExperiencePoints(900);
+        dto.setCharacterSpeed(30);
         dto.setCharacterStrength(16);
         dto.setCharacterDexterity(12);
         dto.setCharacterConstitution(20);

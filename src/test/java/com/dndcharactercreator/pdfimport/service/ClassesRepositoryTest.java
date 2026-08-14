@@ -71,11 +71,46 @@ class ClassesRepositoryTest {
         assertNotNull(cd.getHitDie(),   "hitDie should not be null");
         assertNotNull(cd.getPrimaryAbility(), "primaryAbility should not be null");
         assertNotNull(cd.getProficiencies(),  "proficiencies should not be null");
-        assertNotNull(cd.getStartingEquipmentOptions(), 
+        assertNotNull(cd.getStartingEquipmentOptions(),
                       "startingEquipmentOptions should not be null");
 
         Map<String, List<ClassesData.Feature>> features = cd.getFeaturesByLevel();
         assertNotNull(features, "featuresByLevel should not be null");
         assertFalse(features.isEmpty(), "featuresByLevel should contain entries");
+    }
+
+    @Test
+    void proficiencies_nestedFields_loadedCorrectly() {
+        // Regression test: the Proficiencies object itself was never null (Jackson
+        // still constructs it because the "proficiencies" key exists), but every
+        // field inside it deserialized to null because the @JsonProperty keys
+        // ("armorProficiencies", "weaponProficiencies", etc.) didn't match the
+        // actual JSON keys ("armor", "weapons", etc.). Assert on real values here,
+        // not just non-null on the parent object, so this can't regress silently.
+        ClassesData barbarian = classesRepository.findByID("barbarian")
+                .orElseThrow(() -> new AssertionError("Expected a 'barbarian' class entry in classes.json"));
+
+        ClassesData.Proficiencies proficiencies = barbarian.getProficiencies();
+        assertNotNull(proficiencies, "proficiencies should not be null");
+
+        assertEquals(List.of("Light Armor", "Medium Armor", "Shields"),
+                     proficiencies.getArmorProficiencies(),
+                     "armorProficiencies should match classes.json");
+        assertEquals(List.of("Simple Weapons", "Martial Weapons"),
+                     proficiencies.getWeaponProficiencies(),
+                     "weaponProficiencies should match classes.json");
+        assertNotNull(proficiencies.getToolProficiencies(),
+                      "toolProficiencies should not be null (empty list is fine)");
+        assertEquals(List.of("Strength", "Constitution"),
+                     proficiencies.getSavingThrowProficiencies(),
+                     "savingThrowProficiencies should match classes.json");
+
+        ClassesData.SkillChoices skills = proficiencies.getSkillChoices();
+        assertNotNull(skills, "skills should not be null");
+        assertEquals(2, skills.getChoose(), "barbarian should choose 2 skills");
+        assertNotNull(skills.getLimitedSkillList(),
+                      "limitedSkillList should not be null");
+        assertTrue(skills.getLimitedSkillList().contains("Athletics"),
+                   "barbarian skill list should include Athletics");
     }
 }

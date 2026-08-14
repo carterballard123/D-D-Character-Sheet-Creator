@@ -387,6 +387,11 @@ public class PdfFillerService {
      * @throws Exception if PDFBox fails to set checkbox values
      */
     private static void checkSavingThrowBoxes(PDAcroForm form, CharacterDto dto) throws Exception {
-        // TODO: implement
+        // TODO: not yet implemented, and currently unreachable (never called).
+        // Blocked on CharacterDto: it has no saving-throw-proficiency data yet
+        // (class-level proficiencies now load correctly via ClassesData.Proficiencies,
+        // see getSavingThrowProficiencies(), but nothing wires that into CharacterDto
+        // for a specific character). Once that's added, this should mirror whatever
+        // pattern the other PDF checkbox-filling methods use in this class.
     }
 }

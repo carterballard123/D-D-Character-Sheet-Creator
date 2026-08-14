@@ -1,16 +1,18 @@
 package com.dndcharactercreator.pdfimport.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.dndcharactercreator.pdfimport.repository.LanguagesRepository;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(
   classes = {
@@ -49,8 +51,8 @@ class LanguagesRepositoryTest {
     @Test
     void exists_knownAndUnknown() {
         String known = languagesRepository.findAll().get(0);
-        assertTrue(languagesRepository.exits(known), "exists(known) should be true");
-        assertFalse(languagesRepository.exits("NoSuchLanguage"), "exists(unknown) should be false");
-        assertFalse(languagesRepository.exits(null), "exists(null) should be false");
+        assertTrue(languagesRepository.exists(known), "exists(known) should be true");
+        assertFalse(languagesRepository.exists("NoSuchLanguage"), "exists(unknown) should be false");
+        assertFalse(languagesRepository.exists(null), "exists(null) should be false");
     }
 }
