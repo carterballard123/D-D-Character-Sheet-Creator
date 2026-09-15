@@ -42,7 +42,7 @@ public class DefaultCharacterMathService implements CharacterMathService {
      */
     @Override
     public int computeModifier(int abilityScore) {
-        return (abilityScore - 10) / 2;
+        return Math.floorDiv(abilityScore - 10, 2);
     }
 
     /**
