@@ -197,4 +197,80 @@ class PdfFillerServiceTest {
         // Ability scores are untouched by a missing level and should still compute normally.
         assertEquals("+3", fieldValue(pdfBytes, "STRmod"));
     }
+
+    @Test
+    void fill_withUnresolvableClass_rendersDashForHP_andDoesNotThrow() throws Exception {
+        CharacterDto dto = buildCompleteDto();
+        // An empty (but non-null) class name - e.g. a raw API caller that explicitly sends "".
+        // (Note: a <select> whose only selected option is disabled - i.e. the browser's own
+        // placeholder, before anything is picked - is NOT submitted as "" via FormData; it's
+        // omitted entirely, which Jackson then leaves as a true null. See the null-class test
+        // below for that actual browser scenario.)
+        dto.setCharacterClass("");
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
+            "An empty/unrecognized class must not throw - HP should render as a dash instead. "
+            + "(This used to throw: computeMaxHP's classesRepo.findByID(...).orElseThrow(...) "
+            + "had no guard.)");
+
+        assertEquals(MISSING, fieldValue(pdfBytes, "HPMax"),
+            "Max HP depends on a resolvable class and should render as a dash without one");
+
+        // Everything not dependent on the class should still compute normally.
+        assertEquals("+3", fieldValue(pdfBytes, "STRmod"));
+        assertEquals("+2", fieldValue(pdfBytes, "ProfBonus"));
+    }
+
+    @Test
+    void fill_withNullClass_rendersDashForACAndHP_andDoesNotThrow() throws Exception {
+        CharacterDto dto = buildCompleteDto();
+        // This is what the live preview actually sends before a class is picked: the
+        // <select>'s only selected option is its disabled placeholder, and a disabled
+        // selected option is excluded from FormData entirely - the key never makes it into
+        // the JSON body at all, so Jackson leaves this field as a true null (not "").
+        dto.setCharacterClass(null);
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
+            "A null class must not throw. computeAC calls className.equalsIgnoreCase(...) "
+            + "directly to check for Barbarian/Monk unarmored defense - unlike an empty or "
+            + "unrecognized class name, a null one crashes that call outright, and this is "
+            + "the actual value a real page load produces, not just a hypothetical edge case.");
+
+        assertEquals(MISSING, fieldValue(pdfBytes, "AC"),
+            "AC depends on a known class (for unarmored-defense rules) and should render as a dash without one");
+        assertEquals(MISSING, fieldValue(pdfBytes, "HPMax"),
+            "Max HP depends on a resolvable class and should render as a dash without one");
+
+        // Everything not dependent on the class should still compute normally.
+        assertEquals("+3", fieldValue(pdfBytes, "STRmod"));
+        assertEquals("+2", fieldValue(pdfBytes, "ProfBonus"));
+    }
+
+    @Test
+    void fill_withNullClassAndLevel_rendersDashPiecesForClassLevel_andDoesNotThrow() throws Exception {
+        CharacterDto dto = buildCompleteDto();
+        dto.setCharacterClass(null);
+        dto.setCharacterLevel(null);
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
+            "A null class and level must not throw.");
+
+        // This is the actual reported bug: concatenating two nullable fields with `+` doesn't
+        // throw the way calling a method on a null one does - it silently produces the literal
+        // text "null" instead. Each piece must be guarded independently before joining.
+        assertEquals(MISSING + " " + MISSING, fieldValue(pdfBytes, "ClassLevel"),
+            "An all-missing ClassLevel should show dash pieces, not the literal word \"null\"");
+    }
+
+    @Test
+    void fill_withOnlyClassMissing_rendersDashForClassPieceOnly() throws Exception {
+        CharacterDto dto = buildCompleteDto();
+        dto.setCharacterClass(null);
+        // Level (3) stays set.
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto));
+
+        assertEquals(MISSING + " 3", fieldValue(pdfBytes, "ClassLevel"),
+            "Only the missing piece (class) should become a dash; the present piece (level) is unaffected");
+    }
 }

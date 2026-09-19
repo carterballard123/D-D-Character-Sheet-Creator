@@ -325,4 +325,37 @@ public class CharacterDto {
     public void setCharacterCharisma(Integer characterCharisma) {
         this.characterCharisma = characterCharisma;
     }
+
+    /**
+     * Returns a readable dump of every field, primarily for diagnostic logging (e.g. so a
+     * failed {@code /api/pdf/fill} request can be logged with what was actually submitted,
+     * rather than the default {@code CharacterDto@<hash>}).
+     */
+    @Override
+    public String toString() {
+        return "CharacterDto{" +
+            "characterName='" + characterName + '\'' +
+            ", characterLevel=" + characterLevel +
+            ", characterClass='" + characterClass + '\'' +
+            ", characterSubClass='" + characterSubClass + '\'' +
+            ", characterBackground='" + characterBackground + '\'' +
+            ", playerName='" + playerName + '\'' +
+            ", characterRace='" + characterRace + '\'' +
+            ", characterAlignment='" + characterAlignment + '\'' +
+            ", characterExperiencePoints=" + characterExperiencePoints +
+            ", characterWeapons=" + characterWeapons +
+            ", characterArmorName='" + characterArmorName + '\'' +
+            ", characterShield='" + characterShield + '\'' +
+            ", characterInitiative=" + characterInitiative +
+            ", characterSpeed=" + characterSpeed +
+            ", characterHitDice='" + characterHitDice + '\'' +
+            ", characterLanguages=" + characterLanguages +
+            ", characterStrength=" + characterStrength +
+            ", characterDexterity=" + characterDexterity +
+            ", characterConstitution=" + characterConstitution +
+            ", characterIntelligence=" + characterIntelligence +
+            ", characterWisdom=" + characterWisdom +
+            ", characterCharisma=" + characterCharisma +
+            '}';
+    }
 }

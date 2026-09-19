@@ -1,8 +1,8 @@
 // ==============================
 // FILE: /js/form.js
 // ==============================
-import { $, modeValue, setMsg } from './core.js';
-import { getChecked } from './ui/pills.js';
+import { $, setMsg } from './core.js';
+import { buildCharacterPayload } from './payload.js';
 
 /** Wires the character form's submit handler: builds the payload, posts it, and downloads the resulting PDF. */
 export function wireFormSubmit() {
@@ -14,26 +14,7 @@ export function wireFormSubmit() {
     setMsg('muted', 'Submitting…');
     if (btn) btn.disabled = true;
 
-    const fd = new FormData(form);
-    const payload = Object.fromEntries(fd.entries());
-
-    // Drop optional selects left at their placeholder value.
-    ['armorName', 'shieldName', 'subclassName'].forEach((k) => {
-      if (payload[k] === '' || payload[k] === '(optional)') delete payload[k];
-    });
-
-    // Coerce numeric fields; blank inputs become undefined rather than 0.
-    ['characterLevel', 'characterStrength', 'characterDexterity', 'characterConstitution', 'characterIntelligence', 'characterWisdom', 'characterCharisma']
-      .forEach((k) => {
-        if (payload[k] !== undefined) {
-          const raw = String(payload[k]).trim();
-          payload[k] = raw === '' ? undefined : Number(raw);
-        }
-      });
-
-    payload.languages = getChecked('languages');
-    payload.skills = getChecked('skills');
-    payload.mode = modeValue();
+    const payload = buildCharacterPayload();
 
     try {
       const res = await fetch('/api/pdf/fill', {

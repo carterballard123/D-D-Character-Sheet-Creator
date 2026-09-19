@@ -37,7 +37,18 @@ function getAbilities() {
 
 function setAbilities(map) {
   ABILITY_IDS.forEach((id) => {
-    if ($(`#${id}`) && map[id] != null) $(`#${id}`).value = map[id];
+    const el = $(`#${id}`);
+    if (!el || map[id] == null) return;
+    const next = String(map[id]);
+    if (el.value === next) return; // no real change - skip the event
+    el.value = next;
+    // Setting .value in JS fires no event of its own. This is called
+    // from button clicks (Roll/Apply, Point Buy's reset-to-8), not from
+    // the input being edited directly, so without dispatching one
+    // ourselves nothing downstream (e.g. the live PDF preview's
+    // change-delegation in features/pdfPreview.js) would ever learn an
+    // ability score changed.
+    el.dispatchEvent(new Event('change', { bubbles: true }));
   });
 }
 

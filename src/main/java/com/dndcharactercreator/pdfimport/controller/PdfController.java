@@ -1,5 +1,8 @@
 package com.dndcharactercreator.pdfimport.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +30,8 @@ import com.dndcharactercreator.pdfimport.service.PdfFillerService;
 @RestController
 @RequestMapping("/api/pdf")
 public class PdfController {
+
+    private static final Logger log = LoggerFactory.getLogger(PdfController.class);
 
     /**
      * Service responsible for filling a PDF character sheet from a character DTO.
@@ -67,7 +72,7 @@ public class PdfController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=character-sheet.pdf")
                 .body(pdfBytes);
         } catch (Exception e) {
-            // TODO: Add logging here if desired (e.g., log.error("PDF generation failed", e);)
+            log.error("PDF generation failed for request: {}", dto, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

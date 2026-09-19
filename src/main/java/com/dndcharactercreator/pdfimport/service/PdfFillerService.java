@@ -157,6 +157,12 @@ public class PdfFillerService {
      * renders as {@value #MISSING} when absent rather than an empty field, so an in-progress
      * character's preview PDF reads as "not filled in yet" rather than blank/broken.
      *
+     * <p>"ClassLevel" is built by joining two separately-optional fields (class and level) into
+     * one string. Unlike this class's other missing-data guards, joining two nullable values
+     * with {@code +} doesn't throw when one is null - Java just concatenates the literal text
+     * "null" into the result. Both pieces are guarded independently before joining, so an
+     * all-missing character shows {@code "— —"} rather than {@code "null (lvl)"}.
+     *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
@@ -165,7 +171,9 @@ public class PdfFillerService {
         setField(form, "CharacterName", orDash(dto.getCharacterName()));
 
         Integer level = dto.getCharacterLevel();
-        setField(form, "ClassLevel", dto.getCharacterClass() + " " + (level == null ? MISSING : level));
+        String classPart = orDash(dto.getCharacterClass());
+        String levelPart = (level == null) ? MISSING : String.valueOf(level);
+        setField(form, "ClassLevel", classPart + " " + levelPart);
 
         setField(form, "Background", orDash(dto.getCharacterBackground()));
         setField(form, "PlayerName", dto.getPlayerName());
@@ -282,8 +290,9 @@ public class PdfFillerService {
     private void fillHP(PDAcroForm form, CharacterDto dto) throws Exception {
         Integer conMod = safeModifier(dto.getCharacterConstitution());
         Integer level = dto.getCharacterLevel();
+        boolean classKnown = resolveClass(dto.getCharacterClass()).isPresent();
 
-        if (conMod == null || level == null) {
+        if (conMod == null || level == null || !classKnown) {
             setField(form, "HPMax", MISSING);
             return;
         }
@@ -298,7 +307,10 @@ public class PdfFillerService {
      * <p>AC depends on the Dexterity, Constitution, Wisdom, and Charisma modifiers (which
      * combination actually matters depends on class/subclass unarmored-defense rules). All four
      * ability scores are optional on {@link CharacterDto}; if any is missing this renders
-     * {@value #MISSING} rather than guessing which rule would have applied.
+     * {@value #MISSING} rather than guessing which rule would have applied. Class is also
+     * required here specifically because {@link CharacterMathService#computeAC} calls
+     * {@code className.equalsIgnoreCase(...)} directly to check for Barbarian/Monk unarmored
+     * defense - a null class name would crash that call, not just produce a wrong answer.
      *
      * @param form PDF form to populate
      * @param dto character build input
@@ -309,14 +321,20 @@ public class PdfFillerService {
         Integer conMod = safeModifier(dto.getCharacterConstitution());
         Integer wisMod = safeModifier(dto.getCharacterWisdom());
         Integer chaMod = safeModifier(dto.getCharacterCharisma());
+        String className = dto.getCharacterClass();
 
-        if (dexMod == null || conMod == null || wisMod == null || chaMod == null) {
+        // computeAC calls className.equalsIgnoreCase(...) directly (to check for Barbarian/
+        // Monk unarmored defense) - a null className crashes that call outright, unlike an
+        // empty or unrecognized one, which it already handles fine. Class is optional on
+        // CharacterDto, so this is a real, reachable case, not a hypothetical one.
+        if (dexMod == null || conMod == null || wisMod == null || chaMod == null
+                || className == null || className.isBlank()) {
             setField(form, "AC", MISSING);
             return;
         }
 
         int AC = math.computeAC(
-            dto.getCharacterClass(),
+            className,
             dto.getCharacterSubClass(),
             dexMod,
             conMod,
@@ -384,12 +402,7 @@ public class PdfFillerService {
      * @throws Exception if any PDF field set operation fails
      */
     private void fillHitDie(PDAcroForm form, CharacterDto dto) throws Exception {
-        String raw = dto.getCharacterClass();
-        if (raw == null || raw.isBlank()) return;
-
-        String key = raw.trim().toLowerCase(java.util.Locale.ROOT);
-
-        java.util.Optional<com.dndcharactercreator.pdfimport.model.ClassesData> clsOpt = classesRepo.findByID(key);
+        var clsOpt = resolveClass(dto.getCharacterClass());
         if (clsOpt.isEmpty()) return;
 
         var cls = clsOpt.get();
@@ -474,6 +487,27 @@ public class PdfFillerService {
      */
     private Integer safeProficiency(Integer level) {
         return (level == null) ? null : math.computeProficiency(level);
+    }
+
+    /**
+     * Resolves a possibly-missing or unrecognized class name to its reference data, or empty
+     * if there's nothing to resolve.
+     *
+     * <p>Class was already optional on {@link CharacterDto} before this class's other fields
+     * became optional too, so this isn't new - but {@link CharacterMathService#computeMaxHP}
+     * throws {@link IllegalArgumentException} for a class it can't find via
+     * {@code orElseThrow(...)}, and nothing was guarding that call. That's exactly the kind of
+     * "computation crashes instead of rendering a placeholder" gap this class exists to close;
+     * it just wasn't reachable before there was a way to submit the form without picking a
+     * class in the first place. Used to guard any computation that depends on the class being
+     * known, rather than letting that exception bubble up as an unhandled 500.
+     *
+     * @param className the class name, or null/blank if not provided
+     * @return the resolved class data, or empty if {@code className} is null, blank, or unknown
+     */
+    private java.util.Optional<com.dndcharactercreator.pdfimport.model.ClassesData> resolveClass(String className) {
+        if (className == null || className.isBlank()) return java.util.Optional.empty();
+        return classesRepo.findByID(className.trim().toLowerCase(java.util.Locale.ROOT));
     }
 
     /**
