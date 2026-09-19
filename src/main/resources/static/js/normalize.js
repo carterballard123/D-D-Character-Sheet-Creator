@@ -9,11 +9,15 @@ export function normalizeClass(c) {
   return {
     id: c.classID || c.name,
     name: c.name || c.classID,
+    hitDie: c.hitDie,
+    primaryAbility: c.primaryAbility,
+    savingThrows: toArray(c?.proficiencies?.savingThrows).map(String),
     profSkills: {
       choose: c?.proficiencies?.skills?.choose ?? 0,
       from: toArray(c?.proficiencies?.skills?.from).map(String),
     },
     featuresByLevel: c?.featuresByLevel || {},
+    _raw: c,
   };
 }
 

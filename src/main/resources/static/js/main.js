@@ -18,8 +18,11 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 import { $, setMsg } from './core.js';
+import { cache } from './state.js';
 import { loadClasses, loadRaces, loadBackgrounds, loadArmors, loadShields, loadAlignments, loadSubclasses, loadLanguages, loadSkills } from './api.js';
 import { refreshPills } from './ui/pills.js';
+import { renderCardPicker } from './ui/cards.js';
+import { renderPreview } from './ui/preview.js';
 import { wireSubclassUI, refreshSubclassUI } from './features/subclass.js';
 import { initAbilityUI, refreshAbilityModeUI } from './features/abilities.js';
 import { wireFormSubmit } from './form.js';
@@ -34,6 +37,20 @@ async function init() {
       loadShields(),
       loadAlignments(),
     ]);
+
+    // Classes/races just finished loading — swap their <select>s for
+    // card grids and paint the first preview.
+    renderCardPicker($('#characterClass'), cache.classes, {
+      valueFor: (c) => c.name,
+      labelFor: (c) => c.name,
+      subtitleFor: (c) => (c.primaryAbility ? `${c.primaryAbility} · d${c.hitDie}` : ''),
+    });
+    renderCardPicker($('#characterRace'), cache.races, {
+      valueFor: (r) => r.name,
+      labelFor: (r) => r.name,
+      subtitleFor: (r) => r._raw?.creatureType || '',
+    });
+    renderPreview();
 
     // Subclasses are tied to whichever class is selected, in either mode.
     await loadSubclasses($('#characterClass')?.value || null);
@@ -52,6 +69,10 @@ async function init() {
     $('#characterClass')?.addEventListener('change', refreshPills);
     $('#characterRace')?.addEventListener('change', refreshPills);
     $('#characterBackground')?.addEventListener('change', refreshPills);
+
+    // Update the preview panel whenever class/race changes
+    $('#characterClass')?.addEventListener('change', renderPreview);
+    $('#characterRace')?.addEventListener('change', renderPreview);
 
     // RAW vs. Freedom toggle re-loads subclasses (level gate differs)
     // and refreshes both the pills and subclass visibility.

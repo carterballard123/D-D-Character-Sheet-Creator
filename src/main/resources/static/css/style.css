@@ -1,48 +1,122 @@
+/* Design tokens (CSS custom properties) shared by every rule below:
+   background/panel shades, text colors, the neutral border color, the
+   two brand accent colors, and the ok/err status colors. Change a
+   color here and it updates everywhere that references var(--name). */
 :root{
   --bg:#0b1020;--panel:#0f172a;--soft:#111827;--text:#e5e7eb;--muted:#9ca3af;--ring:#334155;
   --brand:#60a5fa;--brand2:#22d3ee;--ok:#16a34a;--err:#ef4444;
 }
+
+/* Base reset: padding/border count inside an element's declared width
+   instead of adding to it, so width math never gets surprising. */
 *{box-sizing:border-box}
 html,body{height:100%}
+/* Page background gradient, default text color, and the font stack. */
 body{margin:0;background:linear-gradient(120deg,var(--bg),#0a0f1f);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;}
 
+/* The sticky top bar: stays pinned while scrolling, translucent with a
+   blur so content scrolling underneath it is still faintly visible. */
 header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.8);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+/* Centered max-width content wrapper, reused inside both header and footer. */
 .wrap{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:16px}
+/* The "🧙‍♂️ D&D Character → PDF" logo text. */
 .brand{font-weight:800;letter-spacing:.2px}
+/* The small "Local • Spring Boot" badge next to the logo. */
 .pilltag{font-size:12px;color:#0b1020;background:linear-gradient(135deg,var(--brand),var(--brand2));padding:6px 10px;border-radius:999px}
 
+/* The page's main content column: centered, capped width, sections
+   stacked vertically with consistent spacing between them. */
 main{max-width:1000px;margin:24px auto;padding:0 16px 48px;display:grid;gap:16px}
 
+/* The big rounded panel behind the whole form ("Character Details"). */
 .card{background:linear-gradient(180deg,var(--panel),var(--soft));border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.35)}
 .card .inner{padding:18px}
 .card h2{margin:0 0 8px 0;font-size:18px;color:var(--brand2)}
 
+/* Stacks the form's field groups vertically with gaps between them. */
 form{display:grid;gap:16px}
+/* Two/three-column layouts for paired or tripled fields — e.g.
+   Name+Level, Class+Subclass, Race+Background, the ability score row. */
 .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+/* Collapse those grids to a single column on narrow/mobile screens. */
 @media (max-width:800px){.grid-2,.grid-3{grid-template-columns:1fr}}
 
+/* Field labels: small and muted so the input itself stays the focus. */
 label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+/* Base look shared by every text/number input and native <select>. */
 input,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--ring);background:#0a0f1a;color:var(--text)}
+/* Dims a <select>'s placeholder option text until something real is chosen. */
 select:invalid{color:var(--muted)}
+/* Small muted helper/explanation text used throughout the form. */
 .hint{font-size:12px;color:var(--muted)}
 
+/* The wrapping grid that holds the language/skill checkbox pills
+   (rendered by ui/pills.js into #languagesBox / #skillsBox). */
 .pillbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+/* One pill/chip: a rounded checkbox+label pairing. */
 .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:#0a0f1a}
+/* Dims a pill that's either granted-and-locked or disabled because the
+   pick limit for that group has been reached. */
 .pill.disabled{opacity:.5;filter:saturate(.6)}
 
+/* The row holding the "Generate PDF" button and its hint text. */
 .actions{display:flex;gap:10px;align-items:center}
+/* Global button look — bold gradient pill. Note this applies to EVERY
+   <button> on the page unless something more specific overrides it
+   (see .card-picker-item below, which resets this back to nothing). */
 button{cursor:pointer;border:0;border-radius:12px;background:linear-gradient(135deg,var(--brand2),var(--brand));color:#08131a;padding:12px 16px;font-weight:800}
 button:disabled{opacity:.6;filter:saturate(.6)}
 
+/* The status bar at the bottom of the form (#msg) — base style, plus
+   three color variants toggled by JS via setMsg() in core.js. */
 .msg{border-radius:12px;padding:10px 12px;font-size:14px}
 .msg.ok{background:#062413;border:1px solid #134e21;color:#b7f7c7}
 .msg.err{background:#2a0f12;border:1px solid #6b0f1a;color:#fecaca}
 .msg.muted{background:#0b1220;border:1px dashed #253046;color:var(--muted)}
 
+/* The "Served by Spring Boot on /" text at the very bottom of the page. */
 footer{opacity:.7;text-align:center;padding:18px;font-size:12px}
+/* Monospace font for any inline <code> tags. */
 code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 
+/* Belt-and-suspenders: forces the subclass box to actually disappear
+   when features/subclass.js sets its `hidden` attribute. (The browser
+   already does this by default for [hidden] — this just makes the
+   intent explicit and immune to some other rule accidentally
+   overriding display on this element.) */
 #subclassGroup[hidden]{display:none;}
+/* Unused right now — not referenced by any HTML or JS in this project.
+   Left over from an earlier iteration; safe to delete or repurpose. */
 .help-text{font-size:0.9rem;opacity:0.8;}
 .locked{opacity:0.6;pointer-events:none;}
+
+/* Visually hide an element while keeping it in the layout/accessibility
+   tree — unlike display:none or [hidden], it stays focusable and
+   readable by screen readers. Used to hide the real <select> once
+   ui/cards.js has replaced its visible UI with a card grid; the select
+   is still the actual source of truth underneath. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* The card grid rendered by ui/cards.js's renderCardPicker(), used for
+   both the Class and Race pickers. */
+.card-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}
+/* One card/button in that grid. `all:unset` strips out the global
+   button{} rule above (its gradient/bold/padding aren't wanted here),
+   then everything after re-declares just what this card actually
+   needs — including redoing box-sizing/width, since unset wipes those
+   too and without them the padding would overflow the grid cell. */
+.card-picker-item{all:unset;cursor:pointer;display:block;box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--ring);border-radius:12px;background:#0a0f1a;color:var(--text)}
+.card-picker-item:hover{border-color:var(--brand)}
+/* The currently-selected card: brighter border, a subtle glow, and a
+   faint tinted background. Toggled by JS alongside aria-pressed. */
+.card-picker-item.active{border-color:var(--brand2);box-shadow:0 0 0 1px var(--brand2) inset;background:linear-gradient(180deg,rgba(34,211,238,.12),rgba(96,165,250,.08))}
+.card-picker-title{font-weight:700;font-size:14px}
+.card-picker-subtitle{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* The live preview panel rendered by ui/preview.js, shown after the
+   Race/Background row: a dashed "informational" box (same visual
+   language as .msg.muted above) containing a label/value row per stat. */
+#creationPreview{border:1px dashed var(--ring);border-radius:12px;padding:12px;display:grid;gap:6px}
+.preview-row{display:flex;justify-content:space-between;font-size:13px}
+.preview-label{color:var(--muted)}
