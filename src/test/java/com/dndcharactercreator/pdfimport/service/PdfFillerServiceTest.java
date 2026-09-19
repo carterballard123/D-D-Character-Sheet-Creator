@@ -6,6 +6,7 @@ import com.dndcharactercreator.pdfimport.repository.ClassesRepository;
 import com.dndcharactercreator.pdfimport.repository.RacesRepository;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
+import org.apache.pdfbox.pdmodel.interactive.form.PDCheckBox;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -112,6 +114,19 @@ class PdfFillerServiceTest {
         try (var doc = Loader.loadPDF(pdfBytes)) {
             PDField field = doc.getDocumentCatalog().getAcroForm().getField(fieldName);
             return field == null ? null : field.getValueAsString();
+        }
+    }
+
+    /**
+     * Whether a checkbox field is checked in a filled PDF's bytes. Uses PDCheckBox.isChecked()
+     * rather than comparing fieldValue(...) against a guessed "on" string, for the same reason
+     * PdfFillerService itself uses PDCheckBox.check() to set it: the field's actual "on" export
+     * value for this template was never confirmed, and isChecked()/check() don't need it.
+     */
+    private boolean isChecked(byte[] pdfBytes, String fieldName) throws Exception {
+        try (var doc = Loader.loadPDF(pdfBytes)) {
+            PDField field = doc.getDocumentCatalog().getAcroForm().getField(fieldName);
+            return (field instanceof PDCheckBox checkBox) && checkBox.isChecked();
         }
     }
 
@@ -272,5 +287,45 @@ class PdfFillerServiceTest {
 
         assertEquals(MISSING + " 3", fieldValue(pdfBytes, "ClassLevel"),
             "Only the missing piece (class) should become a dash; the present piece (level) is unaffected");
+    }
+
+    /** All six saving-throw checkbox field names, for iterating in the "checks none" test. */
+    private static final List<String> ALL_SAVING_THROW_CHECKBOXES = List.of(
+        "Check Box 11", "Check Box 18", "Check Box 19", "Check Box 20", "Check Box 21", "Check Box 22"
+    );
+
+    @Test
+    void fill_withBarbarianClass_checksExactlyStrengthAndConstitutionSavingThrows() throws Exception {
+        ClassesData barbarian = new ClassesData();
+        barbarian.setHitDie(12);
+        ClassesData.Proficiencies profs = new ClassesData.Proficiencies();
+        profs.setSavingThrowProficiencies(List.of("Strength", "Constitution"));
+        barbarian.setProficiencies(profs);
+        when(classesRepo.findByID("barbarian")).thenReturn(Optional.of(barbarian));
+
+        CharacterDto dto = buildCompleteDto();
+        dto.setCharacterClass("Barbarian");
+
+        byte[] pdfBytes = pdfFillerService.fill(dto);
+
+        assertTrue(isChecked(pdfBytes, "Check Box 11"), "Strength save should be checked for a Barbarian");
+        assertTrue(isChecked(pdfBytes, "Check Box 19"), "Constitution save should be checked for a Barbarian");
+        assertFalse(isChecked(pdfBytes, "Check Box 18"), "Dexterity save should not be checked");
+        assertFalse(isChecked(pdfBytes, "Check Box 20"), "Intelligence save should not be checked");
+        assertFalse(isChecked(pdfBytes, "Check Box 21"), "Wisdom save should not be checked");
+        assertFalse(isChecked(pdfBytes, "Check Box 22"), "Charisma save should not be checked");
+    }
+
+    @Test
+    void fill_withUnresolvableClass_checksNoSavingThrowBoxes_andDoesNotThrow() throws Exception {
+        CharacterDto dto = buildCompleteDto();
+        dto.setCharacterClass(null);
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
+            "A null/unresolvable class must not throw when checking saving-throw boxes.");
+
+        for (String box : ALL_SAVING_THROW_CHECKBOXES) {
+            assertFalse(isChecked(pdfBytes, box), box + " should not be checked when the class is unresolvable");
+        }
     }
 }

@@ -8,6 +8,7 @@ import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDCheckBox;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
 import org.slf4j.Logger;
@@ -55,6 +56,23 @@ public class PdfFillerService {
 
     /** Placeholder written for any field or derived value that's missing required input. */
     private static final String MISSING = "—";
+
+    /**
+     * Maps each ability to the saving-throw-proficiency checkbox that corresponds to it in the
+     * PDF template. The template's own field names ("Check Box 11", "Check Box 18", ...) are
+     * meaningless - PDFBox's export from the source PDF editor numbers checkboxes in creation
+     * order, not layout order - so this mapping was confirmed by rendering the template and
+     * visually cross-referencing each checkbox's position against the printed layout, not
+     * guessed from the names.
+     */
+    private static final java.util.Map<String, String> SAVING_THROW_CHECKBOXES = java.util.Map.of(
+        "Strength",     "Check Box 11",
+        "Dexterity",    "Check Box 18",
+        "Constitution", "Check Box 19",
+        "Intelligence", "Check Box 20",
+        "Wisdom",       "Check Box 21",
+        "Charisma",     "Check Box 22"
+    );
 
     /** Rules engine used to compute derived values like modifiers, HP, AC, etc. */
     private final CharacterMathService math;
@@ -108,6 +126,7 @@ public class PdfFillerService {
             // 3) Fill each section
             fillTopTexts(form, dto);
             fillAbilityScores(form, dto);
+            checkSavingThrowBoxes(form, dto);
             fillProficiencyMod(form, dto);
             fillHP(form, dto);
             fillAC(form, dto);
@@ -535,20 +554,56 @@ public class PdfFillerService {
     }
 
     /**
-     * Placeholder for logic that checks/unchecks saving throw proficiency boxes.
+     * Checks the saving-throw proficiency boxes that match the character's class.
      *
-     * <p>Unfinished: left intentionally blank for future implementation.
+     * <p>Saving throw proficiency is entirely determined by class - it's not a player choice -
+     * so this needs nothing from {@link CharacterDto} beyond the class name already used
+     * elsewhere in this class. A missing or unresolvable class checks nothing, the same
+     * treatment every other class-dependent computation here gives that case, rather than
+     * throwing.
      *
      * @param form PDF form to modify
      * @param dto character build input
      * @throws Exception if PDFBox fails to set checkbox values
      */
-    private static void checkSavingThrowBoxes(PDAcroForm form, CharacterDto dto) throws Exception {
-        // TODO: not yet implemented, and currently unreachable (never called).
-        // Blocked on CharacterDto: it has no saving-throw-proficiency data yet
-        // (class-level proficiencies now load correctly via ClassesData.Proficiencies,
-        // see getSavingThrowProficiencies(), but nothing wires that into CharacterDto
-        // for a specific character). Once that's added, this should mirror whatever
-        // pattern the other PDF checkbox-filling methods use in this class.
+    private void checkSavingThrowBoxes(PDAcroForm form, CharacterDto dto) throws Exception {
+        var clsOpt = resolveClass(dto.getCharacterClass());
+        if (clsOpt.isEmpty()) return;
+
+        var proficiencies = clsOpt.get().getProficiencies();
+        java.util.List<String> savingThrows = (proficiencies == null) ? null : proficiencies.getSavingThrowProficiencies();
+        if (savingThrows == null) return;
+
+        for (var entry : SAVING_THROW_CHECKBOXES.entrySet()) {
+            if (savingThrows.contains(entry.getKey())) {
+                checkBox(form, entry.getValue());
+            }
+        }
+    }
+
+    /**
+     * Checks a single checkbox field by name, tolerating a missing field or one that isn't
+     * actually a checkbox the same way {@link #setField} tolerates a missing text field: log a
+     * warning and move on, rather than throwing.
+     *
+     * <p>Uses {@link PDCheckBox#check()} rather than {@code setValue("Yes")} - {@code check()}
+     * uses the field's own "on" export value internally, so this works regardless of what that
+     * value happens to be for this particular template, without needing to know it.
+     *
+     * @param form the PDF's AcroForm
+     * @param name exact PDF field name (e.g. "Check Box 11")
+     * @throws Exception if PDFBox fails to check the field
+     */
+    private static void checkBox(PDAcroForm form, String name) throws Exception {
+        PDField field = form.getField(name);
+        if (field == null) {
+            log.warn("No checkbox field named \"{}\" found in PDF.", name);
+            return;
+        }
+        if (field instanceof PDCheckBox checkBox) {
+            checkBox.check();
+        } else {
+            log.warn("Field \"{}\" is not a checkbox (was {}).", name, field.getClass().getSimpleName());
+        }
     }
 }
