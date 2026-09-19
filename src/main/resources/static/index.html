@@ -96,12 +96,12 @@
 		  </div>
 
           <div class="grid-3">
-            <div><label for="characterStrength">STR</label><input id="characterStrength" name="characterStrength" type="number" min="1" max="30" value="15" required /></div>
-            <div><label for="characterDexterity">DEX</label><input id="characterDexterity" name="characterDexterity" type="number" min="1" max="30" value="14" required /></div>
-            <div><label for="characterConstitution">CON</label><input id="characterConstitution" name="characterConstitution" type="number" min="1" max="30" value="16" required /></div>
-            <div><label for="characterIntelligence">INT</label><input id="characterIntelligence" name="characterIntelligence" type="number" min="1" max="30" value="10" required /></div>
-            <div><label for="characterWisdom">WIS</label><input id="characterWisdom" name="characterWisdom" type="number" min="1" max="30" value="12" required /></div>
-            <div><label for="characterCharisma">CHA</label><input id="characterCharisma" name="characterCharisma" type="number" min="1" max="30" value="8" required /></div>
+            <div><label for="characterStrength">STR</label><input id="characterStrength" name="characterStrength" type="number" min="1" max="30" required /></div>
+            <div><label for="characterDexterity">DEX</label><input id="characterDexterity" name="characterDexterity" type="number" min="1" max="30" required /></div>
+            <div><label for="characterConstitution">CON</label><input id="characterConstitution" name="characterConstitution" type="number" min="1" max="30" required /></div>
+            <div><label for="characterIntelligence">INT</label><input id="characterIntelligence" name="characterIntelligence" type="number" min="1" max="30" required /></div>
+            <div><label for="characterWisdom">WIS</label><input id="characterWisdom" name="characterWisdom" type="number" min="1" max="30" required /></div>
+            <div><label for="characterCharisma">CHA</label><input id="characterCharisma" name="characterCharisma" type="number" min="1" max="30" required /></div>
           </div>
 
           <div class="grid-2">
@@ -137,6 +137,14 @@
           </div>
           <div id="msg" class="msg muted">Fill the form and click Generate.</div>
         </form>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="inner">
+        <h2>Live Preview</h2>
+        <div id="pdfPreviewStatus" class="preview-status"></div>
+        <iframe id="pdfPreviewFrame" class="pdf-preview-frame" title="Live character sheet preview"></iframe>
       </div>
     </section>
   </main>

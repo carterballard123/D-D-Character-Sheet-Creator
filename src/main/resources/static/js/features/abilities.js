@@ -37,7 +37,18 @@ function getAbilities() {
 
 function setAbilities(map) {
   ABILITY_IDS.forEach((id) => {
-    if ($(`#${id}`) && map[id] != null) $(`#${id}`).value = map[id];
+    const el = $(`#${id}`);
+    if (!el || map[id] == null) return;
+    const next = String(map[id]);
+    if (el.value === next) return; // no real change - skip the event
+    el.value = next;
+    // Setting .value in JS fires no event of its own. This is called
+    // from button clicks (Roll/Apply, Point Buy's reset-to-8), not from
+    // the input being edited directly, so without dispatching one
+    // ourselves nothing downstream (e.g. the live PDF preview's
+    // change-delegation in features/pdfPreview.js) would ever learn an
+    // ability score changed.
+    el.dispatchEvent(new Event('change', { bubbles: true }));
   });
 }
 
@@ -76,7 +87,9 @@ function enterPointBuyMode() {
     el.max = 15;
     el.step = 1;
   });
-  // If current values are not valid point-buy, reset all to 8
+  // If current values are genuinely over budget for point buy (e.g. carried
+  // over from Free mode), reset all to 8 - a real, deliberately-invalid
+  // starting spread needs a valid one to work from.
   const cur = getAbilities();
   const curSpent = pointBuySpent(cur);
   if (curSpent === Infinity || curSpent > POINT_BUY_BUDGET) {
@@ -84,6 +97,14 @@ function enterPointBuyMode() {
     ABILITY_IDS.forEach((id) => (all8[id] = 8));
     setAbilities(all8);
     lastValidAbilities = all8;
+  } else if (curSpent === 0) {
+    // getAbilities() reads an empty field as 0, which clamps to the point-buy
+    // floor (8, cost 0) for spend-calculation purposes - so "every field is
+    // empty" and "every field is genuinely 0" both land here. Either way,
+    // there's nothing real to remember yet: leave lastValidAbilities unset
+    // (don't touch the fields) so a later overspend-revert falls back to the
+    // ?? 8 default instead of writing a literal "0" into an empty-looking field.
+    lastValidAbilities = null;
   } else {
     lastValidAbilities = cur;
   }

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -28,12 +26,21 @@ import jakarta.validation.constraints.Size;
  */
 public class CharacterDto {
 
-    /** Character name as displayed on the sheet. */
-    @NotBlank
+    /**
+     * Character name as displayed on the sheet.
+     *
+     * <p>Optional: the live preview PDF should still render for a character
+     * that's still being filled out. A missing name renders as "—" on the
+     * generated sheet rather than blocking generation.
+     */
     private String characterName;
 
-    /** Character level (1–20). */
-    @NotNull
+    /**
+     * Character level (1–20).
+     *
+     * <p>Optional (same reasoning as {@link #characterName}), but if a value
+     * IS provided it must still be in range.
+     */
     @Min(1)
     @Max(20)
     private Integer characterLevel;
@@ -44,19 +51,28 @@ public class CharacterDto {
     /** Selected subclass, if any (e.g., "Champion"). */
     private String characterSubClass;
 
-    /** Selected background (e.g., "Soldier"). */
-    @NotNull
+    /**
+     * Selected background (e.g., "Soldier").
+     *
+     * <p>Optional (same reasoning as {@link #characterName}).
+     */
     private String characterBackground;
 
     /** Player's real-world name. */
     private String playerName;
 
-    /** Selected character race (e.g., "Dwarf"). */
-    @NotNull
+    /**
+     * Selected character race (e.g., "Dwarf").
+     *
+     * <p>Optional (same reasoning as {@link #characterName}).
+     */
     private String characterRace;
 
-    /** Character alignment (e.g., "Lawful Good"). */
-    @NotNull
+    /**
+     * Character alignment (e.g., "Lawful Good").
+     *
+     * <p>Optional (same reasoning as {@link #characterName}).
+     */
     private String characterAlignment;
 
     /** Total experience points, if tracked. */
@@ -95,38 +111,37 @@ public class CharacterDto {
     @JsonProperty("languages")
     private List<String> characterLanguages;
 
-    /** Strength ability score (1–30). */
-    @NotNull
+    /**
+     * Strength ability score (1–30).
+     *
+     * <p>Optional (same reasoning as {@link #characterName}), but if a value
+     * IS provided it must still be in range.
+     */
     @Min(1)
     @Max(30)
     private Integer characterStrength;
 
-    /** Dexterity ability score (1–30). */
-    @NotNull
+    /** Dexterity ability score (1–30). Optional; see {@link #characterStrength}. */
     @Min(1)
     @Max(30)
     private Integer characterDexterity;
 
-    /** Constitution ability score (1–30). */
-    @NotNull
+    /** Constitution ability score (1–30). Optional; see {@link #characterStrength}. */
     @Min(1)
     @Max(30)
     private Integer characterConstitution;
 
-    /** Intelligence ability score (1–30). */
-    @NotNull
+    /** Intelligence ability score (1–30). Optional; see {@link #characterStrength}. */
     @Min(1)
     @Max(30)
     private Integer characterIntelligence;
 
-    /** Wisdom ability score (1–30). */
-    @NotNull
+    /** Wisdom ability score (1–30). Optional; see {@link #characterStrength}. */
     @Min(1)
     @Max(30)
     private Integer characterWisdom;
 
-    /** Charisma ability score (1–30). */
-    @NotNull
+    /** Charisma ability score (1–30). Optional; see {@link #characterStrength}. */
     @Min(1)
     @Max(30)
     private Integer characterCharisma;
@@ -309,5 +324,38 @@ public class CharacterDto {
 
     public void setCharacterCharisma(Integer characterCharisma) {
         this.characterCharisma = characterCharisma;
+    }
+
+    /**
+     * Returns a readable dump of every field, primarily for diagnostic logging (e.g. so a
+     * failed {@code /api/pdf/fill} request can be logged with what was actually submitted,
+     * rather than the default {@code CharacterDto@<hash>}).
+     */
+    @Override
+    public String toString() {
+        return "CharacterDto{" +
+            "characterName='" + characterName + '\'' +
+            ", characterLevel=" + characterLevel +
+            ", characterClass='" + characterClass + '\'' +
+            ", characterSubClass='" + characterSubClass + '\'' +
+            ", characterBackground='" + characterBackground + '\'' +
+            ", playerName='" + playerName + '\'' +
+            ", characterRace='" + characterRace + '\'' +
+            ", characterAlignment='" + characterAlignment + '\'' +
+            ", characterExperiencePoints=" + characterExperiencePoints +
+            ", characterWeapons=" + characterWeapons +
+            ", characterArmorName='" + characterArmorName + '\'' +
+            ", characterShield='" + characterShield + '\'' +
+            ", characterInitiative=" + characterInitiative +
+            ", characterSpeed=" + characterSpeed +
+            ", characterHitDice='" + characterHitDice + '\'' +
+            ", characterLanguages=" + characterLanguages +
+            ", characterStrength=" + characterStrength +
+            ", characterDexterity=" + characterDexterity +
+            ", characterConstitution=" + characterConstitution +
+            ", characterIntelligence=" + characterIntelligence +
+            ", characterWisdom=" + characterWisdom +
+            ", characterCharisma=" + characterCharisma +
+            '}';
     }
 }

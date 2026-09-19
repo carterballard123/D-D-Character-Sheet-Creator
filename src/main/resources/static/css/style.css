@@ -120,3 +120,14 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 #creationPreview{border:1px dashed var(--ring);border-radius:12px;padding:12px;display:grid;gap:6px}
 .preview-row{display:flex;justify-content:space-between;font-size:13px}
 .preview-label{color:var(--muted)}
+
+/* The live PDF preview iframe (features/pdfPreview.js): sized like an
+   actual sheet of paper (US Letter aspect ratio) rather than a small
+   thumbnail, and given a white background since the PDF itself renders
+   on a white page against this otherwise dark theme. */
+.pdf-preview-frame{width:100%;aspect-ratio:8.5/11;border:1px solid var(--ring);border-radius:12px;background:#fff}
+/* Non-blocking failure indicator for a live-preview refresh (distinct
+   from #msg, which is reserved for the "Generate PDF" button's own
+   feedback) - reserves a line of height even when empty so its
+   appearance/disappearance doesn't shift the layout. */
+.preview-status{min-height:1.2em;margin-bottom:8px;font-size:12px;color:var(--err)}

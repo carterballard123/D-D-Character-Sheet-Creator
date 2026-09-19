@@ -35,12 +35,26 @@ import java.io.InputStream;
  * <p>PDF field names must match the field names in the template exactly (including any
  * trailing spaces found in the PDF).
  *
+ * <p><b>Missing data:</b> most of {@link CharacterDto}'s fields are optional, to support
+ * generating a preview PDF for a character that's still being built in the UI. Any field or
+ * derived value that can't be filled in because something it depends on is missing is written
+ * as {@code "—"} (em dash) rather than left however PDFBox defaults an unset field, or worse,
+ * computed from an unboxed {@code null}. That null-checking intentionally lives here rather
+ * than in {@link CharacterMathService}/{@link DefaultCharacterMathService}: the math service
+ * stays a simple "given valid inputs, compute the answer" engine that still takes primitive
+ * {@code int}s, and this class - which already owns the decision of what gets written to each
+ * PDF field - is the one place that knows when a computation should be skipped in favor of a
+ * placeholder.
+ *
  * @author Carter Ballard
  */
 @Service
-public class PdfFillerService { 
+public class PdfFillerService {
 
     private static final Logger log = LoggerFactory.getLogger(PdfFillerService.class);
+
+    /** Placeholder written for any field or derived value that's missing required input. */
+    private static final String MISSING = "—";
 
     /** Rules engine used to compute derived values like modifiers, HP, AC, etc. */
     private final CharacterMathService math;
@@ -139,23 +153,45 @@ public class PdfFillerService {
      * Populates the top text fields on the PDF: character name, class/level, background,
      * player name, race, alignment, and XP.
      *
+     * <p>Name, background, race, and alignment are all optional on {@link CharacterDto}; each
+     * renders as {@value #MISSING} when absent rather than an empty field, so an in-progress
+     * character's preview PDF reads as "not filled in yet" rather than blank/broken.
+     *
+     * <p>"ClassLevel" is built by joining two separately-optional fields (class and level) into
+     * one string. Unlike this class's other missing-data guards, joining two nullable values
+     * with {@code +} doesn't throw when one is null - Java just concatenates the literal text
+     * "null" into the result. Both pieces are guarded independently before joining, so an
+     * all-missing character shows {@code "— —"} rather than {@code "null (lvl)"}.
+     *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillTopTexts(PDAcroForm form, CharacterDto dto) throws Exception {
-        setField(form, "CharacterName", dto.getCharacterName());
-        setField(form, "ClassLevel", dto.getCharacterClass() + " " + dto.getCharacterLevel());
-        setField(form, "Background", dto.getCharacterBackground());
+        setField(form, "CharacterName", orDash(dto.getCharacterName()));
+
+        Integer level = dto.getCharacterLevel();
+        String classPart = orDash(dto.getCharacterClass());
+        String levelPart = (level == null) ? MISSING : String.valueOf(level);
+        setField(form, "ClassLevel", classPart + " " + levelPart);
+
+        setField(form, "Background", orDash(dto.getCharacterBackground()));
         setField(form, "PlayerName", dto.getPlayerName());
-        setField(form, "Race ", dto.getCharacterRace()); // NOTE: PDF field includes a trailing space
-        setField(form, "Alignment", dto.getCharacterAlignment());
+        setField(form, "Race ", orDash(dto.getCharacterRace())); // NOTE: PDF field includes a trailing space
+        setField(form, "Alignment", orDash(dto.getCharacterAlignment()));
         setField(form, "XP", dto.getCharacterExperiencePoints() == null ? "" : dto.getCharacterExperiencePoints().toString());
     }
 
     /**
      * Populates raw ability scores and their modifiers, plus saving throws and skills
      * using raw modifiers only (no proficiency bonus additions yet).
+     *
+     * <p>Each ability score is optional on {@link CharacterDto}. A missing score renders as
+     * {@value #MISSING} for its own raw value and modifier, and cascades to every saving throw
+     * and skill that's governed by that ability - e.g. a missing Wisdom score means the Wisdom
+     * modifier, the Wisdom saving throw, and Animal Handling/Insight/Medicine/Perception/Survival
+     * all render {@value #MISSING}, while everything governed by a present ability computes
+     * normally.
      *
      * <p>Important: Several field names in this PDF template include trailing spaces.
      *
@@ -164,98 +200,141 @@ public class PdfFillerService {
      * @throws Exception if any PDF field set operation fails
      */
     private void fillAbilityScores(PDAcroForm form, CharacterDto dto) throws Exception {
-        int STR = dto.getCharacterStrength();
-        int DEX = dto.getCharacterDexterity();
-        int CON = dto.getCharacterConstitution();
-        int INT = dto.getCharacterIntelligence();
-        int WIS = dto.getCharacterWisdom();
-        int CHA = dto.getCharacterCharisma();
+        Integer STR = dto.getCharacterStrength();
+        Integer DEX = dto.getCharacterDexterity();
+        Integer CON = dto.getCharacterConstitution();
+        Integer INT = dto.getCharacterIntelligence();
+        Integer WIS = dto.getCharacterWisdom();
+        Integer CHA = dto.getCharacterCharisma();
 
         // Raw ability scores
-        setField(form, "STR", String.valueOf(STR));
-        setField(form, "DEX", String.valueOf(DEX));
-        setField(form, "CON", String.valueOf(CON));
-        setField(form, "INT", String.valueOf(INT));
-        setField(form, "WIS", String.valueOf(WIS));
-        setField(form, "CHA", String.valueOf(CHA));
+        setField(form, "STR", fmtScore(STR));
+        setField(form, "DEX", fmtScore(DEX));
+        setField(form, "CON", fmtScore(CON));
+        setField(form, "INT", fmtScore(INT));
+        setField(form, "WIS", fmtScore(WIS));
+        setField(form, "CHA", fmtScore(CHA));
+
+        // Each modifier is computed once (null if its score is missing) and reused below -
+        // fmtSigned() already renders a null modifier as "—".
+        Integer strMod = safeModifier(STR);
+        Integer dexMod = safeModifier(DEX);
+        Integer conMod = safeModifier(CON);
+        Integer intMod = safeModifier(INT);
+        Integer wisMod = safeModifier(WIS);
+        Integer chaMod = safeModifier(CHA);
 
         // Ability modifiers
-        setField(form, "STRmod", fmtSigned(math.computeModifier(STR)));
-        setField(form, "DEXmod ", fmtSigned(math.computeModifier(DEX))); // NOTE: trailing space
-        setField(form, "CONmod", fmtSigned(math.computeModifier(CON)));
-        setField(form, "INTmod", fmtSigned(math.computeModifier(INT)));
-        setField(form, "WISmod", fmtSigned(math.computeModifier(WIS)));
-        setField(form, "CHamod", fmtSigned(math.computeModifier(CHA)));
+        setField(form, "STRmod", fmtSigned(strMod));
+        setField(form, "DEXmod ", fmtSigned(dexMod)); // NOTE: trailing space
+        setField(form, "CONmod", fmtSigned(conMod));
+        setField(form, "INTmod", fmtSigned(intMod));
+        setField(form, "WISmod", fmtSigned(wisMod));
+        setField(form, "CHamod", fmtSigned(chaMod));
 
         // Saving throws (currently raw modifiers only)
-        setField(form, "ST Strength",     fmtSigned(math.computeModifier(STR)));
-        setField(form, "ST Dexterity",    fmtSigned(math.computeModifier(DEX)));
-        setField(form, "ST Constitution", fmtSigned(math.computeModifier(CON)));
-        setField(form, "ST Intelligence", fmtSigned(math.computeModifier(INT)));
-        setField(form, "ST Wisdom",       fmtSigned(math.computeModifier(WIS)));
-        setField(form, "ST Charisma",     fmtSigned(math.computeModifier(CHA)));
+        setField(form, "ST Strength",     fmtSigned(strMod));
+        setField(form, "ST Dexterity",    fmtSigned(dexMod));
+        setField(form, "ST Constitution", fmtSigned(conMod));
+        setField(form, "ST Intelligence", fmtSigned(intMod));
+        setField(form, "ST Wisdom",       fmtSigned(wisMod));
+        setField(form, "ST Charisma",     fmtSigned(chaMod));
 
         // Skills (currently raw modifiers only)
-        setField(form, "Acrobatics",     fmtSigned(math.computeModifier(DEX)));
-        setField(form, "Animal",         fmtSigned(math.computeModifier(WIS)));
-        setField(form, "Arcana",         fmtSigned(math.computeModifier(INT)));
-        setField(form, "Athletics",      fmtSigned(math.computeModifier(STR)));
-        setField(form, "Deception ",     fmtSigned(math.computeModifier(CHA))); // NOTE: trailing space
-        setField(form, "History ",       fmtSigned(math.computeModifier(INT))); // NOTE: trailing space
-        setField(form, "Insight",        fmtSigned(math.computeModifier(WIS)));
-        setField(form, "Intimidation",   fmtSigned(math.computeModifier(CHA)));
-        setField(form, "Investigation ", fmtSigned(math.computeModifier(INT))); // NOTE: trailing space
-        setField(form, "Medicine",       fmtSigned(math.computeModifier(WIS)));
-        setField(form, "Nature",         fmtSigned(math.computeModifier(INT)));
-        setField(form, "Perception ",    fmtSigned(math.computeModifier(WIS))); // NOTE: trailing space
-        setField(form, "Performance",    fmtSigned(math.computeModifier(CHA)));
-        setField(form, "Persuasion",     fmtSigned(math.computeModifier(CHA)));
-        setField(form, "Religion",       fmtSigned(math.computeModifier(INT)));
-        setField(form, "SleightofHand",  fmtSigned(math.computeModifier(DEX)));
-        setField(form, "Stealth ",       fmtSigned(math.computeModifier(DEX))); // NOTE: trailing space
-        setField(form, "Survival",       fmtSigned(math.computeModifier(WIS)));
+        setField(form, "Acrobatics",     fmtSigned(dexMod));
+        setField(form, "Animal",         fmtSigned(wisMod));
+        setField(form, "Arcana",         fmtSigned(intMod));
+        setField(form, "Athletics",      fmtSigned(strMod));
+        setField(form, "Deception ",     fmtSigned(chaMod)); // NOTE: trailing space
+        setField(form, "History ",       fmtSigned(intMod)); // NOTE: trailing space
+        setField(form, "Insight",        fmtSigned(wisMod));
+        setField(form, "Intimidation",   fmtSigned(chaMod));
+        setField(form, "Investigation ", fmtSigned(intMod)); // NOTE: trailing space
+        setField(form, "Medicine",       fmtSigned(wisMod));
+        setField(form, "Nature",         fmtSigned(intMod));
+        setField(form, "Perception ",    fmtSigned(wisMod)); // NOTE: trailing space
+        setField(form, "Performance",    fmtSigned(chaMod));
+        setField(form, "Persuasion",     fmtSigned(chaMod));
+        setField(form, "Religion",       fmtSigned(intMod));
+        setField(form, "SleightofHand",  fmtSigned(dexMod));
+        setField(form, "Stealth ",       fmtSigned(dexMod)); // NOTE: trailing space
+        setField(form, "Survival",       fmtSigned(wisMod));
     }
 
     /**
      * Fills the proficiency bonus field from character level.
+     *
+     * <p>Level is optional on {@link CharacterDto}; when absent this renders {@value #MISSING}
+     * rather than calling {@link CharacterMathService#computeProficiency(int)}.
      *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillProficiencyMod(PDAcroForm form, CharacterDto dto) throws Exception {
-        setField(form, "ProfBonus", fmtSigned(math.computeProficiency(dto.getCharacterLevel())));
+        setField(form, "ProfBonus", fmtSigned(safeProficiency(dto.getCharacterLevel())));
     }
 
     /**
      * Computes and fills maximum hit points (HPMax) using class hit die, level,
      * and Constitution modifier.
      *
+     * <p>Level and Constitution are both optional on {@link CharacterDto}; if either is
+     * missing there's nothing to compute HP from, so this renders {@value #MISSING} instead
+     * of calling {@link CharacterMathService#computeMaxHP(String, int, int)}.
+     *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillHP(PDAcroForm form, CharacterDto dto) throws Exception {
-        int conMod = math.computeModifier(dto.getCharacterConstitution());
-        int maxHP = math.computeMaxHP(dto.getCharacterClass(), dto.getCharacterLevel(), conMod);
+        Integer conMod = safeModifier(dto.getCharacterConstitution());
+        Integer level = dto.getCharacterLevel();
+        boolean classKnown = resolveClass(dto.getCharacterClass()).isPresent();
+
+        if (conMod == null || level == null || !classKnown) {
+            setField(form, "HPMax", MISSING);
+            return;
+        }
+
+        int maxHP = math.computeMaxHP(dto.getCharacterClass(), level, conMod);
         setField(form, "HPMax", String.valueOf(maxHP));
     }
 
     /**
      * Computes and fills Armor Class (AC) based on class/subclass and equipment.
      *
+     * <p>AC depends on the Dexterity, Constitution, Wisdom, and Charisma modifiers (which
+     * combination actually matters depends on class/subclass unarmored-defense rules). All four
+     * ability scores are optional on {@link CharacterDto}; if any is missing this renders
+     * {@value #MISSING} rather than guessing which rule would have applied. Class is also
+     * required here specifically because {@link CharacterMathService#computeAC} calls
+     * {@code className.equalsIgnoreCase(...)} directly to check for Barbarian/Monk unarmored
+     * defense - a null class name would crash that call, not just produce a wrong answer.
+     *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillAC(PDAcroForm form, CharacterDto dto) throws Exception {
-        int dexMod = math.computeModifier(dto.getCharacterDexterity());
-        int conMod = math.computeModifier(dto.getCharacterConstitution());
-        int wisMod = math.computeModifier(dto.getCharacterWisdom());
-        int chaMod = math.computeModifier(dto.getCharacterCharisma());
+        Integer dexMod = safeModifier(dto.getCharacterDexterity());
+        Integer conMod = safeModifier(dto.getCharacterConstitution());
+        Integer wisMod = safeModifier(dto.getCharacterWisdom());
+        Integer chaMod = safeModifier(dto.getCharacterCharisma());
+        String className = dto.getCharacterClass();
+
+        // computeAC calls className.equalsIgnoreCase(...) directly (to check for Barbarian/
+        // Monk unarmored defense) - a null className crashes that call outright, unlike an
+        // empty or unrecognized one, which it already handles fine. Class is optional on
+        // CharacterDto, so this is a real, reachable case, not a hypothetical one.
+        if (dexMod == null || conMod == null || wisMod == null || chaMod == null
+                || className == null || className.isBlank()) {
+            setField(form, "AC", MISSING);
+            return;
+        }
 
         int AC = math.computeAC(
-            dto.getCharacterClass(),
+            className,
             dto.getCharacterSubClass(),
             dexMod,
             conMod,
@@ -299,39 +378,43 @@ public class PdfFillerService {
     /**
      * Fills initiative using Dexterity modifier only.
      *
+     * <p>Dexterity is optional on {@link CharacterDto}; when absent this renders
+     * {@value #MISSING} (via {@link #fmtSigned}) rather than computing from a missing score.
+     *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillInitiative(PDAcroForm form, CharacterDto dto) throws Exception {
-        int dexMod = math.computeModifier(dto.getCharacterDexterity());
-        setField(form, "Initiative", fmtSigned(dexMod));
+        setField(form, "Initiative", fmtSigned(safeModifier(dto.getCharacterDexterity())));
     }
 
     /**
      * Fills hit dice total (e.g., "3d10") based on class hit die and character level.
      *
      * <p>This method uses {@link ClassesRepository} to resolve the hit die for the class.
-     * If the class cannot be found, the field is left unchanged.
+     * If the class cannot be found, the field is left unchanged (pre-existing behavior,
+     * unrelated to level being optional). If level is missing there's no dice total to show,
+     * so this renders {@value #MISSING} instead.
      *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillHitDie(PDAcroForm form, CharacterDto dto) throws Exception {
-        String raw = dto.getCharacterClass();
-        if (raw == null || raw.isBlank()) return;
-
-        String key = raw.trim().toLowerCase(java.util.Locale.ROOT);
-
-        java.util.Optional<com.dndcharactercreator.pdfimport.model.ClassesData> clsOpt = classesRepo.findByID(key);
+        var clsOpt = resolveClass(dto.getCharacterClass());
         if (clsOpt.isEmpty()) return;
 
         var cls = clsOpt.get();
         int die = cls.getHitDie();
-        int level = Math.max(1, dto.getCharacterLevel());
-        String dice = level + "d" + die;
 
+        Integer level = dto.getCharacterLevel();
+        if (level == null) {
+            setField(form, "HDTotal", MISSING);
+            return;
+        }
+
+        String dice = Math.max(1, level) + "d" + die;
         setField(form, "HDTotal", dice);
     }
 
@@ -346,11 +429,85 @@ public class PdfFillerService {
      * </ul>
      *
      * @param i integer value
-     * @return formatted string, or empty string if {@code i} is null
+     * @return formatted string, or {@value #MISSING} if {@code i} is null
      */
     private static String fmtSigned(Integer i) {
-        if (i == null) return "";
+        if (i == null) return MISSING;
         return (i >= 0) ? ("+" + i) : String.valueOf(i);
+    }
+
+    /**
+     * Renders a possibly-missing plain numeric value (no +/- sign) - used for raw ability
+     * scores, as opposed to their signed modifiers.
+     *
+     * @param i integer value
+     * @return the value as a string, or {@value #MISSING} if {@code i} is null
+     */
+    private static String fmtScore(Integer i) {
+        return (i == null) ? MISSING : String.valueOf(i);
+    }
+
+    /**
+     * Returns the given string, or {@value #MISSING} if it's null or blank.
+     *
+     * <p>Used for fields that used to be required (name/background/race/alignment) and are now
+     * optional - once a field isn't required, "the client sent an empty string" and "the client
+     * didn't send anything" both mean the same thing for display purposes: this information is
+     * missing.
+     *
+     * @param value the raw string value
+     * @return {@code value}, or {@value #MISSING} if it's null or blank
+     */
+    private static String orDash(String value) {
+        return (value == null || value.isBlank()) ? MISSING : value;
+    }
+
+    /**
+     * Ability modifier for a possibly-missing score, or {@code null} if the score itself
+     * wasn't provided.
+     *
+     * <p>Ability scores are optional on {@link CharacterDto} (to support the live preview
+     * rendering an in-progress character), so there may be nothing to compute a modifier from.
+     * Feed the result straight into {@link #fmtSigned}, which already renders a null modifier
+     * as {@value #MISSING}.
+     *
+     * @param score the ability score, or null if not provided
+     * @return the computed modifier, or null if {@code score} is null
+     */
+    private Integer safeModifier(Integer score) {
+        return (score == null) ? null : math.computeModifier(score);
+    }
+
+    /**
+     * Proficiency bonus for a possibly-missing level, or {@code null} if the level itself
+     * wasn't provided. Same reasoning as {@link #safeModifier}.
+     *
+     * @param level the character level, or null if not provided
+     * @return the computed proficiency bonus, or null if {@code level} is null
+     */
+    private Integer safeProficiency(Integer level) {
+        return (level == null) ? null : math.computeProficiency(level);
+    }
+
+    /**
+     * Resolves a possibly-missing or unrecognized class name to its reference data, or empty
+     * if there's nothing to resolve.
+     *
+     * <p>Class was already optional on {@link CharacterDto} before this class's other fields
+     * became optional too, so this isn't new - but {@link CharacterMathService#computeMaxHP}
+     * throws {@link IllegalArgumentException} for a class it can't find via
+     * {@code orElseThrow(...)}, and nothing was guarding that call. That's exactly the kind of
+     * "computation crashes instead of rendering a placeholder" gap this class exists to close;
+     * it just wasn't reachable before there was a way to submit the form without picking a
+     * class in the first place. Used to guard any computation that depends on the class being
+     * known, rather than letting that exception bubble up as an unhandled 500.
+     *
+     * @param className the class name, or null/blank if not provided
+     * @return the resolved class data, or empty if {@code className} is null, blank, or unknown
+     */
+    private java.util.Optional<com.dndcharactercreator.pdfimport.model.ClassesData> resolveClass(String className) {
+        if (className == null || className.isBlank()) return java.util.Optional.empty();
+        return classesRepo.findByID(className.trim().toLowerCase(java.util.Locale.ROOT));
     }
 
     /**
