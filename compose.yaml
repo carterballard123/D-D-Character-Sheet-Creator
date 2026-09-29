@@ -7,7 +7,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      # Bound to loopback only - "5432:5432" (no host IP) publishes on all network
+      # interfaces, so anyone on the same LAN/Wi-Fi could reach this dev database.
+      - "127.0.0.1:5432:5432"
     volumes:
       # postgres 18+ images store data in a version-specific subdirectory under this path
       # (to support pg_ctlcluster-style major upgrades) - mounting at .../data as older images
