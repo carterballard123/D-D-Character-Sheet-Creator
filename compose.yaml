@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      # postgres 18+ images store data in a version-specific subdirectory under this path
+      # (to support pg_ctlcluster-style major upgrades) - mounting at .../data as older images
+      # required makes the container refuse to start. See docker-library/postgres#1259.
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  postgres_data:
