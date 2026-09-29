@@ -28,6 +28,11 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<!-- Override Spring Boot 3.5.0's managed Testcontainers version (1.21.0): its
+		     bundled docker-java client falls back to Docker API 1.32 when it can't
+		     negotiate a version, which very new Docker Engine builds (requiring >= 1.44)
+		     reject with a 400. A later 1.21.x patch is expected to negotiate correctly. -->
+		<testcontainers.version>1.21.4</testcontainers.version>
 	</properties>
 	<dependencies>
 	
@@ -45,11 +50,61 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+		</dependency>
+
+		<!-- Auto-starts/stops compose.yaml's services when running the app locally
+		     (e.g. via `mvnw spring-boot:run` or an IDE run button) - optional because
+		     it's a dev-time convenience, not something a packaged/deployed jar needs. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-docker-compose</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
 		<dependency>
 		  <groupId>org.springframework.boot</groupId>
 		  <artifactId>spring-boot-starter-test</artifactId>
 		  <scope>test</scope>
+		</dependency>
+
+		<!-- Lets tests spin up a real, throwaway Postgres in Docker for the duration
+		     of the test run, instead of needing compose.yaml's Postgres already
+		     running - see ApplicationTests and CharacterJpaRepositoryTest. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

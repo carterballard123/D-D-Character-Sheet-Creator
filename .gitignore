@@ -5,6 +5,9 @@ oracleJdk-26/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Local secrets ###
+.env
+
 ### STS ###
 .metadata/
 .apt_generated
