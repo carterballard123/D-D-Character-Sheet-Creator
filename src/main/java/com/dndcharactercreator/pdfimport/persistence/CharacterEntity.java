@@ -72,7 +72,25 @@ public class CharacterEntity {
         updatedAt = Instant.now();
     }
 
-    // ----- Getters and setters -----
+    /**
+     * Replaces this entity's character build with {@code dto}: the full build goes into
+     * {@code data}, and the summary columns are re-extracted from it.
+     *
+     * <p>This is the only place those columns are written (there are deliberately no individual
+     * setters), so creating and updating a character can't drift apart, and the summary columns
+     * can't end up disagreeing with the JSON they were pulled from.
+     *
+     * @param dto the character build this entity should now hold
+     */
+    public void apply(CharacterDto dto) {
+        name = dto.getCharacterName();
+        classId = dto.getCharacterClass();
+        race = dto.getCharacterRace();
+        level = dto.getCharacterLevel();
+        data = dto;
+    }
+
+    // ----- Getters -----
 
     public UUID getId() {
         return id;
@@ -82,40 +100,20 @@ public class CharacterEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getClassId() {
         return classId;
-    }
-
-    public void setClassId(String classId) {
-        this.classId = classId;
     }
 
     public String getRace() {
         return race;
     }
 
-    public void setRace(String race) {
-        this.race = race;
-    }
-
     public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
     public CharacterDto getData() {
         return data;
-    }
-
-    public void setData(CharacterDto data) {
-        this.data = data;
     }
 
     public Instant getCreatedAt() {
