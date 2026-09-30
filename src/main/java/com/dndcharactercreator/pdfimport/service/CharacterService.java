@@ -6,13 +6,14 @@ import com.dndcharactercreator.pdfimport.persistence.CharacterEntity;
 import com.dndcharactercreator.pdfimport.persistence.CharacterJpaRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Service for saving, loading, and listing saved characters.
+ * Service for saving, loading, listing, updating, and deleting saved characters.
  *
  * <p>This is entirely separate from the JSON-file-backed reference-data services elsewhere in
  * this package (classes, races, backgrounds, etc.) - those describe the rules; this describes a
@@ -34,19 +35,57 @@ public class CharacterService {
      *
      * <p>Always creates a new row - this is a "save" (create), not an "update"; nothing here
      * distinguishes a brand-new character from re-saving one already saved once, since
-     * {@link CharacterDto} carries no id of its own yet.
+     * {@link CharacterDto} carries no id of its own yet. To change an already-saved character,
+     * use {@link #update(UUID, CharacterDto)}.
      *
      * @param dto the character build to save
      * @return the id the saved character can be looked up by
      */
     public UUID save(CharacterDto dto) {
         CharacterEntity entity = new CharacterEntity();
-        entity.setName(dto.getCharacterName());
-        entity.setClassId(dto.getCharacterClass());
-        entity.setRace(dto.getCharacterRace());
-        entity.setLevel(dto.getCharacterLevel());
-        entity.setData(dto);
+        entity.apply(dto);
         return repo.save(entity).getId();
+    }
+
+    /**
+     * Replaces a previously-saved character with a new build.
+     *
+     * <p>A full replace, not a partial patch: anything absent from {@code dto} is cleared, not
+     * kept from the old build. {@code createdAt} is left alone and {@code updatedAt} advances
+     * (see {@link CharacterEntity}).
+     *
+     * <p>There's no explicit {@code repo.save()} call: inside a transaction the entity returned
+     * by {@code findById} is managed, so Hibernate writes the changes itself on commit.
+     *
+     * @param id the character's id
+     * @param dto the character build to replace it with
+     * @return {@code true} if the character was updated, {@code false} if no character exists
+     *         with that id
+     */
+    @Transactional
+    public boolean update(UUID id, CharacterDto dto) {
+        Optional<CharacterEntity> existing = repo.findById(id);
+        if (existing.isEmpty()) {
+            return false;
+        }
+        existing.get().apply(dto);
+        return true;
+    }
+
+    /**
+     * Deletes a previously-saved character.
+     *
+     * @param id the character's id
+     * @return {@code true} if the character was deleted, {@code false} if no character exists
+     *         with that id
+     */
+    @Transactional
+    public boolean delete(UUID id) {
+        if (!repo.existsById(id)) {
+            return false;
+        }
+        repo.deleteById(id);
+        return true;
     }
 
     /**

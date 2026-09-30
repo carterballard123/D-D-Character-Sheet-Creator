@@ -53,11 +53,7 @@ class CharacterJpaRepositoryTest {
         dto.setCharacterStrength(18);
 
         CharacterEntity entity = new CharacterEntity();
-        entity.setName(dto.getCharacterName());
-        entity.setClassId(dto.getCharacterClass());
-        entity.setRace(dto.getCharacterRace());
-        entity.setLevel(dto.getCharacterLevel());
-        entity.setData(dto);
+        entity.apply(dto);
 
         // persistFlushFind() flushes to the database, clears Hibernate's first-level cache,
         // then re-reads by id - a genuine round trip through Postgres, not just a Java object
