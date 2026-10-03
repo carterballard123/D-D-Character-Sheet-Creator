@@ -50,7 +50,9 @@
             </div>
 			<div id="subclassGroup" hidden>
 			  <label for="subclassName">Subclass</label>
-			  <select id="subclassName" name="subclassName">
+			  <!-- id and name differ on purpose: name is the JSON key sent to the backend (must match
+			       CharacterDto.characterSubClass), while the label and JS still look it up by id. -->
+			  <select id="subclassName" name="characterSubClass">
 			    <option value="" selected>(optional)</option>
 			  </select>
 			  <div id="subclassHelp" class="hint"></div>

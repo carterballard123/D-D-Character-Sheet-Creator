@@ -18,10 +18,8 @@ export function buildCharacterPayload() {
   const fd = new FormData(form);
   const payload = Object.fromEntries(fd.entries());
 
-  // Drop optional selects left at their placeholder value.
-  ['armorName', 'shieldName', 'subclassName'].forEach((k) => {
-    if (payload[k] === '' || payload[k] === '(optional)') delete payload[k];
-  });
+  // Drop the optional subclass select if it's left at its placeholder value.
+  if (payload.characterSubClass === '' || payload.characterSubClass === '(optional)') delete payload.characterSubClass;
 
   // Coerce numeric fields; blank inputs become undefined rather than 0.
   ['characterLevel', 'characterStrength', 'characterDexterity', 'characterConstitution', 'characterIntelligence', 'characterWisdom', 'characterCharisma']
