@@ -9,9 +9,25 @@ import { buildCharacterPayload } from '../payload.js';
 // refresh leaks another blob for the life of the page.
 let currentObjectUrl = null;
 
+// The AbortController of the newest refresh. Starting a refresh aborts the
+// previous one, so at most one request is ever "live", and a refresh whose
+// signal is aborted knows it has been superseded.
+let latestController = null;
+
+// Whether a refresh is already scheduled for the current task (see wirePdfPreview).
+let refreshScheduled = false;
+
 /**
  * Rebuilds the current form state into a CharacterDto payload, posts it
  * to /api/pdf/fill, and points the live preview iframe at the result.
+ *
+ * Latest request wins: only the newest refresh may touch the iframe or the
+ * status line. Starting a refresh aborts the one before it, which cancels
+ * that request if it's still in flight, and any older refresh that resumes
+ * after a newer one has started - whether it succeeded, failed, or was
+ * aborted - returns without touching the UI. Without this, responses that
+ * came back out of order could leave the preview (or its status line)
+ * showing an older version of the character than the form.
  *
  * On a validation failure (still possible even though most fields are
  * now optional - e.g. an out-of-range ability score, or too many
@@ -27,12 +43,21 @@ export async function refreshPdfPreview() {
   const status = $('#pdfPreviewStatus');
   const payload = buildCharacterPayload();
 
+  latestController?.abort();
+  const controller = new AbortController();
+  latestController = controller;
+  // Checked after every await: abort() alone isn't enough, because a
+  // response that had already arrived can't be cancelled - only ignored.
+  const superseded = () => controller.signal.aborted;
+
   try {
     const res = await fetch('/api/pdf/fill', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
+    if (superseded()) return;
 
     if (!res.ok) {
       if (status) status.textContent = 'Preview couldn’t update (check for an invalid value) — showing the last good version.';
@@ -40,6 +65,7 @@ export async function refreshPdfPreview() {
     }
 
     const blob = await res.blob();
+    if (superseded()) return;
     const url = URL.createObjectURL(blob);
     const previousUrl = currentObjectUrl;
 
@@ -53,8 +79,28 @@ export async function refreshPdfPreview() {
 
     if (status) status.textContent = '';
   } catch (err) {
+    // An abort is how a newer refresh cancels this one - not an error, and
+    // the newer refresh owns the status line now.
+    if (superseded()) return;
     if (status) status.textContent = 'Preview couldn’t update (network error) — showing the last good version.';
   }
+}
+
+/**
+ * Schedules one refresh for the end of the current task, however many
+ * changes ask for it before then. Roll → "Apply in order" sets all six
+ * ability scores in one click, each firing its own 'change'; this turns
+ * that burst into a single request instead of six. A single edit still
+ * refreshes right away - setTimeout(0) only waits for the current task
+ * to finish, not for any noticeable amount of time.
+ */
+function scheduleRefresh() {
+  if (refreshScheduled) return;
+  refreshScheduled = true;
+  setTimeout(() => {
+    refreshScheduled = false;
+    refreshPdfPreview();
+  }, 0);
 }
 
 /**
@@ -72,10 +118,11 @@ export async function refreshPdfPreview() {
  *    every pill refresh (innerHTML replacement in ui/pills.js), which
  *    would silently destroy any listener attached directly to them.
  *    A listener on the stable <form> element is unaffected by that.
+ *
+ * Changes are funneled through scheduleRefresh() rather than refreshing
+ * directly, so a burst of changes in one task becomes one request.
  */
 export function wirePdfPreview() {
   const form = $('#char-form');
-  form?.addEventListener('change', () => {
-    refreshPdfPreview();
-  });
+  form?.addEventListener('change', scheduleRefresh);
 }
