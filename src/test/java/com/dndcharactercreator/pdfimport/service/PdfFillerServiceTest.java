@@ -30,9 +30,24 @@ import static org.mockito.Mockito.when;
 )
 class PdfFillerServiceTest {
 
-    /** Placeholder PdfFillerService writes for any missing-data field. Kept in sync manually
-     *  with PdfFillerService.MISSING, which is private - there's nothing to import here. */
-    private static final String MISSING = "—";
+    /** What PdfFillerService writes for any missing-data field: nothing, so it can be filled in
+     *  by hand. Kept in sync manually with PdfFillerService.MISSING, which is private. */
+    private static final String BLANK = "";
+
+    /**
+     * Every field that used to render the old "—" placeholder when its input (or an input it's
+     * derived from) was missing. An entirely empty character must leave all of them blank.
+     */
+    private static final List<String> MISSING_DATA_FIELDS = List.of(
+        "CharacterName", "ClassLevel", "Background", "Race ", "Alignment",
+        "STR", "DEX", "CON", "INT", "WIS", "CHA",
+        "STRmod", "DEXmod ", "CONmod", "INTmod", "WISmod", "CHamod",
+        "ST Strength", "ST Dexterity", "ST Constitution", "ST Intelligence", "ST Wisdom", "ST Charisma",
+        "Acrobatics", "Animal", "Arcana", "Athletics", "Deception ", "History ", "Insight",
+        "Intimidation", "Investigation ", "Medicine", "Nature", "Perception ", "Performance",
+        "Persuasion", "Religion", "SleightofHand", "Stealth ", "Survival",
+        "ProfBonus", "HPMax", "AC", "Initiative", "HDTotal"
+    );
 
     @Autowired
     private PdfFillerService pdfFillerService;
@@ -168,53 +183,96 @@ class PdfFillerServiceTest {
     }
 
     @Test
-    void fill_withMissingAbilityScore_rendersDashForThatScoresModifier_andDoesNotThrow() throws Exception {
+    void fill_withNothingFilledIn_leavesEveryMissingDataFieldBlank_andDoesNotThrow() throws Exception {
+        // An entirely empty character - what the very first preview after page load would send
+        // if the user also cleared the default level.
+        CharacterDto dto = new CharacterDto();
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
+            "An entirely empty character must not throw");
+
+        for (String field : MISSING_DATA_FIELDS) {
+            assertEquals(BLANK, fieldValue(pdfBytes, field),
+                "\"" + field + "\" should be left blank (no dash, no +0) when nothing is filled in");
+        }
+
+        // Belt and braces: no text field anywhere on the sheet carries the old dash placeholder
+        // or a zero standing in for a missing value.
+        try (var doc = Loader.loadPDF(pdfBytes)) {
+            for (PDField field : doc.getDocumentCatalog().getAcroForm().getFieldTree()) {
+                String value = field.getValueAsString();
+                assertFalse(value.contains("—"), field.getFullyQualifiedName() + " still contains a dash: " + value);
+                assertNotEquals("+0", value, field.getFullyQualifiedName() + " shows +0 for a missing value");
+                assertNotEquals("0", value, field.getFullyQualifiedName() + " shows 0 for a missing value");
+            }
+        }
+    }
+
+    @Test
+    void fill_withMissingAbilityScore_leavesThatScoreAndEverythingDerivedFromItBlank() throws Exception {
         CharacterDto dto = buildCompleteDto();
         dto.setCharacterWisdom(null); // Wisdom left unset, as if the form isn't finished yet
 
         byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
-            "A missing ability score must not throw - it should render as a dash instead");
+            "A missing ability score must not throw - it should be left blank instead");
 
-        assertEquals(MISSING, fieldValue(pdfBytes, "WIS"),
-            "The missing score's own raw value should render as a dash");
-        assertEquals(MISSING, fieldValue(pdfBytes, "WISmod"),
-            "The missing score's own modifier should render as a dash");
-        assertEquals(MISSING, fieldValue(pdfBytes, "ST Wisdom"),
-            "A saving throw governed by the missing ability should render as a dash");
-        assertEquals(MISSING, fieldValue(pdfBytes, "Insight"),
-            "A skill governed by the missing ability should render as a dash");
+        assertEquals(BLANK, fieldValue(pdfBytes, "WIS"), "The missing score's own raw value should be blank");
+        assertEquals(BLANK, fieldValue(pdfBytes, "WISmod"), "The missing score's modifier should be blank, not +0");
+        assertEquals(BLANK, fieldValue(pdfBytes, "ST Wisdom"), "Its saving throw should be blank");
+        for (String skill : List.of("Animal", "Insight", "Medicine", "Perception ", "Survival")) {
+            assertEquals(BLANK, fieldValue(pdfBytes, skill), "Wisdom skill \"" + skill + "\" should be blank");
+        }
 
-        // AC depends on DEX/CON/WIS/CHA, so it should also cascade to a dash - Wisdom, the
-        // score missing in this test, is one of its four inputs.
-        assertEquals(MISSING, fieldValue(pdfBytes, "AC"),
-            "AC depends on WIS among others, so it should render as a dash when WIS is missing");
+        // AC depends on DEX/CON/WIS/CHA, so it should also be blank - Wisdom, the score missing
+        // in this test, is one of its four inputs.
+        assertEquals(BLANK, fieldValue(pdfBytes, "AC"),
+            "AC depends on WIS among others, so it should be blank when WIS is missing");
 
-        // Everything NOT dependent on the missing ability should still compute normally.
+        // Everything NOT dependent on the missing ability should still compute normally -
+        // including a genuine +0 (INT 10), which must stay distinguishable from "missing".
         assertEquals("+3", fieldValue(pdfBytes, "STRmod"),
             "An unrelated, present ability score should be unaffected by the missing one");
+        assertEquals("+0", fieldValue(pdfBytes, "INTmod"),
+            "A real score of 10 should still show +0; only missing scores are blank");
     }
 
     @Test
-    void fill_withMissingLevel_rendersDashForProficiencyAndHP_andDoesNotThrow() throws Exception {
+    void fill_withMissingDexterity_leavesDexDerivedSkillsInitiativeAndACBlank() throws Exception {
+        CharacterDto dto = buildCompleteDto();
+        dto.setCharacterDexterity(null);
+
+        byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto));
+
+        for (String field : List.of("DEX", "DEXmod ", "ST Dexterity", "Acrobatics", "SleightofHand",
+                                    "Stealth ", "Initiative", "AC")) {
+            assertEquals(BLANK, fieldValue(pdfBytes, field), "\"" + field + "\" depends on DEX and should be blank");
+        }
+        assertEquals("+3", fieldValue(pdfBytes, "Athletics"), "A STR skill should be unaffected by missing DEX");
+    }
+
+    @Test
+    void fill_withMissingLevel_leavesProficiencyHPAndHitDiceBlank_andDoesNotThrow() throws Exception {
         CharacterDto dto = buildCompleteDto();
         dto.setCharacterLevel(null);
 
         byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
-            "A missing level must not throw - it should render as a dash instead");
+            "A missing level must not throw - it should be left blank instead");
 
-        assertEquals(MISSING, fieldValue(pdfBytes, "ProfBonus"),
-            "Proficiency bonus depends on level and should render as a dash without it");
-        assertEquals(MISSING, fieldValue(pdfBytes, "HPMax"),
-            "Max HP depends on level (and CON) and should render as a dash without it");
-        assertEquals(MISSING, fieldValue(pdfBytes, "HDTotal"),
-            "Hit dice total depends on level and should render as a dash without it");
+        assertEquals(BLANK, fieldValue(pdfBytes, "ProfBonus"),
+            "Proficiency bonus depends on level and should be blank without it");
+        assertEquals(BLANK, fieldValue(pdfBytes, "HPMax"),
+            "Max HP depends on level (and CON) and should be blank without it");
+        assertEquals(BLANK, fieldValue(pdfBytes, "HDTotal"),
+            "Hit dice total depends on level and should be blank without it");
+        assertEquals("Fighter", fieldValue(pdfBytes, "ClassLevel"),
+            "Only the class should show, with no trailing space or placeholder for the missing level");
 
         // Ability scores are untouched by a missing level and should still compute normally.
         assertEquals("+3", fieldValue(pdfBytes, "STRmod"));
     }
 
     @Test
-    void fill_withUnresolvableClass_rendersDashForHP_andDoesNotThrow() throws Exception {
+    void fill_withUnresolvableClass_leavesHPBlank_andDoesNotThrow() throws Exception {
         CharacterDto dto = buildCompleteDto();
         // An empty (but non-null) class name - e.g. a raw API caller that explicitly sends "".
         // (Note: a <select> whose only selected option is disabled - i.e. the browser's own
@@ -224,12 +282,12 @@ class PdfFillerServiceTest {
         dto.setCharacterClass("");
 
         byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto),
-            "An empty/unrecognized class must not throw - HP should render as a dash instead. "
+            "An empty/unrecognized class must not throw - HP should be left blank instead. "
             + "(This used to throw: computeMaxHP's classesRepo.findByID(...).orElseThrow(...) "
             + "had no guard.)");
 
-        assertEquals(MISSING, fieldValue(pdfBytes, "HPMax"),
-            "Max HP depends on a resolvable class and should render as a dash without one");
+        assertEquals(BLANK, fieldValue(pdfBytes, "HPMax"),
+            "Max HP depends on a resolvable class and should be blank without one");
 
         // Everything not dependent on the class should still compute normally.
         assertEquals("+3", fieldValue(pdfBytes, "STRmod"));
@@ -237,7 +295,7 @@ class PdfFillerServiceTest {
     }
 
     @Test
-    void fill_withNullClass_rendersDashForACAndHP_andDoesNotThrow() throws Exception {
+    void fill_withNullClass_leavesACAndHPBlank_andDoesNotThrow() throws Exception {
         CharacterDto dto = buildCompleteDto();
         // This is what the live preview actually sends before a class is picked: the
         // <select>'s only selected option is its disabled placeholder, and a disabled
@@ -251,10 +309,10 @@ class PdfFillerServiceTest {
             + "unrecognized class name, a null one crashes that call outright, and this is "
             + "the actual value a real page load produces, not just a hypothetical edge case.");
 
-        assertEquals(MISSING, fieldValue(pdfBytes, "AC"),
-            "AC depends on a known class (for unarmored-defense rules) and should render as a dash without one");
-        assertEquals(MISSING, fieldValue(pdfBytes, "HPMax"),
-            "Max HP depends on a resolvable class and should render as a dash without one");
+        assertEquals(BLANK, fieldValue(pdfBytes, "AC"),
+            "AC depends on a known class (for unarmored-defense rules) and should be blank without one");
+        assertEquals(BLANK, fieldValue(pdfBytes, "HPMax"),
+            "Max HP depends on a resolvable class and should be blank without one");
 
         // Everything not dependent on the class should still compute normally.
         assertEquals("+3", fieldValue(pdfBytes, "STRmod"));
@@ -262,7 +320,7 @@ class PdfFillerServiceTest {
     }
 
     @Test
-    void fill_withNullClassAndLevel_rendersDashPiecesForClassLevel_andDoesNotThrow() throws Exception {
+    void fill_withNullClassAndLevel_leavesClassLevelBlank_andDoesNotThrow() throws Exception {
         CharacterDto dto = buildCompleteDto();
         dto.setCharacterClass(null);
         dto.setCharacterLevel(null);
@@ -273,20 +331,20 @@ class PdfFillerServiceTest {
         // This is the actual reported bug: concatenating two nullable fields with `+` doesn't
         // throw the way calling a method on a null one does - it silently produces the literal
         // text "null" instead. Each piece must be guarded independently before joining.
-        assertEquals(MISSING + " " + MISSING, fieldValue(pdfBytes, "ClassLevel"),
-            "An all-missing ClassLevel should show dash pieces, not the literal word \"null\"");
+        assertEquals(BLANK, fieldValue(pdfBytes, "ClassLevel"),
+            "An all-missing ClassLevel should be blank - not the literal word \"null\", and not a lone space");
     }
 
     @Test
-    void fill_withOnlyClassMissing_rendersDashForClassPieceOnly() throws Exception {
+    void fill_withOnlyClassMissing_showsLevelAloneInClassLevel() throws Exception {
         CharacterDto dto = buildCompleteDto();
         dto.setCharacterClass(null);
         // Level (3) stays set.
 
         byte[] pdfBytes = assertDoesNotThrow(() -> pdfFillerService.fill(dto));
 
-        assertEquals(MISSING + " 3", fieldValue(pdfBytes, "ClassLevel"),
-            "Only the missing piece (class) should become a dash; the present piece (level) is unaffected");
+        assertEquals("3", fieldValue(pdfBytes, "ClassLevel"),
+            "Only the present piece (level) should show, with no leading space for the missing class");
     }
 
     /** All six saving-throw checkbox field names, for iterating in the "checks none" test. */

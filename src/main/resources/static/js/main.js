@@ -26,6 +26,7 @@ import { renderPreview } from './ui/preview.js';
 import { wireSubclassUI, refreshSubclassUI } from './features/subclass.js';
 import { initAbilityUI, refreshAbilityModeUI } from './features/abilities.js';
 import { wirePdfPreview, refreshPdfPreview } from './features/pdfPreview.js';
+import { wireMissingFieldsWarning, refreshMissingFieldsWarning } from './features/missingFieldsWarning.js';
 import { wireFormSubmit } from './form.js';
 
 async function init() {
@@ -88,6 +89,8 @@ async function init() {
     wireFormSubmit();
     wirePdfPreview();
     refreshPdfPreview(); // paint an initial (mostly blank) sheet right away, don't wait for the first edit
+    wireMissingFieldsWarning();
+    refreshMissingFieldsWarning();
 
     setMsg('muted', 'Ready. Fill the form and click Generate.');
   } catch (e) {

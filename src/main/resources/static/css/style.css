@@ -74,6 +74,16 @@ button:disabled{opacity:.6;filter:saturate(.6)}
 .msg.ok{background:#062413;border:1px solid #134e21;color:#b7f7c7}
 .msg.err{background:#2a0f12;border:1px solid #6b0f1a;color:#fecaca}
 .msg.muted{background:#0b1220;border:1px dashed #253046;color:var(--muted)}
+.msg.warn{background:#2a1f06;border:1px solid #6b4f0f;color:#fde68a}
+
+/* The soft "Missing: ..." warning by the Generate PDF button
+   (features/missingFieldsWarning.js). When nothing is missing it's left
+   empty rather than display:none/[hidden] - it's an aria-live region, and
+   those need to stay in the accessibility tree to be announced - so this
+   takes the empty element out of the form grid's flow instead, so it gets
+   no grid row (and no extra 16px gap). A negative margin can't do this:
+   grid sizes tracks from the margin box and just stretches the item. */
+.missing-warning:empty{position:absolute}
 
 /* The "Served by Spring Boot on /" text at the very bottom of the page. */
 footer{opacity:.7;text-align:center;padding:18px;font-size:12px}
