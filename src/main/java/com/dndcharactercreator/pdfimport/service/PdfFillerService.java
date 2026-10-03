@@ -38,14 +38,15 @@ import java.io.InputStream;
  *
  * <p><b>Missing data:</b> most of {@link CharacterDto}'s fields are optional, to support
  * generating a preview PDF for a character that's still being built in the UI. Any field or
- * derived value that can't be filled in because something it depends on is missing is written
- * as {@code "—"} (em dash) rather than left however PDFBox defaults an unset field, or worse,
- * computed from an unboxed {@code null}. That null-checking intentionally lives here rather
- * than in {@link CharacterMathService}/{@link DefaultCharacterMathService}: the math service
+ * derived value that can't be filled in because something it depends on is missing is left
+ * blank - so the player can write their own value in by hand - rather than computed from an
+ * unboxed {@code null} or a stand-in like 0 (which would print a misleading "+0"). That
+ * null-checking intentionally lives here rather than in
+ * {@link CharacterMathService}/{@link DefaultCharacterMathService}: the math service
  * stays a simple "given valid inputs, compute the answer" engine that still takes primitive
  * {@code int}s, and this class - which already owns the decision of what gets written to each
  * PDF field - is the one place that knows when a computation should be skipped in favor of a
- * placeholder.
+ * blank.
  *
  * @author Carter Ballard
  */
@@ -54,8 +55,8 @@ public class PdfFillerService {
 
     private static final Logger log = LoggerFactory.getLogger(PdfFillerService.class);
 
-    /** Placeholder written for any field or derived value that's missing required input. */
-    private static final String MISSING = "—";
+    /** Written for any field or derived value that's missing required input: left blank to fill in by hand. */
+    private static final String MISSING = "";
 
     /**
      * Maps each ability to the saving-throw-proficiency checkbox that corresponds to it in the
@@ -146,7 +147,8 @@ public class PdfFillerService {
      * Helper for setting the value of a single AcroForm field by its exact name.
      *
      * <p>If the field does not exist in the PDF template, a warning is logged and the method returns.
-     * If the value is {@code null} or empty, an empty string is written (and a warning is logged).
+     * If the value is {@code null} or empty, an empty string is written. That's routine (it's how
+     * every missing value is rendered), so it's logged at debug rather than warn.
      *
      * @param form the PDF's AcroForm
      * @param name exact PDF field name (must match template; may include trailing spaces)
@@ -161,7 +163,7 @@ public class PdfFillerService {
         }
 
         if (value == null || value.isEmpty()) {
-            log.warn("Field \"{}\" is being set to empty or null value.", name);
+            log.debug("Field \"{}\" is being set to empty or null value.", name);
             field.setValue("");
         } else {
             field.setValue(value);
@@ -173,31 +175,31 @@ public class PdfFillerService {
      * player name, race, alignment, and XP.
      *
      * <p>Name, background, race, and alignment are all optional on {@link CharacterDto}; each
-     * renders as {@value #MISSING} when absent rather than an empty field, so an in-progress
-     * character's preview PDF reads as "not filled in yet" rather than blank/broken.
+     * is left blank when absent.
      *
      * <p>"ClassLevel" is built by joining two separately-optional fields (class and level) into
      * one string. Unlike this class's other missing-data guards, joining two nullable values
      * with {@code +} doesn't throw when one is null - Java just concatenates the literal text
-     * "null" into the result. Both pieces are guarded independently before joining, so an
-     * all-missing character shows {@code "— —"} rather than {@code "null (lvl)"}.
+     * "null" into the result. Both pieces are guarded independently before joining, and the
+     * result is trimmed, so a missing piece leaves no stray space: {@code "Fighter"},
+     * {@code "3"}, or blank rather than {@code "null 3"}.
      *
      * @param form PDF form to populate
      * @param dto character build input
      * @throws Exception if any PDF field set operation fails
      */
     private void fillTopTexts(PDAcroForm form, CharacterDto dto) throws Exception {
-        setField(form, "CharacterName", orDash(dto.getCharacterName()));
+        setField(form, "CharacterName", orBlank(dto.getCharacterName()));
 
         Integer level = dto.getCharacterLevel();
-        String classPart = orDash(dto.getCharacterClass());
+        String classPart = orBlank(dto.getCharacterClass());
         String levelPart = (level == null) ? MISSING : String.valueOf(level);
-        setField(form, "ClassLevel", classPart + " " + levelPart);
+        setField(form, "ClassLevel", (classPart + " " + levelPart).trim());
 
-        setField(form, "Background", orDash(dto.getCharacterBackground()));
+        setField(form, "Background", orBlank(dto.getCharacterBackground()));
         setField(form, "PlayerName", dto.getPlayerName());
-        setField(form, "Race ", orDash(dto.getCharacterRace())); // NOTE: PDF field includes a trailing space
-        setField(form, "Alignment", orDash(dto.getCharacterAlignment()));
+        setField(form, "Race ", orBlank(dto.getCharacterRace())); // NOTE: PDF field includes a trailing space
+        setField(form, "Alignment", orBlank(dto.getCharacterAlignment()));
         setField(form, "XP", dto.getCharacterExperiencePoints() == null ? "" : dto.getCharacterExperiencePoints().toString());
     }
 
@@ -205,12 +207,11 @@ public class PdfFillerService {
      * Populates raw ability scores and their modifiers, plus saving throws and skills
      * using raw modifiers only (no proficiency bonus additions yet).
      *
-     * <p>Each ability score is optional on {@link CharacterDto}. A missing score renders as
-     * {@value #MISSING} for its own raw value and modifier, and cascades to every saving throw
-     * and skill that's governed by that ability - e.g. a missing Wisdom score means the Wisdom
-     * modifier, the Wisdom saving throw, and Animal Handling/Insight/Medicine/Perception/Survival
-     * all render {@value #MISSING}, while everything governed by a present ability computes
-     * normally.
+     * <p>Each ability score is optional on {@link CharacterDto}. A missing score leaves its own
+     * raw value and modifier blank, and cascades to every saving throw and skill that's governed
+     * by that ability - e.g. a missing Wisdom score means the Wisdom modifier, the Wisdom saving
+     * throw, and Animal Handling/Insight/Medicine/Perception/Survival are all left blank (not
+     * "+0"), while everything governed by a present ability computes normally.
      *
      * <p>Important: Several field names in this PDF template include trailing spaces.
      *
@@ -235,7 +236,7 @@ public class PdfFillerService {
         setField(form, "CHA", fmtScore(CHA));
 
         // Each modifier is computed once (null if its score is missing) and reused below -
-        // fmtSigned() already renders a null modifier as "—".
+        // fmtSigned() already renders a null modifier as blank.
         Integer strMod = safeModifier(STR);
         Integer dexMod = safeModifier(DEX);
         Integer conMod = safeModifier(CON);
@@ -283,8 +284,8 @@ public class PdfFillerService {
     /**
      * Fills the proficiency bonus field from character level.
      *
-     * <p>Level is optional on {@link CharacterDto}; when absent this renders {@value #MISSING}
-     * rather than calling {@link CharacterMathService#computeProficiency(int)}.
+     * <p>Level is optional on {@link CharacterDto}; when absent this is left blank rather than
+     * calling {@link CharacterMathService#computeProficiency(int)}.
      *
      * @param form PDF form to populate
      * @param dto character build input
@@ -299,8 +300,8 @@ public class PdfFillerService {
      * and Constitution modifier.
      *
      * <p>Level and Constitution are both optional on {@link CharacterDto}; if either is
-     * missing there's nothing to compute HP from, so this renders {@value #MISSING} instead
-     * of calling {@link CharacterMathService#computeMaxHP(String, int, int)}.
+     * missing there's nothing to compute HP from, so this is left blank instead of calling
+     * {@link CharacterMathService#computeMaxHP(String, int, int)}.
      *
      * @param form PDF form to populate
      * @param dto character build input
@@ -325,8 +326,8 @@ public class PdfFillerService {
      *
      * <p>AC depends on the Dexterity, Constitution, Wisdom, and Charisma modifiers (which
      * combination actually matters depends on class/subclass unarmored-defense rules). All four
-     * ability scores are optional on {@link CharacterDto}; if any is missing this renders
-     * {@value #MISSING} rather than guessing which rule would have applied. Class is also
+     * ability scores are optional on {@link CharacterDto}; if any is missing this is left blank
+     * rather than guessing which rule would have applied. Class is also
      * required here specifically because {@link CharacterMathService#computeAC} calls
      * {@code className.equalsIgnoreCase(...)} directly to check for Barbarian/Monk unarmored
      * defense - a null class name would crash that call, not just produce a wrong answer.
@@ -397,8 +398,8 @@ public class PdfFillerService {
     /**
      * Fills initiative using Dexterity modifier only.
      *
-     * <p>Dexterity is optional on {@link CharacterDto}; when absent this renders
-     * {@value #MISSING} (via {@link #fmtSigned}) rather than computing from a missing score.
+     * <p>Dexterity is optional on {@link CharacterDto}; when absent this is left blank (via
+     * {@link #fmtSigned}) rather than computing from a missing score.
      *
      * @param form PDF form to populate
      * @param dto character build input
@@ -414,7 +415,7 @@ public class PdfFillerService {
      * <p>This method uses {@link ClassesRepository} to resolve the hit die for the class.
      * If the class cannot be found, the field is left unchanged (pre-existing behavior,
      * unrelated to level being optional). If level is missing there's no dice total to show,
-     * so this renders {@value #MISSING} instead.
+     * so this is left blank instead.
      *
      * @param form PDF form to populate
      * @param dto character build input
@@ -448,7 +449,7 @@ public class PdfFillerService {
      * </ul>
      *
      * @param i integer value
-     * @return formatted string, or {@value #MISSING} if {@code i} is null
+     * @return formatted string, or blank if {@code i} is null
      */
     private static String fmtSigned(Integer i) {
         if (i == null) return MISSING;
@@ -460,14 +461,14 @@ public class PdfFillerService {
      * scores, as opposed to their signed modifiers.
      *
      * @param i integer value
-     * @return the value as a string, or {@value #MISSING} if {@code i} is null
+     * @return the value as a string, or blank if {@code i} is null
      */
     private static String fmtScore(Integer i) {
         return (i == null) ? MISSING : String.valueOf(i);
     }
 
     /**
-     * Returns the given string, or {@value #MISSING} if it's null or blank.
+     * Returns the given string, or blank if it's null or blank.
      *
      * <p>Used for fields that used to be required (name/background/race/alignment) and are now
      * optional - once a field isn't required, "the client sent an empty string" and "the client
@@ -475,9 +476,9 @@ public class PdfFillerService {
      * missing.
      *
      * @param value the raw string value
-     * @return {@code value}, or {@value #MISSING} if it's null or blank
+     * @return {@code value}, or blank if it's null or blank
      */
-    private static String orDash(String value) {
+    private static String orBlank(String value) {
         return (value == null || value.isBlank()) ? MISSING : value;
     }
 
@@ -488,7 +489,7 @@ public class PdfFillerService {
      * <p>Ability scores are optional on {@link CharacterDto} (to support the live preview
      * rendering an in-progress character), so there may be nothing to compute a modifier from.
      * Feed the result straight into {@link #fmtSigned}, which already renders a null modifier
-     * as {@value #MISSING}.
+     * as blank.
      *
      * @param score the ability score, or null if not provided
      * @return the computed modifier, or null if {@code score} is null
@@ -516,7 +517,7 @@ public class PdfFillerService {
      * became optional too, so this isn't new - but {@link CharacterMathService#computeMaxHP}
      * throws {@link IllegalArgumentException} for a class it can't find via
      * {@code orElseThrow(...)}, and nothing was guarding that call. That's exactly the kind of
-     * "computation crashes instead of rendering a placeholder" gap this class exists to close;
+     * "computation crashes instead of leaving the field blank" gap this class exists to close;
      * it just wasn't reachable before there was a way to submit the form without picking a
      * class in the first place. Used to guard any computation that depends on the class being
      * known, rather than letting that exception bubble up as an unhandled 500.

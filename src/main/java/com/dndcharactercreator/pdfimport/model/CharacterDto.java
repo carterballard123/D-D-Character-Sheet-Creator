@@ -30,8 +30,8 @@ public class CharacterDto {
      * Character name as displayed on the sheet.
      *
      * <p>Optional: the live preview PDF should still render for a character
-     * that's still being filled out. A missing name renders as "—" on the
-     * generated sheet rather than blocking generation.
+     * that's still being filled out. A missing name is left blank on the
+     * generated sheet (to fill in by hand) rather than blocking generation.
      */
     private String characterName;
 
